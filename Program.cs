@@ -1,5 +1,10 @@
 using Library_Management.Data;
 using Library_Management.Middleware;
+using Library_Management.Repositories;
+using Library_Management.Repositories.Interfaces;
+using Library_Management.Services;
+using Library_Management.Services.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +12,8 @@ builder.Services.AddControllers();
 
 // Database
 builder.Services.AddScoped<IDbConnectionFactory, DbConnectionFactory>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IBookService, BookService>();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
