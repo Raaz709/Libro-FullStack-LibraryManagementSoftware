@@ -2,7 +2,7 @@
 using Library_Management.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LibraryManagementSystem.Api.Controllers;
+namespace Library_Management.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
