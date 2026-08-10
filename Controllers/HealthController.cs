@@ -18,6 +18,7 @@ public class HealthController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Get()
     {
+        
         using var connection = _connectionFactory.CreateConnection();
 
         var result = await connection.QuerySingleAsync<int>("SELECT 1;");

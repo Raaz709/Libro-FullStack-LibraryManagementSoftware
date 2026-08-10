@@ -40,15 +40,14 @@ public class ExceptionHandlingMiddleware
 
         context.Response.ContentType = "application/json";
 
-        var response = new
+        var response = new Common.ApiResponse<object>
         {
-            success = false,
-            message = "An unexpected error occurred.",
-            errorCode = "INTERNAL_SERVER_ERROR",
-            traceId = context.TraceIdentifier
+            Success = false,
+            Message = "An unexpected error occurred.",
+            ErrorCode = "INTERNAL_SERVER_ERROR",
+            TraceId = context.TraceIdentifier
         };
 
-        await context.Response.WriteAsync(
-            JsonSerializer.Serialize(response));
+        await context.Response.WriteAsJsonAsync(response);
     }
 }
