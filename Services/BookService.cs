@@ -1,7 +1,6 @@
-﻿using Library_Management.DTOs;
+﻿using Library_Management.DTOs.Book;
 using Library_Management.Models;
-using Library_Management.Repositories.Interfaces;
-using Library_Management.Services.Interfaces;
+using Library_Management.Repositories;
 
 namespace Library_Management.Services;
 

@@ -1,7 +1,9 @@
-﻿namespace Library_Management.DTOs;
+﻿namespace Library_Management.DTOs.Book;
 
-public class UpdateBookRequest
+public class BookResponse
 {
+    public int Id { get; set; }
+
     public string ISBN { get; set; } = string.Empty;
 
     public string Title { get; set; } = string.Empty;
@@ -22,5 +24,7 @@ public class UpdateBookRequest
 
     public string? CoverImageUrl { get; set; }
 
-    public string Status { get; set; } = "Active";
+    public string Status { get; set; } = string.Empty;
+
+    public DateTime CreatedAt { get; set; }
 }

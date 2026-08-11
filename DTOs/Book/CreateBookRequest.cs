@@ -1,4 +1,4 @@
-﻿namespace Library_Management.DTOs;
+﻿namespace Library_Management.DTOs.Book;
 
 public class CreateBookRequest
 {

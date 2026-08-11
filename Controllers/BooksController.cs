@@ -1,6 +1,6 @@
 ﻿using Library_Management.Common;
-using Library_Management.DTOs;
-using Library_Management.Services.Interfaces;
+using Library_Management.DTOs.Book;
+using Library_Management.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library_Management.Controllers;
