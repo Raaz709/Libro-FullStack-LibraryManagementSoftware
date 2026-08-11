@@ -1,9 +1,7 @@
 ﻿# Library Management System
 
 ## Overview
-
-A full-stack Library Management System designed to manage books,
-members, borrowing, returning, and other library operations.
+A full-stack Library Management System designed to manage books, members, borrowing, returning, and other library operations.
 
 ## Tech Stack
 
@@ -35,4 +33,12 @@ members, borrowing, returning, and other library operations.
 - [x] Update a book
 - [x] Delete a book
 
-🚧 Currently in development.
+### Publishers
+- [x] Get all publishers
+- [x] Get publisher by ID
+- [x] Create a publisher
+- [x] Update a publisher
+- [x] Delete a publisher
+
+---
+🚧 *Currently in active development.*
