@@ -40,5 +40,12 @@ A full-stack Library Management System designed to manage books, members, borrow
 - [x] Update a publisher
 - [x] Delete a publisher
 
+### Authors
+- [x] Get all authors
+- [x] Get author by ID
+- [x] Create an author
+- [x] Update an author
+- [x] Delete an author
+
 ---
 🚧 *Currently in active development.*
