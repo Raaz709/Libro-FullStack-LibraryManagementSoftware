@@ -1,7 +1,7 @@
 ﻿using Library_Management.DTOs.Publisher;
 using Library_Management.Models;
 
-namespace Library_Management.Services;
+namespace Library_Management.Services.Interface;
 
 public interface IPublisherService
 {

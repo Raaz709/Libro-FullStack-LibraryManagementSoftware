@@ -1,6 +1,6 @@
 ﻿using Library_Management.DTOs.Book;
 
-namespace Library_Management.Services;
+namespace Library_Management.Services.Interface;
 
 public interface IBookService
 {

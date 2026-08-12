@@ -1,6 +1,8 @@
 ﻿using Library_Management.Common;
+using Library_Management.DTOs.Author;
 using Library_Management.DTOs.Book;
-using Library_Management.Services;
+using Library_Management.Models;
+using Library_Management.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library_Management.Controllers;
@@ -10,10 +12,12 @@ namespace Library_Management.Controllers;
 public class BooksController : ControllerBase
 {
     private readonly IBookService _bookService;
+    private readonly IBookAuthorService _bookAuthorService;
 
-    public BooksController(IBookService bookService)
+    public BooksController(IBookService bookService, IBookAuthorService bookAuthorService)
     {
         _bookService = bookService;
+        _bookAuthorService = bookAuthorService;
     }
 
     [HttpGet]
@@ -48,8 +52,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(
-        [FromBody] CreateBookRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateBookRequest request)
     {
         var book = await _bookService.CreateAsync(request);
 
@@ -104,6 +107,61 @@ public class BooksController : ControllerBase
         return Ok(ApiResponse<object>.SuccessResponse(
             null!,
             "Book deleted successfully."
+        ));
+    }
+
+    // -------------------------------------------------------------
+    // BOOK - AUTHOR LINKING ENDPOINTS
+    // -------------------------------------------------------------
+
+    [HttpGet("{bookId:int}/authors")]
+    public async Task<IActionResult> GetBookAuthors(int bookId)
+    {
+        var authors = await _bookAuthorService.GetAuthorsForBookAsync(bookId);
+
+        return Ok(ApiResponse<IEnumerable<Author>>.SuccessResponse(
+            authors,
+            "Authors for the book retrieved successfully."
+        ));
+    }
+
+    [HttpPost("{bookId:int}/authors")]
+    public async Task<IActionResult> AssignAuthor(int bookId, [FromBody] AssignAuthorDto dto)
+    {
+        var result = await _bookAuthorService.AssignAuthorAsync(bookId, dto);
+
+        if (!result)
+        {
+            return BadRequest(ApiResponse<object>.ErrorResponse(
+                "Failed to assign author to book.",
+                "ASSIGN_AUTHOR_FAILED",
+                HttpContext.TraceIdentifier
+            ));
+        }
+
+        return Ok(ApiResponse<object>.SuccessResponse(
+            null!,
+            "Author assigned to book successfully."
+        ));
+    }
+
+    [HttpDelete("{bookId:int}/authors/{authorId:int}")]
+    public async Task<IActionResult> RemoveAuthor(int bookId, int authorId)
+    {
+        var result = await _bookAuthorService.RemoveAuthorAsync(bookId, authorId);
+
+        if (!result)
+        {
+            return NotFound(ApiResponse<object>.ErrorResponse(
+                "Author assignment not found.",
+                "AUTHOR_ASSIGNMENT_NOT_FOUND",
+                HttpContext.TraceIdentifier
+            ));
+        }
+
+        return Ok(ApiResponse<object>.SuccessResponse(
+            null!,
+            "Author removed from book successfully."
         ));
     }
 }

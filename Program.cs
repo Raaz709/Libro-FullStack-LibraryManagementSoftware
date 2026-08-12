@@ -1,7 +1,9 @@
 using Library_Management.Data;
 using Library_Management.Middleware;
 using Library_Management.Repositories;
+using Library_Management.Repositories.Interface;
 using Library_Management.Services;
+using Library_Management.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,8 @@ builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
 builder.Services.AddScoped<IPublisherService, PublisherService>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
+builder.Services.AddScoped<IBookAuthorRepository, BookAuthorRepository>();
+builder.Services.AddScoped<IBookAuthorService, BookAuthorService>();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();

@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Library_Management.Data;
 using Library_Management.Models;
+using Library_Management.Repositories.Interface;
 
 namespace Library_Management.Repositories;
 

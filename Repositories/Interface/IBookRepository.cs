@@ -1,6 +1,6 @@
 ﻿using Library_Management.Models;
 
-namespace Library_Management.Repositories;
+namespace Library_Management.Repositories.Interface;
 
 public interface IBookRepository
 {
