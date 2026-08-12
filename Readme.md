@@ -47,5 +47,10 @@ A full-stack Library Management System designed to manage books, members, borrow
 - [x] Update an author
 - [x] Delete an author
 
+### Authors Book Relation
+- [x] Get authors for a specific book
+- [x] Assign author to a book
+- [x] Remove author from a book
+
 ---
 🚧 *Currently in active development.*
