@@ -52,5 +52,12 @@ A full-stack Library Management System designed to manage books, members, borrow
 - [x] Assign author to a book
 - [x] Remove author from a book
 
+### Categories
+- [x] Get all categories
+- [x] Get category by ID
+- [x] Create a category
+- [x] Update a category
+- [x] Delete a category
+
 ---
 🚧 *Currently in active development.*
