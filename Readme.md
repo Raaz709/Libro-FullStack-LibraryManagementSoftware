@@ -75,5 +75,11 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - [x] Update a book copy
 - [x] Delete a book copy
 
+### Categories Book Relation
+- [x] Get categories for a specific book
+- [x] Get books for a specific category
+- [x] Assign category to a book
+- [x] Remove category from a book
+
 ---
 🚧 *Currently in active development.*
