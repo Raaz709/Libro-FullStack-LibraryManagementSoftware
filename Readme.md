@@ -81,5 +81,13 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - [x] Assign category to a book
 - [x] Remove category from a book
 
+### Borrow Transactions
+- [x] Get all borrow transactions
+- [x] Get borrow transaction by ID
+- [x] Get borrow transactions by User ID
+- [x] Create a borrow transaction
+- [x] Update a borrow transaction
+- [x] Delete a borrow transaction
+
 ---
 🚧 *Currently in active development.*

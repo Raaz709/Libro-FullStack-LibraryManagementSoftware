@@ -28,6 +28,8 @@ builder.Services.AddScoped<IBookCopyRepository, BookCopyRepository>();
 builder.Services.AddScoped<IBookCopyService, BookCopyService>();
 builder.Services.AddScoped<IBookCategoryRepository, BookCategoryRepository>();
 builder.Services.AddScoped<IBookCategoryService, BookCategoryService>();
+builder.Services.AddScoped<IBorrowTransactionRepository, BorrowTransactionRepository>();
+builder.Services.AddScoped<IBorrowTransactionService, BorrowTransactionService>();
 
 
 // Swagger
