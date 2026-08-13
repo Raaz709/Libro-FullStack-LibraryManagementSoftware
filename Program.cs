@@ -22,6 +22,9 @@ builder.Services.AddScoped<IBookAuthorRepository, BookAuthorRepository>();
 builder.Services.AddScoped<IBookAuthorService, BookAuthorService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
