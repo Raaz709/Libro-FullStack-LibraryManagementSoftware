@@ -89,5 +89,16 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - [x] Update a borrow transaction
 - [x] Delete a borrow transaction
 
+### Borrow Items
+- [x] Get all borrow items
+- [x] Get borrow item by ID
+- [x] Get borrow items by Transaction ID
+- [x] Get all overdue items
+- [x] Create a borrow item
+- [x] Update a borrow item
+- [x] Return a borrowed item
+- [x] Renew a borrowed item
+- [x] Delete a borrow item
+
 ---
 🚧 *Currently in active development.*

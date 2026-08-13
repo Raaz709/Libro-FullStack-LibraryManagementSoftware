@@ -30,6 +30,8 @@ builder.Services.AddScoped<IBookCategoryRepository, BookCategoryRepository>();
 builder.Services.AddScoped<IBookCategoryService, BookCategoryService>();
 builder.Services.AddScoped<IBorrowTransactionRepository, BorrowTransactionRepository>();
 builder.Services.AddScoped<IBorrowTransactionService, BorrowTransactionService>();
+builder.Services.AddScoped<IBorrowItemRepository, BorrowItemRepository>();
+builder.Services.AddScoped<IBorrowItemService, BorrowItemService>();
 
 
 // Swagger
