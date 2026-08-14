@@ -142,5 +142,12 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - [x] Update an email template
 - [x] Delete an email template
 
+### Activity Logs
+- [x] Get all activity logs
+- [x] Get activity log by ID
+- [x] Get activity logs by User ID
+- [x] Create an activity log
+- [x] Delete an activity log
+
 ---
 🚧 *Currently in active development.*
