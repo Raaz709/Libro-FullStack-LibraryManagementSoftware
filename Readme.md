@@ -100,5 +100,15 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - [x] Renew a borrowed item
 - [x] Delete a borrow item
 
+### Fines
+- [x] Get all fines
+- [x] Get fine by ID
+- [x] Get fines by User ID
+- [x] Get unpaid fines by User ID
+- [x] Create a fine
+- [x] Update a fine
+- [x] Waive a fine
+- [x] Delete a fine
+
 ---
 🚧 *Currently in active development.*

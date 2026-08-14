@@ -32,6 +32,8 @@ builder.Services.AddScoped<IBorrowTransactionRepository, BorrowTransactionReposi
 builder.Services.AddScoped<IBorrowTransactionService, BorrowTransactionService>();
 builder.Services.AddScoped<IBorrowItemRepository, BorrowItemRepository>();
 builder.Services.AddScoped<IBorrowItemService, BorrowItemService>();
+builder.Services.AddScoped<IFineRepository, FineRepository>();
+builder.Services.AddScoped<IFineService, FineService>();
 
 
 // Swagger
