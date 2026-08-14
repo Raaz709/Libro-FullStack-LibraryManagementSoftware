@@ -124,5 +124,23 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - [x] Add book to favorites
 - [x] Remove book from favorites
 
+### Notifications
+- [x] Get all notifications
+- [x] Get notification by ID
+- [x] Get notifications by User ID
+- [x] Get unread notifications by User ID
+- [x] Create a notification
+- [x] Mark notification as read
+- [x] Mark all notifications as read for a user
+- [x] Delete a notification
+
+### Email Templates
+- [x] Get all email templates
+- [x] Get email template by ID
+- [x] Get email template by unique code 
+- [x] Create an email template
+- [x] Update an email template
+- [x] Delete an email template
+
 ---
 🚧 *Currently in active development.*
