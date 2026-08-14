@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Library_Management.Controllers;
 
-[Authorize(Roles = "Librarian,Admin")]
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class BooksController : ControllerBase
@@ -16,12 +16,19 @@ public class BooksController : ControllerBase
     private readonly IBookService _bookService;
     private readonly IBookAuthorService _bookAuthorService;
 
-    public BooksController(IBookService bookService, IBookAuthorService bookAuthorService)
+    public BooksController(
+        IBookService bookService,
+        IBookAuthorService bookAuthorService)
     {
         _bookService = bookService;
         _bookAuthorService = bookAuthorService;
     }
 
+    // -------------------------------------------------------------
+    // BOOK CRUD ENDPOINTS
+    // -------------------------------------------------------------
+
+    // All authenticated users can view books
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -33,6 +40,7 @@ public class BooksController : ControllerBase
         ));
     }
 
+    // All authenticated users can view a specific book
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById(int id)
     {
@@ -53,8 +61,11 @@ public class BooksController : ControllerBase
         ));
     }
 
+    // Only Librarian and Admin can create books
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateBookRequest request)
+    [Authorize(Roles = "Librarian,Admin")]
+    public async Task<IActionResult> Create(
+        [FromBody] CreateBookRequest request)
     {
         var book = await _bookService.CreateAsync(request);
 
@@ -68,7 +79,9 @@ public class BooksController : ControllerBase
         );
     }
 
+    // Only Librarian and Admin can update books
     [HttpPut("{id:int}")]
+    [Authorize(Roles = "Librarian,Admin")]
     public async Task<IActionResult> Update(
         int id,
         [FromBody] UpdateBookRequest request)
@@ -92,7 +105,9 @@ public class BooksController : ControllerBase
         ));
     }
 
+    // Only Librarian and Admin can delete books
     [HttpDelete("{id:int}")]
+    [Authorize(Roles = "Librarian,Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         var deleted = await _bookService.DeleteAsync(id);
@@ -116,10 +131,12 @@ public class BooksController : ControllerBase
     // BOOK - AUTHOR LINKING ENDPOINTS
     // -------------------------------------------------------------
 
+    // All authenticated users can view authors for a book
     [HttpGet("{bookId:int}/authors")]
     public async Task<IActionResult> GetBookAuthors(int bookId)
     {
-        var authors = await _bookAuthorService.GetAuthorsForBookAsync(bookId);
+        var authors =
+            await _bookAuthorService.GetAuthorsForBookAsync(bookId);
 
         return Ok(ApiResponse<IEnumerable<Author>>.SuccessResponse(
             authors,
@@ -127,10 +144,15 @@ public class BooksController : ControllerBase
         ));
     }
 
+    // Only Librarian and Admin can assign an author
     [HttpPost("{bookId:int}/authors")]
-    public async Task<IActionResult> AssignAuthor(int bookId, [FromBody] AssignAuthorDto dto)
+    [Authorize(Roles = "Librarian,Admin")]
+    public async Task<IActionResult> AssignAuthor(
+        int bookId,
+        [FromBody] AssignAuthorDto dto)
     {
-        var result = await _bookAuthorService.AssignAuthorAsync(bookId, dto);
+        var result =
+            await _bookAuthorService.AssignAuthorAsync(bookId, dto);
 
         if (!result)
         {
@@ -147,10 +169,17 @@ public class BooksController : ControllerBase
         ));
     }
 
+    // Only Librarian and Admin can remove an author
     [HttpDelete("{bookId:int}/authors/{authorId:int}")]
-    public async Task<IActionResult> RemoveAuthor(int bookId, int authorId)
+    [Authorize(Roles = "Librarian,Admin")]
+    public async Task<IActionResult> RemoveAuthor(
+        int bookId,
+        int authorId)
     {
-        var result = await _bookAuthorService.RemoveAuthorAsync(bookId, authorId);
+        var result =
+            await _bookAuthorService.RemoveAuthorAsync(
+                bookId,
+                authorId);
 
         if (!result)
         {

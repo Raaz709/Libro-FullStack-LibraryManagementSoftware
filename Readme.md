@@ -38,6 +38,12 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - [x] Protected API endpoints
 - [x] Active user status validation
 - [x] Student role assignment for registration
+- [x] Role-based authorization
+- [x] Student role authorization
+- [x] Faculty role authorization
+- [x] Librarian role authorization
+- [x] Admin role authorization
+- [x] Protected librarian/admin endpoints
 
 ### Books
 - [x] Get all books
