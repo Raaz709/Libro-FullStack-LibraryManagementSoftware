@@ -110,5 +110,13 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - [x] Waive a fine
 - [x] Delete a fine
 
+### Payments
+- [x] Get all payments
+- [x] Get payment by ID
+- [x] Get payments by User ID
+- [x] Get payments by Fine ID
+- [x] Process a new payment
+- [x] Delete a payment record
+
 ---
 🚧 *Currently in active development.*
