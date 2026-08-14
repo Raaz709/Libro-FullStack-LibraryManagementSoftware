@@ -1,7 +1,7 @@
 ﻿# Library Management System
 
 ## Overview
-A full-stack Library Management System designed to manage books, users, borrowing, returning, and other library operations.
+A full-stack Library Management System designed to manage books, users, borrowing, returning, authentication, and other library operations.
 
 ## Tech Stack
 
@@ -25,6 +25,19 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - GitHub
 
 ## Features
+
+### Authentication
+- [x] User registration
+- [x] BCrypt password hashing
+- [x] Duplicate email validation
+- [x] User login
+- [x] Password verification
+- [x] JWT token generation
+- [x] JWT authentication
+- [x] JWT token validation
+- [x] Protected API endpoints
+- [x] Active user status validation
+- [x] Student role assignment for registration
 
 ### Books
 - [x] Get all books
@@ -137,7 +150,7 @@ A full-stack Library Management System designed to manage books, users, borrowin
 ### Email Templates
 - [x] Get all email templates
 - [x] Get email template by ID
-- [x] Get email template by unique code 
+- [x] Get email template by unique code
 - [x] Create an email template
 - [x] Update an email template
 - [x] Delete an email template
@@ -158,4 +171,5 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - [x] Delete an audit log
 
 ---
+
 🚧 *Currently in active development.*

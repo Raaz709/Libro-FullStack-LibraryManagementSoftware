@@ -1,8 +1,8 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.IdentityModel.Tokens;
 using Library_Management.Services.Interface;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Library_Management.Services;
 
@@ -15,24 +15,39 @@ public class JwtService : IJwtService
         _configuration = configuration;
     }
 
-    public string GenerateToken(int userId, string email, int roleId)
+    public string GenerateToken(
+        int userId,
+        string email,
+        string roleName)
     {
         var key = _configuration["Jwt:Key"]
-            ?? throw new InvalidOperationException("JWT key is not configured.");
+            ?? throw new InvalidOperationException(
+                "JWT key is not configured.");
 
         var issuer = _configuration["Jwt:Issuer"]
-            ?? throw new InvalidOperationException("JWT issuer is not configured.");
+            ?? throw new InvalidOperationException(
+                "JWT issuer is not configured.");
 
         var audience = _configuration["Jwt:Audience"]
-            ?? throw new InvalidOperationException("JWT audience is not configured.");
+            ?? throw new InvalidOperationException(
+                "JWT audience is not configured.");
 
-        var expiryMinutes = _configuration.GetValue<int>("Jwt:ExpiryMinutes");
+        var expiryMinutes =
+            _configuration.GetValue<int>("Jwt:ExpiryMinutes");
 
         var claims = new[]
         {
-            new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-            new Claim(ClaimTypes.Email, email),
-            new Claim(ClaimTypes.Role, roleId.ToString())
+            new Claim(
+                ClaimTypes.NameIdentifier,
+                userId.ToString()),
+
+            new Claim(
+                ClaimTypes.Email,
+                email),
+
+            new Claim(
+                ClaimTypes.Role,
+                roleName)
         };
 
         var securityKey = new SymmetricSecurityKey(
@@ -49,6 +64,7 @@ public class JwtService : IJwtService
             expires: DateTime.UtcNow.AddMinutes(expiryMinutes),
             signingCredentials: credentials);
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        return new JwtSecurityTokenHandler()
+            .WriteToken(token);
     }
 }

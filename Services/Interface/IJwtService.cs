@@ -2,5 +2,8 @@
 
 public interface IJwtService
 {
-    string GenerateToken(int userId, string email, int roleId);
+    string GenerateToken(
+        int userId,
+        string email,
+        string roleName);
 }

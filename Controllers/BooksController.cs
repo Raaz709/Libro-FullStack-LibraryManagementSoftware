@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Library_Management.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Librarian,Admin")]
 [ApiController]
 [Route("api/[controller]")]
 public class BooksController : ControllerBase

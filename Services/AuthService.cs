@@ -29,7 +29,9 @@ public class AuthService : IAuthService
             return null;
         }
 
-        if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+        if (!BCrypt.Net.BCrypt.Verify(
+                request.Password,
+                user.PasswordHash))
         {
             return null;
         }
@@ -39,10 +41,12 @@ public class AuthService : IAuthService
             return null;
         }
 
+        var roleName = GetRoleName(user.RoleId);
+
         var token = _jwtService.GenerateToken(
             user.Id,
             user.Email,
-            user.RoleId);
+            roleName);
 
         return new LoginResponseDto
         {
@@ -57,7 +61,8 @@ public class AuthService : IAuthService
 
     public async Task<int> RegisterAsync(RegisterRequestDto request)
     {
-        var existingUser = await _userRepository.GetByEmailAsync(request.Email);
+        var existingUser =
+            await _userRepository.GetByEmailAsync(request.Email);
 
         if (existingUser != null)
         {
@@ -65,7 +70,8 @@ public class AuthService : IAuthService
                 "A user with this email already exists.");
         }
 
-        var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+        var passwordHash =
+            BCrypt.Net.BCrypt.HashPassword(request.Password);
 
         var user = new User
         {
@@ -80,5 +86,18 @@ public class AuthService : IAuthService
         };
 
         return await _userRepository.CreateAsync(user);
+    }
+
+    private static string GetRoleName(int roleId)
+    {
+        return roleId switch
+        {
+            1 => "Student",
+            2 => "Faculty",
+            3 => "Librarian",
+            4 => "Admin",
+            _ => throw new InvalidOperationException(
+                $"Unknown role ID: {roleId}.")
+        };
     }
 }
