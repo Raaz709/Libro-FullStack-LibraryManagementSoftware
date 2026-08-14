@@ -1,4 +1,5 @@
-﻿using Library_Management.Common;
+﻿using Microsoft.AspNetCore.Authorization;
+using Library_Management.Common;
 using Library_Management.DTOs.Author;
 using Library_Management.DTOs.Book;
 using Library_Management.Models;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Library_Management.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class BooksController : ControllerBase

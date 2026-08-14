@@ -1,6 +1,6 @@
-﻿namespace Library_Management.DTOs.Member;
+﻿namespace Library_Management.DTOs.User;
 
-public class UpdateMemberDto
+public class CreateUserDto
 {
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;

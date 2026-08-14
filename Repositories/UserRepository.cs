@@ -56,18 +56,20 @@ public class UserRepository : IUserRepository
     public async Task<User?> GetByEmailAsync(string email)
     {
         const string sql = @"
-            SELECT 
-                Id,
-                FirstName,
-                LastName,
-                Email,
-                Phone,
-                Status,
-                MembershipNumber,
-                CreatedAt,
-                UpdatedAt
-            FROM users 
-            WHERE Email = @Email;";
+        SELECT 
+            Id,
+            RoleId,
+            FirstName,
+            LastName,
+            Email,
+            Phone,
+            PasswordHash,
+            Status,
+            MembershipNumber,
+            CreatedAt,
+            UpdatedAt
+        FROM users 
+        WHERE Email = @Email;";
 
         using var connection = _connectionFactory.CreateConnection();
         return await connection.QueryFirstOrDefaultAsync<User>(sql, new { Email = email });
