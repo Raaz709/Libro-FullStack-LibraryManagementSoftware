@@ -1,6 +1,8 @@
-﻿namespace Library_Management.Models
+﻿namespace Library_Management.Models;
+
+public class Favorite
 {
-    public class Favourite
-    {
-    }
+    public int UserId { get; set; }
+    public int BookId { get; set; }
+    public DateTime CreatedAt { get; set; }
 }

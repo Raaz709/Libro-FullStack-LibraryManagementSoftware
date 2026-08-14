@@ -118,5 +118,11 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - [x] Process a new payment
 - [x] Delete a payment record
 
+### Favorites
+- [x] Get user favorite books
+- [x] Check if a book is favorited by user
+- [x] Add book to favorites
+- [x] Remove book from favorites
+
 ---
 🚧 *Currently in active development.*
