@@ -149,5 +149,13 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - [x] Create an activity log
 - [x] Delete an activity log
 
+### Audit Logs
+- [x] Get all audit logs
+- [x] Get audit log by ID
+- [x] Get audit logs by entity name and entity ID
+- [x] Get audit logs by User ID
+- [x] Create an audit log
+- [x] Delete an audit log
+
 ---
 🚧 *Currently in active development.*
