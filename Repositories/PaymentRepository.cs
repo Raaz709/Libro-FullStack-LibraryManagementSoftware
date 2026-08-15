@@ -61,18 +61,56 @@ public class PaymentRepository : IPaymentRepository
 
     public async Task<int> CreateAsync(Payment payment)
     {
-        const string sql = @"
-            INSERT INTO payments (FineId, UserId, Amount, PaymentMethod, TransactionReference, PaidAt, ProcessedByUserId)
-            VALUES (@FineId, @UserId, @Amount, @PaymentMethod, @TransactionReference, NOW(), @ProcessedByUserId);
-            
-            UPDATE fines SET Status = 'Paid' WHERE Id = @FineId;
+        const string insertSql = @"
+        INSERT INTO payments
+            (FineId, UserId, Amount, PaymentMethod, TransactionReference, PaidAt, ProcessedByUserId)
+        VALUES
+            (@FineId, @UserId, @Amount, @PaymentMethod, @TransactionReference, NOW(), @ProcessedByUserId);
 
-            SELECT LAST_INSERT_ID();";
+        SELECT LAST_INSERT_ID();";
+
+        const string updateFineSql = @"
+        UPDATE fines
+        SET Status = 'Paid'
+        WHERE Id = @FineId
+          AND Status = 'Unpaid'
+          AND Amount = @Amount;";
 
         using var connection = _connectionFactory.CreateConnection();
-        return await connection.ExecuteScalarAsync<int>(sql, payment);
-    }
+        connection.Open();
 
+        using var transaction = connection.BeginTransaction();
+
+        try
+        {
+            var fineUpdated = await connection.ExecuteAsync(
+                updateFineSql,
+                payment,
+                transaction
+            );
+
+            if (fineUpdated != 1)
+            {
+                transaction.Rollback();
+                return 0;
+            }
+
+            var paymentId = await connection.ExecuteScalarAsync<int>(
+                insertSql,
+                payment,
+                transaction
+            );
+
+            transaction.Commit();
+
+            return paymentId;
+        }
+        catch
+        {
+            transaction.Rollback();
+            throw;
+        }
+    }
     public async Task<bool> DeleteAsync(int id)
     {
         const string sql = "DELETE FROM payments WHERE Id = @Id;";

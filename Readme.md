@@ -58,6 +58,12 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - [x] Role-based Fine permissions
 - [x] Fine ownership authorization
 - [x] Fine waiver identity from authenticated user
+- [x] Role-based Payment permissions
+- [x] Payment ownership authorization
+- [x] Full-payment-only validation
+- [x] JWT-based payment user identity
+- [x] Fine ownership validation before payment
+- [x] Automatic fine status update after full payment
 
 ### Books
 - [x] Get all books
