@@ -45,6 +45,8 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - [x] Admin role authorization
 - [x] Protected librarian/admin endpoints
 - [x] Role-based Author permissions
+- [x] Role-based Category permissions
+- [x] Role-based Publisher permissions
 
 ### Books
 - [x] Get all books
