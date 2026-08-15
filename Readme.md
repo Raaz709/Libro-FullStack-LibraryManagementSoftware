@@ -53,6 +53,11 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - [x] Role-based Book-Category permissions
 - [x] Role-based Borrow Transaction permissions
 - [x] Borrow transaction ownership authorization
+- [x] Role-based Borrow Item permissions
+- [x] Borrow item ownership authorization
+- [x] Role-based Fine permissions
+- [x] Fine ownership authorization
+- [x] Fine waiver identity from authenticated user
 
 ### Books
 - [x] Get all books
