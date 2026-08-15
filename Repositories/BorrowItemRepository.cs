@@ -6,6 +6,21 @@ namespace Library_Management.Repositories;
 
 public class BorrowItemRepository : IBorrowItemRepository
 {
+    public async Task<int?> GetUserIdByItemIdAsync(int id)
+    {
+        const string sql = @"
+        SELECT bt.UserId
+        FROM borrowitems bi
+        INNER JOIN borrowtransactions bt
+            ON bt.Id = bi.BorrowTransactionId
+        WHERE bi.Id = @Id;";
+
+        using var connection = _connectionFactory.CreateConnection();
+
+        return await connection.QueryFirstOrDefaultAsync<int?>(
+            sql,
+            new { Id = id });
+    }
     private readonly IDbConnectionFactory _connectionFactory;
 
     public BorrowItemRepository(IDbConnectionFactory connectionFactory)

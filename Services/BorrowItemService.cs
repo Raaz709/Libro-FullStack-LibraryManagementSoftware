@@ -5,6 +5,10 @@ namespace Library_Management.Services;
 
 public class BorrowItemService : IBorrowItemService
 {
+    public async Task<int?> GetUserIdByItemIdAsync(int id)
+    {
+        return await _borrowItemRepository.GetUserIdByItemIdAsync(id);
+    }
     private readonly IBorrowItemRepository _borrowItemRepository;
 
     public BorrowItemService(IBorrowItemRepository borrowItemRepository)

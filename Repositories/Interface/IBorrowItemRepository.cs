@@ -4,6 +4,7 @@ namespace Library_Management.Repositories;
 
 public interface IBorrowItemRepository
 {
+    Task<int?> GetUserIdByItemIdAsync(int id);
     Task<IEnumerable<BorrowItem>> GetAllAsync();
     Task<BorrowItem?> GetByIdAsync(int id);
     Task<IEnumerable<BorrowItem>> GetByTransactionIdAsync(int transactionId);
