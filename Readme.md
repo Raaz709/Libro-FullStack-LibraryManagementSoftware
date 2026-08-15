@@ -51,6 +51,8 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - [x] Admin-only user deletion
 - [x] Role-based Book Copy permissions
 - [x] Role-based Book-Category permissions
+- [x] Role-based Borrow Transaction permissions
+- [x] Borrow transaction ownership authorization
 
 ### Books
 - [x] Get all books
