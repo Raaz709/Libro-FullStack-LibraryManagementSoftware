@@ -65,6 +65,15 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - [x] Fine ownership validation before payment
 - [x] Automatic fine status update after full payment
 
+### Activity & Audit Logs
+- [x] Admin-only access to activity logs
+- [x] Admin-only access to audit logs
+- [x] JWT-based user identification for log creation
+- [x] Automatic IP address capture
+- [x] Automatic User-Agent capture
+- [x] Restricted log deletion to Admin users
+- [x] Restricted log retrieval to Admin users
+
 ### Books
 - [x] Get all books
 - [x] Get book by ID
