@@ -64,6 +64,7 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - [x] JWT-based payment user identity
 - [x] Fine ownership validation before payment
 - [x] Automatic fine status update after full payment
+- [x] Full Authorization complete.
 
 ### Activity & Audit Logs
 - [x] Admin-only access to activity logs
