@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Logs
 logs
 *.log
@@ -26,16 +25,9 @@ dist-ssr
 
 
 bin/
-=======
-﻿bin/
->>>>>>> 4fe49b1a56a813b048b3577b62e3fa2f37601068
 obj/
 .vs/
 *.user
 *.suo
-<<<<<<< HEAD
 appsettings.Local.json
 .env
-=======
-appsettings.Local.json
->>>>>>> 4fe49b1a56a813b048b3577b62e3fa2f37601068
