@@ -243,13 +243,20 @@ Library_Management/
 - [x] Auth API layer (`login`, `register`)
 - [x] Zod validation schemas for login and register forms
 - [x] Login page (React Hook Form + Zod + TanStack Query mutation)
-- [ ] Register page
+- [x] Register page (React Hook Form + Zod + TanStack Query mutation)
+- [x] Router setup (`App.tsx`, `main.tsx` with `QueryClientProvider`)
+- [x] Login and Register pages rendering and working end-to-end in the browser
 - [ ] Protected route wrapper
 - [ ] Role-based route wrapper
-- [ ] Router setup (`App.tsx`, `main.tsx` with `QueryClientProvider`)
 
 ### Frontend - Backend fixes applied alongside frontend work
 - [x] CORS policy added to `Program.cs` to allow the Vite dev server origin
+
+### Frontend - Tooling/config issues found and fixed
+- [x] Repository had a broken git submodule link for `Backend/` (fixed by re-tracking as normal files)
+- [x] Stray duplicate backend files at repo root removed
+- [x] shadcn CLI component path resolution bug (CLI doesn't follow tsconfig `references`) — fixed by duplicating the `@/*` path alias into the root `tsconfig.json`
+- [x] Windows-specific Vite alias bug (`new URL().pathname` produces an invalid leading-slash path on Windows) — fixed using `fileURLToPath` for cross-platform-safe alias resolution
 
 ---
 
