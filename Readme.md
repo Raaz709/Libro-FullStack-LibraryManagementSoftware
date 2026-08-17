@@ -206,9 +206,12 @@ A full-stack Library Management System designed to manage books, users, borrowin
 - [x] Create an audit log
 - [x] Delete an audit log
 
+<<<<<<< HEAD
 ### Completion
 - [x] Backend done
 
+=======
+>>>>>>> 4fe49b1a56a813b048b3577b62e3fa2f37601068
 ---
 
 🚧 *Currently in active development.*
