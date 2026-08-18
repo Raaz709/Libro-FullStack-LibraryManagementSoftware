@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Library_Management.Services.Interface;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Cryptography;
 
 namespace Library_Management.Services;
 
@@ -66,5 +67,20 @@ public class JwtService : IJwtService
 
         return new JwtSecurityTokenHandler()
             .WriteToken(token);
+    }
+
+    public string GenerateRefreshToken()
+    {
+        var randomBytes = new byte[64];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomBytes);
+        return Convert.ToBase64String(randomBytes);
+    }
+
+    public string HashToken(string token)
+    {
+        var bytes = Encoding.UTF8.GetBytes(token);
+        var hash = SHA256.HashData(bytes);
+        return Convert.ToBase64String(hash);
     }
 }
