@@ -35,6 +35,16 @@ export const booksApi = {
     return response.data.data ?? [];
   },
 
+  getAllCategories: async (): Promise<Category[]> => {
+    const response = await axiosClient.get<ApiResponse<Category[]>>("/categories");
+    return response.data.data ?? [];
+  },
+
+  getByCategory: async (id: number): Promise<Book[]> => {
+    const response = await axiosClient.get<ApiResponse<Book[]>>(`/bookcategories/category/${id}`);
+    return response.data.data ?? [];
+  },
+
   getPublisher: async (id: number): Promise<Publisher> => {
     const response = await axiosClient.get<Publisher>(`/publishers/${id}`);
     return response.data;
