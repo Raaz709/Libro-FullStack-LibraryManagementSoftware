@@ -5,7 +5,7 @@ import { axiosClient } from "@/lib/axiosClient";
 import LoginPage from "@/features/auth/pages/LoginPage";
 import RegisterPage from "@/features/auth/pages/RegisterPage";
 import ProtectedRoute from "@/routes/ProtectedRoute";
-import Layout from "@/components/layout/Layout";
+import Layout from "@/components/layout/NavBar";
 import BooksPage from "@/features/books/pages/BooksPage";
 
 export default function App() {
