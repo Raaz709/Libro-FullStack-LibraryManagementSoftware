@@ -5,6 +5,7 @@ import { axiosClient } from "@/lib/axiosClient";
 import LoginPage from "@/features/auth/pages/LoginPage";
 import RegisterPage from "@/features/auth/pages/RegisterPage";
 import ProtectedRoute from "@/routes/ProtectedRoute";
+import BooksPage from "@/features/books/pages/BooksPage";
 
 export default function App() {
   const isHydrating = useAuthStore((state) => state.isHydrating);
@@ -41,17 +42,17 @@ export default function App() {
   }
 
   return (
-    <BrowserRouter>
-      <Routes>
-  <Route path="/login" element={<LoginPage />} />
-  <Route path="/register" element={<RegisterPage />} />
+  <BrowserRouter>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
 
-  <Route element={<ProtectedRoute />}>
-    <Route path="/books" element={<div>Books page placeholder — you're authenticated!</div>} />
-  </Route>
+      <Route element={<ProtectedRoute />}>
+        <Route path="/books" element={<BooksPage />} />
+      </Route>
 
-  <Route path="*" element={<Navigate to="/login" replace />} />
-</Routes>
-    </BrowserRouter>
-  );
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
+  </BrowserRouter>
+);
 }
