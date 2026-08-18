@@ -40,6 +40,7 @@ export default function RegisterPage() {
       const message =
         error?.response?.data?.message ??
         "Registration failed. Please try again.";
+        
       setServerError(message);
     },
   });
