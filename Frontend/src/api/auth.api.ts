@@ -24,4 +24,8 @@ export const authApi = {
     );
     return data;
   },
+
+  logout: async (): Promise<void> => {
+    await axiosClient.post("/auth/logout");
+  },
 };
