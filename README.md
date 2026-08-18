@@ -224,48 +224,26 @@ Library_Management/
 ### Backend Completion
 - [x] Backend done
 
----
-
 ### Frontend - Project Setup
-- [x] Vite + React + TypeScript scaffold
-- [x] Tailwind CSS v4 configured
-- [x] shadcn/ui initialized (Radix UI, Vega preset)
-- [x] Path alias (`@/*`) configured in `tsconfig.app.json` and `vite.config.ts`
-- [x] Repository reorganized into `Backend/` and `Frontend/` folders
-- [x] Proper `.gitignore` files for root, Backend, and Frontend
-- [x] Environment variables (`VITE_API_BASE_URL`) configured
+ Vite + React + TypeScript
+ Tailwind CSS + shadcn/ui
+ Project structure and configuration
+ Environment variables
+Frontend - Authentication
+ Login and Register
+ JWT authentication
+ Refresh token flow
+ Protected and role-based routes
+ API/Axios setup
+ Form validation
 
-### Frontend - Authentication
-- [x] TypeScript types mirroring backend auth DTOs
-- [x] JWT decode helper (maps ASP.NET Core long-form claim URIs to a clean user object)
-- [x] Zustand auth store (login, logout, hydrate) with localStorage persistence
-- [x] Axios client with request interceptor (attaches JWT) and response interceptor (auto-logout on 401)
-- [x] Auth API layer (`login`, `register`)
-- [x] Zod validation schemas for login and register forms
-- [x] Login page (React Hook Form + Zod + TanStack Query mutation)
-- [x] Register page (React Hook Form + Zod + TanStack Query mutation)
-- [x] Router setup (`App.tsx`, `main.tsx` with `QueryClientProvider`)
-- [x] Login and Register pages rendering and working end-to-end in the browser
-- [x] Protected route wrapper
-- [x] Role-based route wrapper
-- [x] Refresh token flow (httpOnly cookie, rotated on every refresh) — access token in memory only, no localStorage
-- [x] Axios response interceptor: auto-retry failed requests once after silent token refresh, with request queueing for concurrent 401s
-- [x] Boot-time session restore via `/auth/refresh` (cookie-based, replaces old localStorage hydration)
+### Backend
+ Authentication & JWT
+ Refresh token system
+ CORS configuration
+ Database models
 
-### Frontend - Backend fixes applied alongside frontend work
-- [x] CORS policy added to `Program.cs` to allow the Vite dev server origin
+### Books
+ Books list page
 
-### Frontend - Tooling/config issues found and fixed
-- [x] Repository had a broken git submodule link for `Backend/` (fixed by re-tracking as normal files)
-- [x] Stray duplicate backend files at repo root removed
-- [x] shadcn CLI component path resolution bug (CLI doesn't follow tsconfig `references`) — fixed by duplicating the `@/*` path alias into the root `tsconfig.json`
-- [x] Windows-specific Vite alias bug (`new URL().pathname` produces an invalid leading-slash path on Windows) — fixed using `fileURLToPath` for cross-platform-safe alias resolution
-
-### Backend - Refresh Tokens
-- [x] `RefreshTokens` table and model
-- [x] Refresh token generation + SHA256 hashing (JwtService)
-- [x] Refresh token rotation on every `/auth/refresh` call
-- [x] Refresh token stored as httpOnly, Secure, SameSite=Strict cookie (not returned in response body)
-- [x] `/api/auth/refresh` and `/api/auth/logout` endpoints
-
-🚧 *Currently in active development.*
+🚧 Currently in active development.

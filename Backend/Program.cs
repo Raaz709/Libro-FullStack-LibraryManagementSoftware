@@ -80,6 +80,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(jwtKey))
         };
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine("JWT AUTH FAILED:");
+                Console.WriteLine(context.Exception.ToString());
+                return Task.CompletedTask;
+            }
+        };
     });
     // CORS
 builder.Services.AddCors(options =>
@@ -128,8 +137,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors("AllowFrontend");
-
-app.UseAuthorization();
 
 app.UseAuthentication();
 app.UseAuthorization();

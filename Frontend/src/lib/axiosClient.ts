@@ -10,6 +10,7 @@ export const axiosClient = axios.create({
   },
 });
 
+// Always attach current token from state
 axiosClient.interceptors.request.use((config) => {
   const token = useAuthStore.getState().token;
   if (token) {
@@ -19,7 +20,7 @@ axiosClient.interceptors.request.use((config) => {
 });
 
 let isRefreshing = false;
-let pendingRequests: Array<() => void> = [];
+let pendingRequests: Array<(token: string) => void> = [];
 
 axiosClient.interceptors.response.use(
   (response) => response,
@@ -30,31 +31,43 @@ axiosClient.interceptors.response.use(
       return Promise.reject(error);
     }
 
+    // Do not intercept failing refresh calls
     if (originalRequest.url?.includes("/auth/refresh")) {
-      useAuthStore.getState().logout();
       return Promise.reject(error);
     }
 
     originalRequest._retry = true;
 
+    // Queue requests while refreshing
     if (isRefreshing) {
       return new Promise((resolve) => {
-        pendingRequests.push(() => resolve(axiosClient(originalRequest)));
+        pendingRequests.push((newToken: string) => {
+          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+          resolve(axiosClient(originalRequest));
+        });
       });
     }
 
     isRefreshing = true;
 
     try {
-      const { data } = await axiosClient.post("/auth/refresh");
-      useAuthStore.getState().setAccessToken(data.token);
+      // Direct raw post to avoid interceptor loop
+      const { data } = await axios.post(
+        `${API_BASE_URL}/auth/refresh`,
+        {},
+        { withCredentials: true }
+      );
 
-      pendingRequests.forEach((callback) => callback());
+      const newToken = data.token;
+      useAuthStore.getState().setAccessToken(newToken);
+
+      // Re-run queued requests with the new token
+      pendingRequests.forEach((callback) => callback(newToken));
       pendingRequests = [];
 
+      originalRequest.headers.Authorization = `Bearer ${newToken}`;
       return axiosClient(originalRequest);
     } catch (refreshError) {
-      useAuthStore.getState().logout();
       pendingRequests = [];
       return Promise.reject(refreshError);
     } finally {
