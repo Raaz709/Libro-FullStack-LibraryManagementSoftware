@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { booksApi } from "@/api/books.api";
 import { useAuthStore } from "@/store/authStore";
+import { Link } from "react-router-dom";
 import {
-  Card,
   CardHeader,
   CardTitle,
   CardDescription,
@@ -77,36 +77,37 @@ export default function BooksPage() {
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {books.map((book) => (
-            <Card
+            <Link
               key={book.id}
-              className="overflow-hidden border-[#ded8cc] bg-white shadow-[0_12px_35px_-15px_rgba(31,41,55,0.2)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_18px_40px_-15px_rgba(31,41,55,0.25)]"
+              to={`/books/${book.id}`}
+              className="group flex min-h-56 flex-col overflow-hidden rounded-xl border border-[#ded8cc] bg-white shadow-[0_12px_35px_-15px_rgba(31,41,55,0.2)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_18px_40px_-15px_rgba(31,41,55,0.25)]"
             >
               <div className="h-1 bg-[#b08a45]" />
 
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold text-[#1f2937]">
+              <CardHeader className="gap-3 px-6 pt-6 pb-0">
+                <CardTitle className="line-clamp-2 text-lg leading-7 font-semibold text-[#1f2937]">
                   {book.title}
                 </CardTitle>
-                <CardDescription className="text-[#8f8a80]">
+                <CardDescription className="text-xs tracking-wide text-[#8f8a80]">
                   {book.isbn}
                 </CardDescription>
               </CardHeader>
 
-              <CardContent className="space-y-4">
+              <CardContent className="flex flex-1 justify-between gap-6 px-6 pt-5 pb-6">
                 {book.subtitle && (
-                  <p className="text-sm leading-relaxed text-[#6b7280]">
+                  <p className="line-clamp-2 text-sm leading-6 text-[#6b7280]">
                     {book.subtitle}
                   </p>
                 )}
 
                 <Badge
                   variant="outline"
-                  className="border-[#c8a96b] bg-[#f4f1ea] text-[#735729]"
+                  className="w-fit border-[#c8a96b] bg-[#f4f1ea] px-2.5 py-1 text-[#735729]"
                 >
                   {book.status}
                 </Badge>
               </CardContent>
-            </Card>
+            </Link>
           ))}
         </div>
       </div>

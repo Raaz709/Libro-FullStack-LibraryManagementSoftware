@@ -244,10 +244,16 @@ Frontend - Authentication
  Database models
 
 ### Books
- Books list page
+- [x] Books list page
+- [x] Book details page
+- [x] Clickable book cards
+- [x] Improved book card spacing and readability
 
- ### Layout & Navigation
+### Layout & Navigation
 - [x] Shared layout with navbar
 - [x] Logout (client + server token invalidation)
+- [x] Navbar displays the authenticated user's registered name
+- [x] User avatar shows the first initial of the registered name
+- [x] User profile is retained across page refreshes
 
 🚧 Currently in active development.

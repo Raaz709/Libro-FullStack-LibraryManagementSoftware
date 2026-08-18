@@ -7,6 +7,7 @@ import RegisterPage from "@/features/auth/pages/RegisterPage";
 import ProtectedRoute from "@/routes/ProtectedRoute";
 import Layout from "@/components/layout/NavBar";
 import BooksPage from "@/features/books/pages/BooksPage";
+import BookDetailsPage from "@/features/books/pages/BookDetailsPage";
 
 export default function App() {
   const isHydrating = useAuthStore((state) => state.isHydrating);
@@ -51,6 +52,7 @@ export default function App() {
         <Route element={<ProtectedRoute />}>
           <Route element={<Layout />}>
             <Route path="/books" element={<BooksPage />} />
+            <Route path="/books/:bookId" element={<BookDetailsPage />} />
           </Route>
         </Route>
 

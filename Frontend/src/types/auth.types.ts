@@ -39,6 +39,13 @@ export interface DecodedUser {
   email: string;
   role: RoleName;
   exp: number;
+  firstName?: string;
+  lastName?: string;
+}
+
+export interface UserProfile {
+  firstName: string;
+  lastName: string;
 }
 
 export interface RegisterResponse {

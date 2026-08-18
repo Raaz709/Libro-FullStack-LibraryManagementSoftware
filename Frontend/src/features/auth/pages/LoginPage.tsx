@@ -33,7 +33,10 @@ export default function LoginPage() {
   const mutation = useMutation({
     mutationFn: authApi.login,
     onSuccess: (data) => {
-      setAccessToken(data.token);
+      setAccessToken(data.token, {
+        firstName: data.firstName,
+        lastName: data.lastName,
+      });
       navigate("/books");
     },
     onError: () => {

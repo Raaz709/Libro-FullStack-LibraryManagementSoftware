@@ -7,6 +7,8 @@ export default function Layout() {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
+  const displayName = [user?.firstName, user?.lastName].filter(Boolean).join(" ");
+  const avatarInitial = user?.firstName?.charAt(0).toUpperCase() ?? user?.email.charAt(0).toUpperCase();
 
   const handleLogout = async () => {
     try {
@@ -76,12 +78,12 @@ export default function Layout() {
 
                 {/* User avatar */}
                 <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1f2937] text-sm font-medium text-[#f4f1ea]">
-                  {user.email?.charAt(0).toUpperCase()}
+                  {avatarInitial}
                 </div>
 
                 <div className="hidden leading-tight md:block">
                   <p className="max-w-[220px] truncate text-sm font-medium text-[#374151]">
-                    {user.email}
+                    {displayName || user.email}
                   </p>
 
                   <p className="mt-0.5 text-xs capitalize text-[#9a773c]">
