@@ -245,7 +245,10 @@ Frontend - Authentication
 
 ### Books
 - [x] Books list page
-- [x] Book details page
+- [x] Book details page with book metadata and description
+- [x] Author, category, and publisher name display
+- [x] Inventory summary for total, available, and borrowed copies
+- [x] Book cover display with themed fallback artwork
 - [x] Clickable book cards
 - [x] Improved book card spacing and readability
 

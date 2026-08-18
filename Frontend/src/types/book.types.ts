@@ -13,3 +13,25 @@ export interface Book {
   status: string;
   createdAt: string; 
 }
+
+export interface Author {
+  id: number;
+  firstName: string;
+  lastName: string;
+}
+
+export interface Category {
+  id: number;
+  name: string;
+}
+
+export interface Publisher {
+  id: number;
+  name: string;
+}
+
+export interface BookCopy {
+  id: number;
+  bookId: number;
+  status: string;
+}
