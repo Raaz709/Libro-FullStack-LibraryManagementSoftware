@@ -1,4 +1,5 @@
-﻿using Library_Management.DTOs.Author;
+﻿using Library_Management.Common;
+using Library_Management.DTOs.Author;
 using Library_Management.Models;
 using Library_Management.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
@@ -20,34 +21,41 @@ public class AuthorsController : ControllerBase
 
     // All authenticated users can view authors
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Author>>> GetAll()
+    public async Task<IActionResult> GetAll()
     {
         var authors = await _authorService.GetAllAsync();
 
-        return Ok(authors);
+        return Ok(ApiResponse<IEnumerable<Author>>.SuccessResponse(
+            authors,
+            "Authors retrieved successfully."
+        ));
     }
 
     // All authenticated users can view an author
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Author>> GetById(int id)
+    public async Task<IActionResult> GetById(int id)
     {
         var author = await _authorService.GetByIdAsync(id);
 
-        if (author == null)
+        if (author is null)
         {
-            return NotFound(new
-            {
-                message = $"Author with ID {id} not found."
-            });
+            return NotFound(ApiResponse<object>.ErrorResponse(
+                "Author not found.",
+                "AUTHOR_NOT_FOUND",
+                HttpContext.TraceIdentifier
+            ));
         }
 
-        return Ok(author);
+        return Ok(ApiResponse<Author>.SuccessResponse(
+            author,
+            "Author retrieved successfully."
+        ));
     }
 
     // Only Librarian and Admin can create authors
     [HttpPost]
     [Authorize(Roles = "Librarian,Admin")]
-    public async Task<ActionResult<Author>> Create(
+    public async Task<IActionResult> Create(
         [FromBody] CreateAuthorDto dto)
     {
         if (!ModelState.IsValid)
@@ -60,7 +68,10 @@ public class AuthorsController : ControllerBase
         return CreatedAtAction(
             nameof(GetById),
             new { id = createdAuthor.Id },
-            createdAuthor);
+            ApiResponse<Author>.SuccessResponse(
+                createdAuthor,
+                "Author created successfully."
+            ));
     }
 
     // Only Librarian and Admin can update authors
@@ -79,13 +90,17 @@ public class AuthorsController : ControllerBase
 
         if (!updated)
         {
-            return NotFound(new
-            {
-                message = $"Author with ID {id} not found."
-            });
+            return NotFound(ApiResponse<object>.ErrorResponse(
+                "Author not found.",
+                "AUTHOR_NOT_FOUND",
+                HttpContext.TraceIdentifier
+            ));
         }
 
-        return NoContent();
+        return Ok(ApiResponse<object>.SuccessResponse(
+            new { },
+            "Author updated successfully."
+        ));
     }
 
     // Only Librarian and Admin can delete authors
@@ -97,12 +112,16 @@ public class AuthorsController : ControllerBase
 
         if (!deleted)
         {
-            return NotFound(new
-            {
-                message = $"Author with ID {id} not found."
-            });
+            return NotFound(ApiResponse<object>.ErrorResponse(
+                "Author not found.",
+                "AUTHOR_NOT_FOUND",
+                HttpContext.TraceIdentifier
+            ));
         }
 
-        return NoContent();
+        return Ok(ApiResponse<object>.SuccessResponse(
+            new { },
+            "Author deleted successfully."
+        ));
     }
 }

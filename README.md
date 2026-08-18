@@ -246,4 +246,8 @@ Frontend - Authentication
 ### Books
  Books list page
 
+ ### Layout & Navigation
+- [x] Shared layout with navbar
+- [x] Logout (client + server token invalidation)
+
 🚧 Currently in active development.
