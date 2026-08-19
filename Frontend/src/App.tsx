@@ -20,6 +20,7 @@ import FinesPage from "@/features/fines/pages/FinesPage";
 import PaymentsPage from "@/features/payments/pages/PaymentsPage";
 import ProfilePage from "@/features/profile/pages/ProfilePage";
 import FavouritesPage from "@/features/favourites/pages/FavouritesPage";
+import NotificationsPage from "@/features/notifications/pages/NotificationsPage";
 
 export default function App() {
   const isHydrating = useAuthStore((state) => state.isHydrating);
@@ -110,7 +111,7 @@ export default function App() {
             </Route>
 
             {/* Shared for all authenticated roles */}
-            <Route path="/notifications" element={<ComingSoon />} />
+            <Route path="/notifications" element={<NotificationsPage />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Route>
         </Route>

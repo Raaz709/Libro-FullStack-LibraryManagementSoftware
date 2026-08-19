@@ -9,7 +9,6 @@ export function useCategories() {
     retry: false,
   });
 }
-
 export function useCreateCategory() {
   const queryClient = useQueryClient();
   return useMutation({

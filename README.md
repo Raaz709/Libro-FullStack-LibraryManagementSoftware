@@ -371,6 +371,14 @@ Frontend - Authentication
 - [x] Zod validation (faculty password required for Faculty role)
 - [x] Sends roleId + faculty password with registration payload
 
+### Frontend - Notifications (All Roles)
+- [x] Notifications list with type-aware icons (due, warning, success, info)
+- [x] Unread highlighting with indicator dot
+- [x] Mark individual notification as read
+- [x] Mark all as read
+- [x] All / unread filter with unread count badge
+- [x] Relative timestamps and empty states
+
 ### Frontend - Design System (Bookly)
 - [x] Warm beige page background (#E4DAD1), white cards, 24px rounded corners
 - [x] Camel/terracotta brand accent (#D09B7A) with charcoal text (#111)
