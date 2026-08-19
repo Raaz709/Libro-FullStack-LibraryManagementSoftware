@@ -251,12 +251,27 @@ Frontend - Authentication
 - [x] Book cover display with themed fallback artwork
 - [x] Clickable book cards
 - [x] Improved book card spacing and readability
+- [x] Grid and compact list collection views
+- [x] Book search by title or ISBN
+- [x] Filter books by category, status, and language
+- [x] Sort books by date, title, or price
+- [x] Paginated collection browsing
+- [x] Author summaries in collection cards
 
 ### Layout & Navigation
-- [x] Shared layout with navbar
+- [x] Responsive sidebar layout (off-canvas on mobile)
+- [x] Role-based navigation menus (Student / Faculty / Librarian / Admin)
+- [x] Role-guarded routes that redirect unauthorized users to their own dashboard
+- [x] Role-based home redirect after login
 - [x] Logout (client + server token invalidation)
-- [x] Navbar displays the authenticated user's registered name
-- [x] User avatar shows the first initial of the registered name
+- [x] Sidebar displays the authenticated user's registered name, avatar initial, and role
 - [x] User profile is retained across page refreshes
+
+### Frontend - Role-Based Routing
+- [x] Four roles: Student, Faculty, Librarian, Admin (match JWT role claims)
+- [x] Shared member layout for Student and Faculty
+- [x] Separate librarian and admin route trees
+- [x] Backend remains authoritative; frontend only controls what UI renders
+- [x] Placeholder pages for in-progress sections
 
 🚧 Currently in active development.

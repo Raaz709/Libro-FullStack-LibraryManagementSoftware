@@ -1,11 +1,13 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuthStore } from "@/store/authStore";
 import { axiosClient } from "@/lib/axiosClient";
 import LoginPage from "@/features/auth/pages/LoginPage";
 import RegisterPage from "@/features/auth/pages/RegisterPage";
 import ProtectedRoute from "@/routes/ProtectedRoute";
-import Layout from "@/components/layout/NavBar";
+import HomeRedirect from "@/routes/HomeRedirect";
+import SidebarLayout from "@/components/layout/SidebarLayout";
+import ComingSoon from "@/components/ComingSoon";
 import BooksPage from "@/features/books/pages/BooksPage";
 import BookDetailsPage from "@/features/books/pages/BookDetailsPage";
 
@@ -37,8 +39,8 @@ export default function App() {
 
   if (isHydrating) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p className="text-muted-foreground">Loading...</p>
+      <div className="flex min-h-screen items-center justify-center bg-[#f4f1ea]">
+        <p className="text-sm text-[#8f8a80]">Loading...</p>
       </div>
     );
   }
@@ -50,13 +52,60 @@ export default function App() {
         <Route path="/register" element={<RegisterPage />} />
 
         <Route element={<ProtectedRoute />}>
-          <Route element={<Layout />}>
-            <Route path="/books" element={<BooksPage />} />
-            <Route path="/books/:bookId" element={<BookDetailsPage />} />
+          <Route element={<SidebarLayout />}>
+            <Route index element={<HomeRedirect />} />
+            <Route path="/" element={<HomeRedirect />} />
+
+            {/* Member routes (Student & Faculty) */}
+            <Route element={<ProtectedRoute roles={["Student", "Faculty"]} />}>
+              <Route path="/dashboard" element={<ComingSoon />} />
+              <Route path="/books" element={<BooksPage />} />
+              <Route path="/books/:bookId" element={<BookDetailsPage />} />
+              <Route path="/my-borrowing" element={<ComingSoon />} />
+              <Route path="/my-fines" element={<ComingSoon />} />
+              <Route path="/my-payments" element={<ComingSoon />} />
+              <Route path="/favorites" element={<ComingSoon />} />
+              <Route path="/profile" element={<ComingSoon />} />
+            </Route>
+
+            {/* Librarian routes */}
+            <Route element={<ProtectedRoute roles={["Librarian"]} />}>
+              <Route path="/librarian" element={<ComingSoon />} />
+              <Route path="/librarian/books" element={<ComingSoon />} />
+              <Route path="/librarian/copies" element={<ComingSoon />} />
+              <Route path="/librarian/authors" element={<ComingSoon />} />
+              <Route path="/librarian/categories" element={<ComingSoon />} />
+              <Route path="/librarian/publishers" element={<ComingSoon />} />
+              <Route path="/librarian/borrowing" element={<ComingSoon />} />
+              <Route path="/librarian/returns" element={<ComingSoon />} />
+              <Route path="/librarian/fines" element={<ComingSoon />} />
+              <Route path="/librarian/payments" element={<ComingSoon />} />
+            </Route>
+
+            {/* Admin routes */}
+            <Route element={<ProtectedRoute roles={["Admin"]} />}>
+              <Route path="/admin" element={<ComingSoon />} />
+              <Route path="/admin/users" element={<ComingSoon />} />
+              <Route path="/admin/books" element={<ComingSoon />} />
+              <Route path="/admin/copies" element={<ComingSoon />} />
+              <Route path="/admin/authors" element={<ComingSoon />} />
+              <Route path="/admin/categories" element={<ComingSoon />} />
+              <Route path="/admin/publishers" element={<ComingSoon />} />
+              <Route path="/admin/borrowing" element={<ComingSoon />} />
+              <Route path="/admin/returns" element={<ComingSoon />} />
+              <Route path="/admin/fines" element={<ComingSoon />} />
+              <Route path="/admin/payments" element={<ComingSoon />} />
+              <Route path="/admin/audit-logs" element={<ComingSoon />} />
+              <Route path="/admin/activity-logs" element={<ComingSoon />} />
+              <Route path="/admin/email-templates" element={<ComingSoon />} />
+            </Route>
+
+            {/* Shared for all authenticated roles */}
+            <Route path="/notifications" element={<ComingSoon />} />
           </Route>
         </Route>
 
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<HomeRedirect />} />
       </Routes>
     </BrowserRouter>
   );
