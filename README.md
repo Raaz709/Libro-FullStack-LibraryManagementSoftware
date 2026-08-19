@@ -295,7 +295,7 @@ Frontend - Authentication
 - [x] Plus Jakarta Sans typography (bold headings, tight tracking)
 - [x] Semantic Tailwind v4 design tokens (bg, card, camel, ink, muted, line, radius)
 - [x] Rounded pill buttons and soft-focus inputs throughout
-- [x] "bookly" wordmark with camel double-'o' logo
+- [x] "Libro" wordmark with camel accent logo
 - [x] Restyled auth, books, book details, authors, and categories pages
 
 🚧 Currently in active development.

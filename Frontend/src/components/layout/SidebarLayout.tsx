@@ -12,8 +12,8 @@ function Brand() {
       <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-camel text-ink shadow-sm">
         <BookOpen className="h-5 w-5" />
       </div>
-      <p className="text-2xl font-extrabold tracking-tight text-ink lowercase">
-        bo<span className="text-camel-dark">oo</span>kly
+      <p className="text-2xl font-extrabold tracking-tight text-ink">
+        Libr<span className="text-camel-dark">o</span>
       </p>
     </Link>
   );
