@@ -18,6 +18,8 @@ import BorrowingPage from "@/features/borrowing/pages/BorrowingPage";
 import ReturnsPage from "@/features/borrowing/pages/ReturnsPage";
 import FinesPage from "@/features/fines/pages/FinesPage";
 import PaymentsPage from "@/features/payments/pages/PaymentsPage";
+import ProfilePage from "@/features/profile/pages/ProfilePage";
+import FavouritesPage from "@/features/favourites/pages/FavouritesPage";
 
 export default function App() {
   const isHydrating = useAuthStore((state) => state.isHydrating);
@@ -72,8 +74,7 @@ export default function App() {
               <Route path="/my-borrowing" element={<ComingSoon />} />
               <Route path="/my-fines" element={<ComingSoon />} />
               <Route path="/my-payments" element={<ComingSoon />} />
-              <Route path="/favorites" element={<ComingSoon />} />
-              <Route path="/profile" element={<ComingSoon />} />
+              <Route path="/favorites" element={<FavouritesPage />} />
             </Route>
 
             {/* Librarian routes */}
@@ -110,6 +111,7 @@ export default function App() {
 
             {/* Shared for all authenticated roles */}
             <Route path="/notifications" element={<ComingSoon />} />
+            <Route path="/profile" element={<ProfilePage />} />
           </Route>
         </Route>
 

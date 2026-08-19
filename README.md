@@ -343,6 +343,20 @@ Frontend - Authentication
 - [x] Delete payment record with confirmation (Admin only)
 - [x] Loading, empty, and error states
 
+### Frontend - Favorites (Student/Faculty)
+- [x] Favorites grid with cover, status, ISBN, and subtitle
+- [x] Remove favorite with inline heart button
+- [x] Search within favorites
+- [x] Empty state with browse-books CTA
+- [x] Save / Saved heart toggle on book details page
+- [x] Favorite status stays in sync across pages (query cache)
+
+### Frontend - Profile (All Roles)
+- [x] Profile page with avatar banner, full name, email, and role badge
+- [x] Account details panel (email, role)
+- [x] Sidebar avatar/name click navigates to profile
+- [x] Shared route for all authenticated roles
+
 ### Frontend - Design System (Bookly)
 - [x] Warm beige page background (#E4DAD1), white cards, 24px rounded corners
 - [x] Camel/terracotta brand accent (#D09B7A) with charcoal text (#111)

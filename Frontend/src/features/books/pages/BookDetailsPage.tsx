@@ -1,7 +1,9 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
+import { Heart } from "lucide-react";
 import { booksApi } from "@/api/books.api";
 import { useAuthStore } from "@/store/authStore";
+import { useFavoriteToggle } from "@/features/favourites/hooks/useFavorites";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -67,6 +69,8 @@ export default function BookDetailsPage() {
     ],
   });
 
+  const favoriteToggle = useFavoriteToggle(id, queryEnabled);
+
   if (!isValidId) return <BookNotFound />;
   if (isLoading) return <PageMessage message="Loading book details..." />;
   if (isError || !book) {
@@ -115,6 +119,17 @@ export default function BookDetailsPage() {
               <div className="flex flex-wrap items-center gap-3">
                 <p className="text-xs font-medium uppercase tracking-[0.18em] text-camel">Library collection</p>
                 <Badge variant="outline" className="border-camel bg-cream text-camel-dark">{book.status}</Badge>
+                <button
+                  type="button"
+                  onClick={() => favoriteToggle.toggle()}
+                  disabled={favoriteToggle.isPending}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-line bg-card px-3 py-1 text-xs font-semibold text-ink transition-colors hover:border-camel disabled:opacity-50"
+                  aria-pressed={favoriteToggle.isFavorite}
+                  aria-label={favoriteToggle.isFavorite ? "Remove from favorites" : "Add to favorites"}
+                >
+                  <Heart className={`h-3.5 w-3.5 ${favoriteToggle.isFavorite ? "fill-red-600 text-red-600" : "text-camel"}`} />
+                  {favoriteToggle.isFavorite ? "Saved" : "Save"}
+                </button>
               </div>
               <h1 className="mt-4 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">{book.title}</h1>
               {book.subtitle && <p className="mt-2 text-lg text-muted">{book.subtitle}</p>}
