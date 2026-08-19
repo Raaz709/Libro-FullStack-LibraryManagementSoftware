@@ -274,4 +274,12 @@ Frontend - Authentication
 - [x] Backend remains authoritative; frontend only controls what UI renders
 - [x] Placeholder pages for in-progress sections
 
+### Frontend - Authors Management (Librarian/Admin)
+- [x] Authors list table with search
+- [x] Create / edit author via modal form
+- [x] Delete author with confirmation dialog
+- [x] Zod form validation
+- [x] Loading, empty, and error states
+- [x] Reusable Dialog, AlertDialog, and Textarea UI components (Radix)
+
 🚧 Currently in active development.

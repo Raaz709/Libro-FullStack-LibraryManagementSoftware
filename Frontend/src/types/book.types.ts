@@ -18,6 +18,19 @@ export interface Author {
   id: number;
   firstName: string;
   lastName: string;
+  biography: string | null;
+  country: string | null;
+  birthDate: string | null;
+  photoUrl: string | null;
+}
+
+export interface AuthorDto {
+  firstName: string;
+  lastName: string;
+  biography?: string | null;
+  country?: string | null;
+  birthDate?: string | null;
+  photoUrl?: string | null;
 }
 
 export interface Category {
