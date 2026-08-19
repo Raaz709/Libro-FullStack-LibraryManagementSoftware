@@ -64,5 +64,22 @@ export interface PublisherDto {
 export interface BookCopy {
   id: number;
   bookId: number;
+  shelfId: number | null;
+  barcode: string;
+  qrCode: string | null;
+  conditionStatus: string;
   status: string;
+  purchaseDate: string | null;
+  price: number | null;
+}
+
+export interface BookCopyPayload {
+  bookId: number;
+  shelfId?: number | null;
+  barcode: string;
+  qrCode?: string | null;
+  conditionStatus: string;
+  status: string;
+  purchaseDate?: string | null;
+  price?: number | null;
 }

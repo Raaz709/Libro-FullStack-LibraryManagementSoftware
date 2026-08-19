@@ -296,6 +296,14 @@ Frontend - Authentication
 - [x] Zod form validation
 - [x] Loading, empty, and error states
 
+### Frontend - Book Copies Management (Librarian/Admin)
+- [x] Book copies list table with search (barcode or book title)
+- [x] Create / edit copy via modal form (book, barcode, shelf, status, condition, purchase date, price, QR)
+- [x] Delete copy with confirmation dialog
+- [x] Zod form validation
+- [x] Book title lookup in list
+- [x] Loading, empty, and error states
+
 ### Frontend - Design System (Bookly)
 - [x] Warm beige page background (#E4DAD1), white cards, 24px rounded corners
 - [x] Camel/terracotta brand accent (#D09B7A) with charcoal text (#111)
