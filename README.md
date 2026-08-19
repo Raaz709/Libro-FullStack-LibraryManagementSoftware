@@ -289,6 +289,13 @@ Frontend - Authentication
 - [x] Zod form validation
 - [x] Loading, empty, and error states
 
+### Frontend - Publishers Management (Librarian/Admin)
+- [x] Publishers list table with search
+- [x] Create / edit publisher via modal form (name, website, email, phone, address)
+- [x] Delete publisher with confirmation dialog
+- [x] Zod form validation
+- [x] Loading, empty, and error states
+
 ### Frontend - Design System (Bookly)
 - [x] Warm beige page background (#E4DAD1), white cards, 24px rounded corners
 - [x] Camel/terracotta brand accent (#D09B7A) with charcoal text (#111)

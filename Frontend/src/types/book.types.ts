@@ -47,6 +47,18 @@ export interface CategoryDto {
 export interface Publisher {
   id: number;
   name: string;
+  website: string | null;
+  email: string | null;
+  phone: string | null;
+  address: string | null;
+}
+
+export interface PublisherDto {
+  name: string;
+  website?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  address?: string | null;
 }
 
 export interface BookCopy {
