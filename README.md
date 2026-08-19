@@ -325,6 +325,16 @@ Frontend - Authentication
 - [x] Loading, empty, and error states
 - [x] Shared borrow-row data hook reused by Borrowing and Returns pages
 
+### Frontend - Fines Management (Librarian/Admin)
+- [x] Fines list with unpaid / paid / waived / all filter tabs
+- [x] Summary cards (outstanding, total billed, record count)
+- [x] Search by user
+- [x] Create / edit fine via modal form (user, type, amount, reason)
+- [x] Waive fine with confirmation (Admin only)
+- [x] Delete fine with confirmation (Admin only)
+- [x] Nepali Rupees (रू) currency formatting via shared helper
+- [x] Loading, empty, and error states
+
 ### Frontend - Design System (Bookly)
 - [x] Warm beige page background (#E4DAD1), white cards, 24px rounded corners
 - [x] Camel/terracotta brand accent (#D09B7A) with charcoal text (#111)
