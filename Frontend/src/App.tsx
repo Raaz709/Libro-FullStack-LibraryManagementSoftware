@@ -22,6 +22,7 @@ import ProfilePage from "@/features/profile/pages/ProfilePage";
 import FavouritesPage from "@/features/favourites/pages/FavouritesPage";
 import NotificationsPage from "@/features/notifications/pages/NotificationsPage";
 import MemberDashboardPage from "@/features/dashboard/pages/MemberDashboardPage";
+import LibrarianDashboardPage from "@/features/dashboard/pages/LibrarianDashboardPage";
 
 export default function App() {
   const isHydrating = useAuthStore((state) => state.isHydrating);
@@ -81,7 +82,7 @@ export default function App() {
 
             {/* Librarian routes */}
             <Route element={<ProtectedRoute roles={["Librarian"]} />}>
-              <Route path="/librarian" element={<ComingSoon />} />
+              <Route path="/librarian" element={<LibrarianDashboardPage />} />
               <Route path="/librarian/books" element={<ComingSoon />} />
               <Route path="/librarian/copies" element={<BookCopiesPage />} />
               <Route path="/librarian/authors" element={<AuthorsPage />} />

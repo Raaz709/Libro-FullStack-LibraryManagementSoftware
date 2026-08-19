@@ -379,6 +379,20 @@ Frontend - Authentication
 - [x] All / unread filter with unread count badge
 - [x] Relative timestamps and empty states
 
+### Frontend - Member Dashboard (Student/Faculty)
+- [x] Welcome header with avatar, name, and current date
+- [x] Stat cards: currently borrowed, unpaid fines, favorites, unread notifications
+- [x] Current loans list with due dates and overdue badges
+- [x] Unpaid fines panel
+- [x] Links from every card/panel to its detail page
+
+### Frontend - Librarian Dashboard
+- [x] Stat cards: total books, copies, available copies, active loans, overdue, unpaid fines
+- [x] Recent loans list (book, borrower, copy barcode, borrowed/due dates)
+- [x] Overdue items panel
+- [x] Unpaid fines panel
+- [x] Links from every card/panel to its management page
+
 ### Frontend - Design System (Bookly)
 - [x] Warm beige page background (#E4DAD1), white cards, 24px rounded corners
 - [x] Camel/terracotta brand accent (#D09B7A) with charcoal text (#111)
