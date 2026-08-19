@@ -304,6 +304,18 @@ Frontend - Authentication
 - [x] Book title lookup in list
 - [x] Loading, empty, and error states
 
+### Frontend - Borrowing Management (Librarian/Admin)
+- [x] New borrow flow (user, book, available copy, due date, condition, notes)
+- [x] Creates borrow transaction + borrow item in sequence
+- [x] Book search within borrow dialog
+- [x] Available-copy cascade filtered by selected book
+- [x] Active / overdue / returned / all filter tabs
+- [x] Search by book, borrower, or barcode
+- [x] Joined list showing book, borrower, copy barcode, borrowed/due dates, status
+- [x] Overdue highlighting and badge
+- [x] Renew action with new due date dialog
+- [x] Loading, empty, and error states
+
 ### Frontend - Design System (Bookly)
 - [x] Warm beige page background (#E4DAD1), white cards, 24px rounded corners
 - [x] Camel/terracotta brand accent (#D09B7A) with charcoal text (#111)

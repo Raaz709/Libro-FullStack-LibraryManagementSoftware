@@ -1,0 +1,552 @@
+dont generate whats not needed to use less token.
+
+you are a senior professional fullstack developer with the tech i said i am using.
+
+dont forget  to remind me to update readme and commit after a  feature . use this same readme format.# Library Management System
+
+## Overview
+A full-stack Library Management System designed to manage books, users, borrowing, returning, authentication, and other library operations.
+
+## Tech Stack
+
+### Backend
+- ASP.NET Core Web API
+- C#
+- .NET 10
+- Dapper
+
+
+
+i am trying to develop a full stack library management software with my sql and web api c# dapper as my backend and typescript with react + vite as my front . it is a test project to get hired at a company so i want it to be as good as possible. the backend is completed. but i am open for suggestions if you want to make changes.
+
+ask me before making any changes. ask my  approval.
+
+Frontend plan
+
+I'd structure the library system around 3 roles:
+
+Member/User
+Librarian
+Admin
+1. Foundation
+
+First build the frontend skeleton:
+
+frontend/
+├── src/
+│   ├── api/
+│   ├── components/
+│   ├── layouts/
+│   ├── pages/
+│   ├── routes/
+│   ├── hooks/
+│   ├── context/
+│   ├── types/
+│   ├── utils/
+│   └── App
+
+Core pieces:
+
+API client
+JWT authentication handling
+Protected routes
+Role-based routes
+Global error handling
+Loading states
+Toast/notification system
+Responsive layout
+Reusable tables/forms/modals
+2. Authentication
+Pages
+
+Login
+
+Email
+Password
+Login
+Error handling
+
+Register
+
+Name/details required by your DTO
+Email
+Password
+Registration result
+
+After login:
+
+JWT
+ ↓
+store token
+ ↓
+decode user ID + role
+ ↓
+load application
+ ↓
+redirect based on role
+
+We should not let the frontend decide permissions by itself. The backend remains authoritative; the frontend simply hides/disables things the user cannot access.
+
+3. Main layouts
+Member layout
+Dashboard
+Books
+My Borrowing
+My Fines
+My Payments
+Favorites
+Notifications
+Profile
+Librarian layout
+Dashboard
+Books
+Book Copies
+Authors
+Categories
+Publishers
+Borrowing
+Returns
+Fines
+Payments
+Users
+Notifications
+Activity/Audit Logs
+Admin layout
+
+Everything relevant to librarians plus:
+
+User Management
+System/Audit Logs
+Email Templates
+Administration
+4. Member experience
+
+This should feel like an actual library application rather than a collection of API forms.
+
+Dashboard
+
+Show:
+
+Currently borrowed books
+Upcoming due dates
+Overdue books
+Unpaid fines
+Recent payments
+Notifications
+Favorite books
+Books
+
+A proper book discovery page:
+
+Search books
+────────────────────────
+[ Search... ] [Category ▼]
+
+
+┌────────┐ ┌────────┐ ┌────────┐
+│ Cover  │ │ Cover  │ │ Cover  │
+│ Book   │ │ Book   │ │ Book   │
+│ Author │ │ Author │ │ Author │
+└────────┘ └────────┘ └────────┘
+
+Book details:
+
+Title
+Authors
+Category
+Publisher
+ISBN/details available from your backend
+Available copies
+Favorite/unfavorite
+5. Borrowing
+
+This is one of the most important frontend sections.
+
+My Borrowing
+
+Tabs:
+
+Current | Overdue | Returned
+
+Each item should show:
+
+Book
+Borrowed date
+Due date
+Status
+Renewal count
+Return status
+
+Actions:
+
+Renew
+
+and, where appropriate:
+
+Return
+
+The UI should clearly warn about overdue books.
+
+6. Fines + payments
+Fines
+
+Show:
+
+Fine
+Amount
+Reason
+Status
+Created
+
+Statuses:
+
+Unpaid
+Paid
+Waived
+Payment
+
+Because we decided on full payment only, the payment screen should make that explicit:
+
+Fine amount:       $10.00
+
+
+Payment amount:    $10.00
+                   ──────
+                   Full amount required
+
+
+Payment method:    [ Cash ▼ ]
+
+
+Transaction ref:   [ optional ]
+
+
+             [ Pay Fine ]
+
+Don't give the user an editable amount if partial payment isn't allowed.
+
+The frontend should display the amount, while the backend continues enforcing the actual rule.
+
+7. Favorites
+
+Simple but useful:
+
+My Favorites
+
+
+[Book] [Book] [Book]
+
+Actions:
+
+Open book
+Remove favorite
+8. Notifications
+
+Notification center:
+
+Notifications
+
+
+● Book due tomorrow
+○ Fine payment received
+○ Book returned successfully
+
+Actions:
+
+Mark read
+Mark all read
+Delete
+
+Unread count should appear in the navigation bar.
+
+9. Librarian dashboard
+
+This should be more operational.
+
+For example:
+
+┌──────────────┐ ┌──────────────┐
+│ Books        │ │ Available    │
+│ 1,245        │ │ 983          │
+└──────────────┘ └──────────────┘
+
+
+┌──────────────┐ ┌──────────────┐
+│ Borrowed     │ │ Overdue      │
+│ 214          │ │ 31           │
+└──────────────┘ └──────────────┘
+
+Then:
+
+Recent borrow transactions
+Overdue items
+Recent returns
+Outstanding fines
+Recent payments
+10. Librarian management screens
+Books
+
+Full CRUD:
+
+Books
+[+ Add Book] [Search]
+
+
+Title | Author | Category | Copies | Actions
+Book Copies
+Book
+Copy identifier
+Status
+Condition
+Authors
+
+CRUD.
+
+Categories
+
+CRUD.
+
+Publishers
+
+CRUD.
+
+Borrowing
+
+Librarian workflow:
+
+Select User
+      ↓
+Select Book
+      ↓
+Select Available Copy
+      ↓
+Set Due Date
+      ↓
+Confirm Borrow
+Returns
+
+Search/scan/select borrowed copy:
+
+Book
+Borrower
+Due date
+Status
+
+
+Condition at return
+[____________]
+
+
+[ Return Book ]
+11. Admin
+
+Admin should have a proper administration section.
+
+Users
+Name | Email | Role | Status | Actions
+
+Admin-only deletion should correspond to your backend authorization.
+
+Audit Logs
+
+Useful filtering:
+
+User
+Action
+Entity
+Date
+Activity Logs
+
+Similar operational view.
+
+Email Templates
+
+CRUD interface:
+
+Template code
+Subject
+Body
+Active
+
+with an editor rather than a plain ugly textarea if practical.
+
+12. Important frontend architecture
+
+I would not make every page independently call fetch().
+
+Instead:
+
+UI
+ ↓
+custom hook
+ ↓
+API service
+ ↓
+backend
+
+For example:
+
+pages/Books
+      ↓
+useBooks()
+      ↓
+bookApi
+      ↓
+/api/Books
+
+That will keep the frontend maintainable as the project grows.
+
+13. Route structure
+
+Something roughly like:
+
+/login
+/register
+
+
+/dashboard
+
+
+/books
+/books/:id
+
+
+/my-borrowing
+/my-fines
+/my-payments
+/favorites
+/notifications
+/profile
+
+
+/librarian
+/librarian/books
+/librarian/copies
+/librarian/authors
+/librarian/categories
+/librarian/publishers
+/librarian/borrowing
+/librarian/returns
+/librarian/fines
+/librarian/payments
+
+
+/admin
+/admin/users
+/admin/audit-logs
+/admin/activity-logs
+/admin/email-templates
+14. Build order
+
+I strongly recommend not starting with the dashboard.
+
+Build in this order:
+
+Phase 1 — Foundation
+Frontend project
+Routing
+API client
+Authentication
+JWT handling
+Protected/role routes
+Main layouts
+Phase 2 — Core library
+Books
+Book details
+Authors
+Categories
+Publishers
+Book copies
+Phase 3 — Library operations
+Borrowing
+Returns
+Renewals
+Fines
+Payments
+Phase 4 — User features
+Favorites
+Notifications
+Profile
+Member dashboard
+Phase 5 — Staff
+Librarian dashboard
+User management
+Audit/activity logs
+Email templates
+Admin dashboard
+Phase 6 — Polish
+Loading/error states
+Empty states
+Responsive design
+Form validation
+Accessibility
+Final API integration testing
+README update
+Final commit
+
+i have four roles so below is little updated version.
+
+Frontend navigation
+
+Student
+
+Dashboard
+Books
+My Borrowing
+My Fines
+My Payments
+Favorites
+Notifications
+Profile
+
+Faculty
+
+Dashboard
+Books
+My Borrowing
+My Fines
+My Payments
+Favorites
+Notifications
+Profile
+
+Initially these can share 90% of the UI, while allowing faculty-specific functionality later.
+
+Librarian
+
+Dashboard
+Books
+Book Copies
+Authors
+Categories
+Publishers
+Borrowing
+Returns
+Fines
+Payments
+Notifications
+
+Admin
+
+Dashboard
+Users
+Books
+Book Copies
+Authors
+Categories
+Publishers
+Borrowing
+Returns
+Fines
+Payments
+Audit Logs
+Activity Logs
+Email Templates
+Notifications
+
+And we'll make the role names exactly match your JWT claims:
+
+Admin
+Librarian
+Student
+Faculty
