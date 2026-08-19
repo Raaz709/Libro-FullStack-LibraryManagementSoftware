@@ -335,6 +335,14 @@ Frontend - Authentication
 - [x] Nepali Rupees (रू) currency formatting via shared helper
 - [x] Loading, empty, and error states
 
+### Frontend - Payments Management (Librarian/Admin)
+- [x] Payments history list with user, fine, amount, method, reference, and date
+- [x] Summary cards (total collected, transaction count, last payment)
+- [x] Search by user, transaction reference, or fine number
+- [x] Payment method badge and NPR amounts
+- [x] Delete payment record with confirmation (Admin only)
+- [x] Loading, empty, and error states
+
 ### Frontend - Design System (Bookly)
 - [x] Warm beige page background (#E4DAD1), white cards, 24px rounded corners
 - [x] Camel/terracotta brand accent (#D09B7A) with charcoal text (#111)

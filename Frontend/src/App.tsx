@@ -17,6 +17,7 @@ import BookCopiesPage from "@/features/bookCopies/pages/BookCopiesPage";
 import BorrowingPage from "@/features/borrowing/pages/BorrowingPage";
 import ReturnsPage from "@/features/borrowing/pages/ReturnsPage";
 import FinesPage from "@/features/fines/pages/FinesPage";
+import PaymentsPage from "@/features/payments/pages/PaymentsPage";
 
 export default function App() {
   const isHydrating = useAuthStore((state) => state.isHydrating);
@@ -86,7 +87,7 @@ export default function App() {
               <Route path="/librarian/borrowing" element={<BorrowingPage />} />
               <Route path="/librarian/returns" element={<ReturnsPage />} />
               <Route path="/librarian/fines" element={<FinesPage />} />
-              <Route path="/librarian/payments" element={<ComingSoon />} />
+              <Route path="/librarian/payments" element={<PaymentsPage />} />
             </Route>
 
             {/* Admin routes */}
@@ -101,7 +102,7 @@ export default function App() {
               <Route path="/admin/borrowing" element={<BorrowingPage />} />
               <Route path="/admin/returns" element={<ReturnsPage />} />
               <Route path="/admin/fines" element={<FinesPage />} />
-              <Route path="/admin/payments" element={<ComingSoon />} />
+              <Route path="/admin/payments" element={<PaymentsPage />} />
               <Route path="/admin/audit-logs" element={<ComingSoon />} />
               <Route path="/admin/activity-logs" element={<ComingSoon />} />
               <Route path="/admin/email-templates" element={<ComingSoon />} />
