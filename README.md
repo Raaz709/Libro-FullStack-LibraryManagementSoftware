@@ -282,4 +282,11 @@ Frontend - Authentication
 - [x] Loading, empty, and error states
 - [x] Reusable Dialog, AlertDialog, and Textarea UI components (Radix)
 
+### Frontend - Categories Management (Librarian/Admin)
+- [x] Categories list table with search
+- [x] Create / edit category via modal form
+- [x] Delete category with confirmation dialog
+- [x] Zod form validation
+- [x] Loading, empty, and error states
+
 🚧 Currently in active development.

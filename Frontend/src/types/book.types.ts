@@ -36,6 +36,12 @@ export interface AuthorDto {
 export interface Category {
   id: number;
   name: string;
+  description: string | null;
+}
+
+export interface CategoryDto {
+  name: string;
+  description?: string | null;
 }
 
 export interface Publisher {

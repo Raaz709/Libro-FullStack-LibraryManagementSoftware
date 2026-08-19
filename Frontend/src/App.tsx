@@ -11,6 +11,7 @@ import ComingSoon from "@/components/ComingSoon";
 import BooksPage from "@/features/books/pages/BooksPage";
 import BookDetailsPage from "@/features/books/pages/BookDetailsPage";
 import AuthorsPage from "@/features/authors/pages/AuthorsPage";
+import CategoriesPage from "@/features/categories/pages/CategoriesPage";
 
 export default function App() {
   const isHydrating = useAuthStore((state) => state.isHydrating);
@@ -75,6 +76,7 @@ export default function App() {
               <Route path="/librarian/books" element={<ComingSoon />} />
               <Route path="/librarian/copies" element={<ComingSoon />} />
               <Route path="/librarian/authors" element={<AuthorsPage />} />
+              <Route path="/librarian/categories" element={<CategoriesPage />} />
               <Route path="/librarian/categories" element={<ComingSoon />} />
               <Route path="/librarian/publishers" element={<ComingSoon />} />
               <Route path="/librarian/borrowing" element={<ComingSoon />} />
@@ -90,6 +92,7 @@ export default function App() {
               <Route path="/admin/books" element={<ComingSoon />} />
               <Route path="/admin/copies" element={<ComingSoon />} />
               <Route path="/admin/authors" element={<AuthorsPage />} />
+              <Route path="/admin/categories" element={<CategoriesPage />} />
               <Route path="/admin/categories" element={<ComingSoon />} />
               <Route path="/admin/publishers" element={<ComingSoon />} />
               <Route path="/admin/borrowing" element={<ComingSoon />} />
