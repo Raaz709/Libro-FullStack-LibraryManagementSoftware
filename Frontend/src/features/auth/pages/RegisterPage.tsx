@@ -26,29 +26,41 @@ export default function RegisterPage() {
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
+    defaultValues: { roleId: 1 },
   });
+
+  const selectedRole = watch("roleId");
 
   const mutation = useMutation({
     mutationFn: authApi.register,
     onSuccess: () => {
       navigate("/login", { state: { registered: true } });
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
+      const err = error as { response?: { data?: { message?: string } } };
       const message =
-        error?.response?.data?.message ??
-        "Registration failed. Please try again.";
-        
+        err?.response?.data?.message ?? "Registration failed. Please try again.";
+
       setServerError(message);
     },
   });
 
   const onSubmit = (values: RegisterFormValues) => {
     setServerError(null);
-    const { confirmPassword, ...payload } = values;
-    mutation.mutate(payload);
+    mutation.mutate({
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      phone: values.phone,
+      password: values.password,
+      roleId: values.roleId,
+      facultyPassword: values.facultyPassword || undefined,
+    });
   };
 
   return (
@@ -102,6 +114,51 @@ export default function RegisterPage() {
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <CardContent className="space-y-4">
+
+              {/* Role */}
+              <div className="space-y-2">
+                <Label className="text-sm font-medium text-ink">I am registering as a</Label>
+                <div className="grid grid-cols-2 gap-3">
+                  <RoleCard
+                    active={selectedRole === 1}
+                    title="Student"
+                    description="Standard library member"
+                    onClick={() => setValue("roleId", 1, { shouldValidate: true })}
+                  />
+                  <RoleCard
+                    active={selectedRole === 2}
+                    title="Faculty"
+                    description="Faculty library member"
+                    onClick={() => setValue("roleId", 2, { shouldValidate: true })}
+                  />
+                </div>
+              </div>
+
+              {/* Faculty password */}
+              {selectedRole === 2 && (
+                <div className="animate-in fade-in slide-in-from-top-2 duration-300 space-y-2">
+                  <Label
+                    htmlFor="facultyPassword"
+                    className="text-sm font-medium text-ink"
+                  >
+                    Faculty registration password
+                  </Label>
+
+                  <Input
+                    id="facultyPassword"
+                    type="password"
+                    placeholder="Enter faculty password"
+                    className="h-11 border-line bg-card transition-all duration-200 placeholder:text-muted focus:border-camel focus:ring-camel/20"
+                    {...register("facultyPassword")}
+                  />
+
+                  {errors.facultyPassword && (
+                    <p className="text-sm text-destructive">
+                      {errors.facultyPassword.message}
+                    </p>
+                  )}
+                </div>
+              )}
 
               {/* Name */}
               <div className="grid grid-cols-2 gap-3">
@@ -291,5 +348,33 @@ export default function RegisterPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+function RoleCard({
+  active,
+  title,
+  description,
+  onClick,
+}: {
+  active: boolean;
+  title: string;
+  description: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`rounded-soft border px-3.5 py-3 text-left transition-all duration-200 ${
+        active
+          ? "border-camel bg-camel/10 ring-2 ring-camel/25"
+          : "border-line bg-card hover:border-camel/60"
+      }`}
+    >
+      <p className={`text-sm font-bold ${active ? "text-camel-dark" : "text-ink"}`}>{title}</p>
+      <p className="mt-0.5 text-xs text-muted">{description}</p>
+    </button>
   );
 }

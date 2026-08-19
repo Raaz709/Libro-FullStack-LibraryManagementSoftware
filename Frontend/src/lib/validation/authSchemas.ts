@@ -15,10 +15,21 @@ export const registerSchema = z
     phone: z.string().optional(),
     password: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string().min(1, "Please confirm your password"),
+    roleId: z.number().int().min(1).max(2),
+    facultyPassword: z.string().optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
+  })
+  .superRefine((data, ctx) => {
+    if (data.roleId === 2 && !data.facultyPassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Faculty registration password is required",
+        path: ["facultyPassword"],
+      });
+    }
   });
 
 export type RegisterFormValues = z.infer<typeof registerSchema>;

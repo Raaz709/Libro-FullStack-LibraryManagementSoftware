@@ -364,6 +364,13 @@ Frontend - Authentication
 - [x] Sidebar avatar/name click navigates to profile
 - [x] Shared route for all authenticated roles
 
+### Frontend - Registration (Role Choice)
+- [x] Role selector cards on registration page (Student / Faculty)
+- [x] Student selected by default
+- [x] Faculty password field shown only when Faculty is chosen
+- [x] Zod validation (faculty password required for Faculty role)
+- [x] Sends roleId + faculty password with registration payload
+
 ### Frontend - Design System (Bookly)
 - [x] Warm beige page background (#E4DAD1), white cards, 24px rounded corners
 - [x] Camel/terracotta brand accent (#D09B7A) with charcoal text (#111)

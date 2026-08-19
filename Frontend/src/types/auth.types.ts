@@ -9,6 +9,8 @@ export interface RegisterRequestDto {
   email: string;
   phone?: string;
   password: string;
+  roleId?: number;
+  facultyPassword?: string;
 }
 
 export interface LoginResponseDto {
