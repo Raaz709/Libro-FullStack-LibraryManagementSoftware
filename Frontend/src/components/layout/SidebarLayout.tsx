@@ -6,6 +6,19 @@ import { authApi } from "@/api/auth.api";
 import { Button } from "@/components/ui/button";
 import { NAV_BY_ROLE } from "@/components/layout/navConfig";
 
+function Brand() {
+  return (
+    <Link to="/" className="flex items-center gap-2.5">
+      <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-camel text-ink shadow-sm">
+        <BookOpen className="h-5 w-5" />
+      </div>
+      <p className="text-2xl font-extrabold tracking-tight text-ink lowercase">
+        bo<span className="text-camel-dark">oo</span>kly
+      </p>
+    </Link>
+  );
+}
+
 export default function SidebarLayout() {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
@@ -39,10 +52,10 @@ export default function SidebarLayout() {
             to={item.to}
             onClick={closeSidebar}
             className={({ isActive }) =>
-              `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-150 ${
+              `flex items-center gap-3 rounded-soft px-3.5 py-2.5 text-sm font-semibold transition-colors duration-150 ${
                 isActive
-                  ? "bg-[#1f2937] text-[#f4f1ea]"
-                  : "text-[#374151] hover:bg-[#e8e3d8]/70 hover:text-[#735729]"
+                  ? "bg-camel/20 text-ink"
+                  : "text-muted hover:bg-cream hover:text-ink"
               }`
             }
           >
@@ -55,34 +68,24 @@ export default function SidebarLayout() {
   );
 
   return (
-    <div className="min-h-screen bg-[#f4f1ea]">
+    <div className="min-h-screen bg-cream">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
-        <div className="fixed inset-0 z-40 bg-black/40 lg:hidden" onClick={closeSidebar} aria-hidden="true" />
+        <div className="fixed inset-0 z-40 bg-ink/40 lg:hidden" onClick={closeSidebar} aria-hidden="true" />
       )}
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-[#ded8cc] bg-[#faf9f6] transition-transform duration-200 lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-line bg-card shadow-sm transition-transform duration-200 lg:translate-x-0 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex h-16 items-center justify-between gap-3 px-4">
-          <Link to="/" className="flex items-center gap-3" onClick={closeSidebar}>
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#1f2937] text-[#f4f1ea]">
-              <BookOpen className="h-5 w-5" />
-            </div>
-            <div className="leading-tight">
-              <p className="text-sm font-semibold tracking-tight text-[#1f2937]">Library</p>
-              <p className="text-[10px] font-medium uppercase tracking-[0.16em] text-[#9a773c]">
-                Management System
-              </p>
-            </div>
-          </Link>
+        <div className="flex h-16 items-center justify-between gap-3 px-5">
+          <Brand />
           <button
             type="button"
             onClick={closeSidebar}
-            className="rounded-md p-1.5 text-[#6b7280] hover:bg-[#e8e3d8] lg:hidden"
+            className="rounded-full p-1.5 text-muted hover:bg-cream lg:hidden"
             aria-label="Close navigation"
           >
             <X className="h-5 w-5" />
@@ -93,23 +96,23 @@ export default function SidebarLayout() {
 
         {/* User + logout */}
         {user && (
-          <div className="border-t border-[#ded8cc] p-4">
+          <div className="border-t border-line p-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1f2937] text-sm font-medium text-[#f4f1ea]">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-camel text-sm font-bold text-ink">
                 {avatarInitial}
               </div>
               <div className="min-w-0 flex-1 leading-tight">
-                <p className="truncate text-sm font-medium text-[#374151]">
+                <p className="truncate text-sm font-bold text-ink">
                   {displayName || user.email}
                 </p>
-                <p className="text-xs capitalize text-[#9a773c]">{user.role}</p>
+                <p className="text-xs font-medium text-camel-dark">{user.role}</p>
               </div>
             </div>
             <Button
               variant="outline"
               size="sm"
               onClick={handleLogout}
-              className="mt-3 w-full border-[#d8d3c8] bg-white text-[#374151] transition-all duration-200 hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+              className="mt-3 w-full"
             >
               <LogOut className="mr-2 h-4 w-4" />
               Logout
@@ -121,11 +124,11 @@ export default function SidebarLayout() {
       {/* Main column */}
       <div className="lg:pl-64">
         {/* Top bar - mobile only */}
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-[#ded8cc] bg-[#f4f1ea]/95 px-4 backdrop-blur-md lg:hidden">
+        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-line bg-cream/95 px-4 backdrop-blur-md lg:hidden">
           <button
             type="button"
             onClick={() => setSidebarOpen(true)}
-            className="rounded-md p-1.5 text-[#374151] hover:bg-[#e8e3d8]"
+            className="rounded-full p-1.5 text-ink hover:bg-card"
             aria-label="Open navigation"
           >
             <Menu className="h-5 w-5" />

@@ -5,27 +5,27 @@ import { Slot } from "radix-ui"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "group/badge inline-flex h-6 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-full border px-2.5 py-0.5 text-xs font-medium whitespace-nowrap transition-all duration-200 focus-visible:border-[#b08a45] focus-visible:ring-[3px] focus-visible:ring-[#b08a45]/20 aria-invalid:border-red-500 aria-invalid:ring-red-500/20 [&>svg]:pointer-events-none [&>svg]:size-3",
+  "group/badge inline-flex h-6 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-full border px-2.5 py-0.5 text-xs font-semibold whitespace-nowrap transition-all duration-200 focus-visible:border-camel focus-visible:ring-[3px] focus-visible:ring-camel/25 aria-invalid:border-red-500 aria-invalid:ring-red-500/20 [&>svg]:pointer-events-none [&>svg]:size-3",
   {
     variants: {
       variant: {
         default:
-          "border-[#1f2937] bg-[#1f2937] text-[#f4f1ea] [a]:hover:bg-[#111827]",
+          "border-ink bg-ink text-card [a]:hover:bg-camel-dark",
 
         secondary:
-          "border-[#ded8cc] bg-[#e8e3d8] text-[#374151] [a]:hover:bg-[#ded7c9]",
+          "border-line bg-cream text-ink [a]:hover:bg-cream-deep",
 
         destructive:
           "border-red-200 bg-red-50 text-red-600 [a]:hover:bg-red-100",
 
         outline:
-          "border-[#d8d3c8] bg-white text-[#374151] [a]:hover:border-[#b08a45] [a]:hover:bg-[#faf9f6] [a]:hover:text-[#735729]",
+          "border-line bg-card text-ink [a]:hover:border-camel [a]:hover:bg-cream/40 [a]:hover:text-camel-dark",
 
         ghost:
-          "border-transparent text-[#6b7280] hover:bg-[#e8e3d8]/70 hover:text-[#735729]",
+          "border-transparent text-muted hover:bg-cream hover:text-ink",
 
         link:
-          "border-transparent bg-transparent px-1 text-[#9a773c] underline-offset-4 hover:text-[#735729] hover:underline",
+          "border-transparent bg-transparent px-1 text-camel-dark underline-offset-4 hover:text-ink hover:underline",
       },
     },
 

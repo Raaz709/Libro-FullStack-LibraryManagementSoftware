@@ -7,16 +7,16 @@ import { Card, CardContent } from "@/components/ui/card";
 
 function DetailItem({ label, value }: { label: string; value: string | number | null }) {
   return (
-    <div className="border-b border-[#eeeae2] py-4 last:border-b-0">
-      <dt className="text-xs font-medium uppercase tracking-[0.14em] text-[#9a773c]">{label}</dt>
-      <dd className="mt-1.5 text-sm leading-6 text-[#374151]">{value ?? "Not specified"}</dd>
+    <div className="border-b border-line-soft py-4 last:border-b-0">
+      <dt className="text-xs font-medium uppercase tracking-[0.14em] text-camel">{label}</dt>
+      <dd className="mt-1.5 text-sm leading-6 text-ink">{value ?? "Not specified"}</dd>
     </div>
   );
 }
 
 function InventoryItem({ label, value, tone = "default" }: { label: string; value: number | string; tone?: "default" | "available" | "borrowed" }) {
   const colors = {
-    default: "bg-[#f4f1ea] text-[#1f2937]",
+    default: "bg-cream text-ink",
     available: "bg-emerald-50 text-emerald-700",
     borrowed: "bg-amber-50 text-amber-700",
   };
@@ -81,31 +81,31 @@ export default function BookDetailsPage() {
   const borrowedCopies = copies.filter((copy) => copy.status.toLowerCase() === "borrowed").length;
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#f4f1ea] p-6">
-      <div className="absolute -left-32 -top-32 h-72 w-72 rounded-full bg-[#c8a96b]/20 blur-3xl" />
-      <div className="absolute -bottom-32 -right-32 h-72 w-72 rounded-full bg-[#1f2937]/10 blur-3xl" />
+    <div className="relative min-h-screen overflow-hidden bg-cream p-6">
+      <div className="absolute -left-32 -top-32 h-72 w-72 rounded-full bg-camel/20 blur-3xl" />
+      <div className="absolute -bottom-32 -right-32 h-72 w-72 rounded-full bg-ink/10 blur-3xl" />
 
       <div className="relative mx-auto max-w-6xl animate-in fade-in duration-500">
-        <Link to="/books" className="mb-8 inline-block text-sm font-medium text-[#735729] transition-colors hover:text-[#9a773c]">
+        <Link to="/books" className="mb-8 inline-block text-sm font-medium text-camel-dark transition-colors hover:text-camel">
           ← Back to books
         </Link>
 
-        <Card className="overflow-hidden border-[#ded8cc] bg-white shadow-[0_12px_35px_-15px_rgba(31,41,55,0.2)]">
-          <div className="h-1 bg-[#b08a45]" />
+        <Card className="overflow-hidden border-line bg-white shadow-[0_12px_35px_-15px_rgba(31,41,55,0.2)]">
+          <div className="h-1 bg-camel" />
           <CardContent className="grid gap-8 py-8 md:grid-cols-[220px_1fr]">
             <div className="mx-auto w-full max-w-[220px] md:mx-0">
               {book.coverImageUrl ? (
-                <img src={book.coverImageUrl} alt={`Cover of ${book.title}`} className="aspect-[2/3] w-full rounded-lg border border-[#ded8cc] object-cover shadow-lg" />
+                <img src={book.coverImageUrl} alt={`Cover of ${book.title}`} className="aspect-[2/3] w-full rounded-lg border border-line object-cover shadow-lg" />
               ) : (
-                <div className="relative flex aspect-[2/3] items-center justify-center overflow-hidden rounded-lg border border-[#ded8cc] bg-[#ebe3d1] shadow-lg">
-                  <div className="absolute inset-x-0 top-0 h-2 bg-[#c8a96b]" />
-                  <div className="absolute -right-10 -bottom-10 h-36 w-36 rounded-full bg-[#c8a96b]/20" />
+                <div className="relative flex aspect-[2/3] items-center justify-center overflow-hidden rounded-lg border border-line bg-cream shadow-lg">
+                  <div className="absolute inset-x-0 top-0 h-2 bg-camel" />
+                  <div className="absolute -right-10 -bottom-10 h-36 w-36 rounded-full bg-camel/20" />
                   <div className="relative flex flex-col items-center text-center">
-                    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-16 w-16 text-[#9a773c]" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-16 w-16 text-camel" aria-hidden="true">
                       <path d="M11 14.5A5.5 5.5 0 0 1 16.5 9H52v43H16.5A5.5 5.5 0 0 1 11 46.5v-32Z" />
                       <path d="M16.5 9H52M16.5 30H52M20 18h24M20 23h17M20 39h24M20 44h14" />
                     </svg>
-                    <p className="mt-4 px-5 text-xs font-medium uppercase tracking-[0.18em] text-[#735729]">Library collection</p>
+                    <p className="mt-4 px-5 text-xs font-medium uppercase tracking-[0.18em] text-camel-dark">Library collection</p>
                   </div>
                 </div>
               )}
@@ -113,15 +113,15 @@ export default function BookDetailsPage() {
 
             <div className="flex flex-col justify-center">
               <div className="flex flex-wrap items-center gap-3">
-                <p className="text-xs font-medium uppercase tracking-[0.18em] text-[#9a773c]">Library collection</p>
-                <Badge variant="outline" className="border-[#c8a96b] bg-[#f4f1ea] text-[#735729]">{book.status}</Badge>
+                <p className="text-xs font-medium uppercase tracking-[0.18em] text-camel">Library collection</p>
+                <Badge variant="outline" className="border-camel bg-cream text-camel-dark">{book.status}</Badge>
               </div>
-              <h1 className="mt-4 text-3xl font-semibold tracking-tight text-[#1f2937] sm:text-4xl">{book.title}</h1>
-              {book.subtitle && <p className="mt-2 text-lg text-[#6b7280]">{book.subtitle}</p>}
+              <h1 className="mt-4 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">{book.title}</h1>
+              {book.subtitle && <p className="mt-2 text-lg text-muted">{book.subtitle}</p>}
 
               <div className="mt-6">
-                <p className="text-xs font-medium uppercase tracking-[0.14em] text-[#9a773c]">Author{authorNames.length === 1 ? "" : "s"}</p>
-                <p className="mt-2 text-base font-medium text-[#374151]">
+                <p className="text-xs font-medium uppercase tracking-[0.14em] text-camel">Author{authorNames.length === 1 ? "" : "s"}</p>
+                <p className="mt-2 text-base font-medium text-ink">
                   {authorsQuery.isLoading ? "Loading authors..." : authorNames.join(", ") || "No authors assigned"}
                 </p>
               </div>
@@ -136,10 +136,10 @@ export default function BookDetailsPage() {
         </Card>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[1.35fr_1fr]">
-          <Card className="border-[#ded8cc] bg-white shadow-[0_12px_35px_-15px_rgba(31,41,55,0.16)]">
+          <Card className="border-line bg-white shadow-[0_12px_35px_-15px_rgba(31,41,55,0.16)]">
             <CardContent className="py-7">
               <SectionHeading title="Book information" />
-              <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[#6b7280]">{book.description ?? "No description has been added for this book."}</p>
+              <p className="mt-4 whitespace-pre-line text-sm leading-7 text-muted">{book.description ?? "No description has been added for this book."}</p>
               <dl className="mt-6 grid gap-x-8 md:grid-cols-2">
                 <DetailItem label="ISBN" value={book.isbn} />
                 <DetailItem label="Language" value={book.language} />
@@ -152,7 +152,7 @@ export default function BookDetailsPage() {
           </Card>
 
           <div className="space-y-6">
-            <Card className="border-[#ded8cc] bg-white shadow-[0_12px_35px_-15px_rgba(31,41,55,0.16)]">
+            <Card className="border-line bg-white shadow-[0_12px_35px_-15px_rgba(31,41,55,0.16)]">
               <CardContent className="py-7">
                 <SectionHeading title="Inventory" />
                 <div className="mt-5 grid grid-cols-2 gap-3">
@@ -164,7 +164,7 @@ export default function BookDetailsPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-[#ded8cc] bg-white shadow-[0_12px_35px_-15px_rgba(31,41,55,0.16)]">
+            <Card className="border-line bg-white shadow-[0_12px_35px_-15px_rgba(31,41,55,0.16)]">
               <CardContent className="py-7">
                 <SectionHeading title="Additional information" />
                 <dl className="mt-2">
@@ -182,23 +182,23 @@ export default function BookDetailsPage() {
 }
 
 function SectionHeading({ title }: { title: string }) {
-  return <h2 className="text-lg font-semibold tracking-tight text-[#1f2937]">{title}</h2>;
+  return <h2 className="text-lg font-semibold tracking-tight text-ink">{title}</h2>;
 }
 
 function PageMessage({ message, error = false }: { message: string; error?: boolean }) {
   return (
-    <div className="min-h-screen bg-[#f4f1ea] p-6">
-      <div className={`mx-auto max-w-6xl rounded-md px-4 py-3 text-sm ${error ? "border border-red-200 bg-red-50 text-red-600" : "text-[#8f8a80]"}`}>{message}</div>
+    <div className="min-h-screen bg-cream p-6">
+      <div className={`mx-auto max-w-6xl rounded-md px-4 py-3 text-sm ${error ? "border border-red-200 bg-red-50 text-red-600" : "text-muted"}`}>{message}</div>
     </div>
   );
 }
 
 function BookNotFound() {
   return (
-    <div className="min-h-screen bg-[#f4f1ea] p-6">
+    <div className="min-h-screen bg-cream p-6">
       <div className="mx-auto max-w-6xl">
-        <p className="text-[#8f8a80]">This book could not be found.</p>
-        <Link to="/books" className="mt-4 inline-block text-sm font-medium text-[#735729] hover:text-[#9a773c]">Back to books</Link>
+        <p className="text-muted">This book could not be found.</p>
+        <Link to="/books" className="mt-4 inline-block text-sm font-medium text-camel-dark hover:text-camel">Back to books</Link>
       </div>
     </div>
   );

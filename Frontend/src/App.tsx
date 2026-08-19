@@ -41,8 +41,8 @@ export default function App() {
 
   if (isHydrating) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#f4f1ea]">
-        <p className="text-sm text-[#8f8a80]">Loading...</p>
+      <div className="flex min-h-screen items-center justify-center bg-cream">
+        <p className="text-sm font-medium text-muted">Loading...</p>
       </div>
     );
   }

@@ -12,14 +12,14 @@ function titleFromPath(pathname: string): string {
 export default function ComingSoon() {
   const { pathname } = useLocation();
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-6 text-center">
-      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#e8e3d8] text-[#9a773c]">
+    <div className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-6 text-center lg:min-h-screen">
+      <div className="flex h-16 w-16 items-center justify-center rounded-card bg-card text-camel shadow-sm ring-1 ring-line">
         <Construction className="h-8 w-8" />
       </div>
-      <h1 className="mt-6 text-2xl font-semibold tracking-tight text-[#1f2937]">
+      <h1 className="mt-6 text-2xl font-extrabold tracking-tight text-ink">
         {titleFromPath(pathname)}
       </h1>
-      <p className="mt-2 max-w-sm text-sm text-[#8f8a80]">
+      <p className="mt-2 max-w-sm text-sm text-muted">
         This section is on the roadmap and will be available soon.
       </p>
     </div>

@@ -100,18 +100,18 @@ export default function CategoriesPage() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#f4f1ea] p-6 lg:p-8">
-      <div className="absolute -right-32 -top-32 h-72 w-72 rounded-full bg-[#c8a96b]/20 blur-3xl" />
+    <div className="relative min-h-screen overflow-hidden bg-cream p-6 lg:p-8">
+      <div className="absolute -right-32 -top-32 h-72 w-72 rounded-full bg-camel/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-6xl animate-in fade-in duration-500">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="mb-2 flex items-center gap-3">
-              <div className="h-1 w-10 bg-[#b08a45]" />
-              <p className="text-xs font-medium uppercase tracking-[0.18em] text-[#9a773c]">Library</p>
+              <div className="h-1 w-10 bg-camel" />
+              <p className="text-xs font-medium uppercase tracking-[0.18em] text-camel">Library</p>
             </div>
-            <h1 className="text-3xl font-semibold tracking-tight text-[#1f2937]">Categories</h1>
-            <p className="mt-1 text-sm text-[#8f8a80]">Organize your collection by category.</p>
+            <h1 className="text-3xl font-semibold tracking-tight text-ink">Categories</h1>
+            <p className="mt-1 text-sm text-muted">Organize your collection by category.</p>
           </div>
           <div className="flex items-center gap-3">
             <Input
@@ -137,34 +137,34 @@ export default function CategoriesPage() {
           </div>
         )}
 
-        <section className="overflow-hidden rounded-xl border border-[#ded8cc] bg-white shadow-sm">
+        <section className="overflow-hidden rounded-xl border border-line bg-white shadow-sm">
           {isLoading ? (
-            <p className="px-6 py-16 text-center text-sm text-[#8f8a80]">Loading categories...</p>
+            <p className="px-6 py-16 text-center text-sm text-muted">Loading categories...</p>
           ) : isError ? (
             <p className="px-6 py-16 text-center text-sm text-red-600">
               Failed to load categories: {(error as Error).message}
             </p>
           ) : filtered.length === 0 ? (
             <div className="px-6 py-16 text-center">
-              <p className="text-lg font-medium text-[#374151]">No categories found.</p>
-              <p className="mt-1 text-sm text-[#8f8a80]">
+              <p className="text-lg font-medium text-ink">No categories found.</p>
+              <p className="mt-1 text-sm text-muted">
                 {search ? "Try a different search." : "Add your first category to get started."}
               </p>
             </div>
           ) : (
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-[#eeeae2] bg-[#faf9f6] text-xs uppercase tracking-[0.12em] text-[#9a773c]">
+                <tr className="border-b border-line-soft bg-card text-xs uppercase tracking-[0.12em] text-camel">
                   <th className="px-6 py-3 font-medium">Name</th>
                   <th className="px-6 py-3 font-medium">Description</th>
                   <th className="px-6 py-3 text-right font-medium">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#eeeae2]">
+              <tbody className="divide-y divide-line-soft">
                 {filtered.map((category) => (
-                  <tr key={category.id} className="transition-colors hover:bg-[#faf9f6]">
-                    <td className="px-6 py-4 font-medium text-[#374151]">{category.name}</td>
-                    <td className="max-w-md truncate px-6 py-4 text-[#6b7280]">
+                  <tr key={category.id} className="transition-colors hover:bg-card">
+                    <td className="px-6 py-4 font-medium text-ink">{category.name}</td>
+                    <td className="max-w-md truncate px-6 py-4 text-muted">
                       {category.description ?? "—"}
                     </td>
                     <td className="px-6 py-4 text-right">
@@ -215,7 +215,7 @@ export default function CategoriesPage() {
             <AlertDialogTitle>Delete category</AlertDialogTitle>
             <AlertDialogDescription>
               Are you sure you want to delete{" "}
-              <span className="font-medium text-[#1f2937]">{deleting?.name}</span>? This action cannot be undone.
+              <span className="font-medium text-ink">{deleting?.name}</span>? This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

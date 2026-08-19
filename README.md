@@ -289,4 +289,13 @@ Frontend - Authentication
 - [x] Zod form validation
 - [x] Loading, empty, and error states
 
+### Frontend - Design System (Bookly)
+- [x] Warm beige page background (#E4DAD1), white cards, 24px rounded corners
+- [x] Camel/terracotta brand accent (#D09B7A) with charcoal text (#111)
+- [x] Plus Jakarta Sans typography (bold headings, tight tracking)
+- [x] Semantic Tailwind v4 design tokens (bg, card, camel, ink, muted, line, radius)
+- [x] Rounded pill buttons and soft-focus inputs throughout
+- [x] "bookly" wordmark with camel double-'o' logo
+- [x] Restyled auth, books, book details, authors, and categories pages
+
 🚧 Currently in active development.

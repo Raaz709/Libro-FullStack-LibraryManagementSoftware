@@ -1,1 +1,23 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Bookly palette */
+  --color-cream: #e4dad1;
+  --color-cream-deep: #d8cbbb;
+  --color-card: #ffffff;
+  --color-camel: #d09b7a;
+  --color-camel-dark: #c49272;
+  --color-ink: #111111;
+  --color-muted: #666666;
+  --color-line: #e2d6cb;
+  --color-line-soft: #efe7df;
+
+  /* Compatibility tokens used by existing markup */
+  --color-muted-foreground: #666666;
+  --color-destructive: #dc2626;
+
+  --radius-card: 1.5rem;
+  --radius-soft: 1rem;
+}

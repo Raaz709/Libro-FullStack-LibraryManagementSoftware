@@ -111,18 +111,18 @@ export default function AuthorsPage() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#f4f1ea] p-6 lg:p-8">
-      <div className="absolute -right-32 -top-32 h-72 w-72 rounded-full bg-[#c8a96b]/20 blur-3xl" />
+    <div className="relative min-h-screen overflow-hidden bg-cream p-6 lg:p-8">
+      <div className="absolute -right-32 -top-32 h-72 w-72 rounded-full bg-camel/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-6xl animate-in fade-in duration-500">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="mb-2 flex items-center gap-3">
-              <div className="h-1 w-10 bg-[#b08a45]" />
-              <p className="text-xs font-medium uppercase tracking-[0.18em] text-[#9a773c]">Library</p>
+              <div className="h-1 w-10 bg-camel" />
+              <p className="text-xs font-medium uppercase tracking-[0.18em] text-camel">Library</p>
             </div>
-            <h1 className="text-3xl font-semibold tracking-tight text-[#1f2937]">Authors</h1>
-            <p className="mt-1 text-sm text-[#8f8a80]">Manage the authors of your collection.</p>
+            <h1 className="text-3xl font-semibold tracking-tight text-ink">Authors</h1>
+            <p className="mt-1 text-sm text-muted">Manage the authors of your collection.</p>
           </div>
           <div className="flex items-center gap-3">
             <Input
@@ -148,36 +148,36 @@ export default function AuthorsPage() {
           </div>
         )}
 
-        <section className="overflow-hidden rounded-xl border border-[#ded8cc] bg-white shadow-sm">
+        <section className="overflow-hidden rounded-xl border border-line bg-white shadow-sm">
           {isLoading ? (
-            <p className="px-6 py-16 text-center text-sm text-[#8f8a80]">Loading authors...</p>
+            <p className="px-6 py-16 text-center text-sm text-muted">Loading authors...</p>
           ) : isError ? (
             <p className="px-6 py-16 text-center text-sm text-red-600">
               Failed to load authors: {(error as Error).message}
             </p>
           ) : filtered.length === 0 ? (
             <div className="px-6 py-16 text-center">
-              <p className="text-lg font-medium text-[#374151]">No authors found.</p>
-              <p className="mt-1 text-sm text-[#8f8a80]">
+              <p className="text-lg font-medium text-ink">No authors found.</p>
+              <p className="mt-1 text-sm text-muted">
                 {search ? "Try a different search." : "Add your first author to get started."}
               </p>
             </div>
           ) : (
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-[#eeeae2] bg-[#faf9f6] text-xs uppercase tracking-[0.12em] text-[#9a773c]">
+                <tr className="border-b border-line-soft bg-card text-xs uppercase tracking-[0.12em] text-camel">
                   <th className="px-6 py-3 font-medium">Name</th>
                   <th className="px-6 py-3 font-medium">Country</th>
                   <th className="px-6 py-3 font-medium">Birth Date</th>
                   <th className="px-6 py-3 text-right font-medium">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#eeeae2]">
+              <tbody className="divide-y divide-line-soft">
                 {filtered.map((author) => (
-                  <tr key={author.id} className="transition-colors hover:bg-[#faf9f6]">
-                    <td className="px-6 py-4 font-medium text-[#374151]">{fullName(author)}</td>
-                    <td className="px-6 py-4 text-[#6b7280]">{author.country ?? "—"}</td>
-                    <td className="px-6 py-4 text-[#6b7280]">
+                  <tr key={author.id} className="transition-colors hover:bg-card">
+                    <td className="px-6 py-4 font-medium text-ink">{fullName(author)}</td>
+                    <td className="px-6 py-4 text-muted">{author.country ?? "—"}</td>
+                    <td className="px-6 py-4 text-muted">
                       {author.birthDate ? new Date(author.birthDate).toLocaleDateString() : "—"}
                     </td>
                     <td className="px-6 py-4 text-right">
@@ -227,7 +227,7 @@ export default function AuthorsPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete author</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete <span className="font-medium text-[#1f2937]">{deleting ? fullName(deleting) : ""}</span>? This action cannot be undone.
+              Are you sure you want to delete <span className="font-medium text-ink">{deleting ? fullName(deleting) : ""}</span>? This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
