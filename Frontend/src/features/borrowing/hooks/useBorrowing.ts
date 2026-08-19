@@ -46,3 +46,15 @@ export function useRenewItem() {
     },
   });
 }
+
+export function useReturnItem() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, conditionAtReturn }: { id: number; conditionAtReturn?: string | null }) =>
+      borrowingApi.returnItem(id, conditionAtReturn),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["borrowing"] });
+      queryClient.invalidateQueries({ queryKey: ["book-copies"] });
+    },
+  });
+}

@@ -4,8 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { z } from "zod";
 import { booksApi } from "@/api/books.api";
-import { bookCopiesApi } from "@/api/bookCopies.api";
-import { usersApi } from "@/api/users.api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,10 +19,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import {
-  useBorrowingData,
   useCreateBorrow,
   useRenewItem,
 } from "@/features/borrowing/hooks/useBorrowing";
+import { useBorrowRows, isOverdue } from "@/features/borrowing/hooks/useBorrowRows";
 import type { BorrowItem, UserSummary } from "@/types/borrow.types";
 import type { Book } from "@/types/book.types";
 
@@ -47,30 +45,10 @@ function formatDate(value: string | null | undefined) {
   return Number.isNaN(date.getTime()) ? "—" : date.toLocaleDateString();
 }
 
-function isOverdue(item: BorrowItem) {
-  return item.status === "Borrowed" && new Date(item.dueDate).getTime() < Date.now();
-}
-
 export default function BorrowingPage() {
-  const { data, isLoading, isError, error } = useBorrowingData();
+  const { rows, users, books, isLoading, isError, error } = useBorrowRows();
   const createBorrow = useCreateBorrow();
   const renewItem = useRenewItem();
-
-  const { data: users = [] } = useQuery({
-    queryKey: ["users"],
-    queryFn: usersApi.getAll,
-    retry: false,
-  });
-  const { data: books = [] } = useQuery({
-    queryKey: ["books"],
-    queryFn: booksApi.getAll,
-    retry: false,
-  });
-  const { data: allCopies = [] } = useQuery({
-    queryKey: ["book-copies"],
-    queryFn: bookCopiesApi.getAll,
-    retry: false,
-  });
 
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"active" | "overdue" | "returned" | "all">("active");
@@ -82,47 +60,23 @@ export default function BorrowingPage() {
   const showSuccess = (text: string) => setMessage({ text, kind: "success" });
   const showError = (text: string) => setMessage({ text, kind: "error" });
 
-  const items = useMemo(() => data?.items ?? [], [data?.items]);
-  const transactions = useMemo(() => data?.transactions ?? [], [data?.transactions]);
-
-  const userById = useMemo(() => new Map(users.map((u) => [u.id, u])), [users]);
-  const bookById = useMemo(() => new Map(books.map((b) => [b.id, b])), [books]);
-  const copyById = useMemo(() => new Map(allCopies.map((c) => [c.id, c])), [allCopies]);
-
-  const transactionById = useMemo(
-    () => new Map(transactions.map((t) => [t.id, t])),
-    [transactions],
-  );
-
-  const rows = useMemo(() => {
+  const filteredRows = useMemo(() => {
     const q = search.trim().toLowerCase();
-    return items
-      .map((item) => {
-        const transaction = transactionById.get(item.borrowTransactionId);
-        const copy = copyById.get(item.bookCopyId);
-        const book = copy ? bookById.get(copy.bookId) : undefined;
-        const user = transaction ? userById.get(transaction.userId) : undefined;
-        return { item, user, book, copy };
-      })
-      .filter(({ item, user, book, copy }) => {
-        const matchesStatus =
-          statusFilter === "all" ||
-          (statusFilter === "active" && item.status === "Borrowed" && !isOverdue(item)) ||
-          (statusFilter === "overdue" && isOverdue(item)) ||
-          (statusFilter === "returned" && item.status === "Returned");
-        if (!matchesStatus) return false;
-        if (!q) return true;
-        return (
-          (book?.title ?? "").toLowerCase().includes(q) ||
-          (user ? `${user.firstName} ${user.lastName}` : "").toLowerCase().includes(q) ||
-          (copy?.barcode ?? "").toLowerCase().includes(q)
-        );
-      })
-      .sort(
-        (a, b) =>
-          new Date(a.item.dueDate).getTime() - new Date(b.item.dueDate).getTime(),
+    return rows.filter(({ item, user, book, copy }) => {
+      const matchesStatus =
+        statusFilter === "all" ||
+        (statusFilter === "active" && item.status === "Borrowed" && !isOverdue(item)) ||
+        (statusFilter === "overdue" && isOverdue(item)) ||
+        (statusFilter === "returned" && item.status === "Returned");
+      if (!matchesStatus) return false;
+      if (!q) return true;
+      return (
+        (book?.title ?? "").toLowerCase().includes(q) ||
+        (user ? `${user.firstName} ${user.lastName}` : "").toLowerCase().includes(q) ||
+        (copy?.barcode ?? "").toLowerCase().includes(q)
       );
-  }, [items, transactionById, copyById, bookById, userById, search, statusFilter]);
+    });
+  }, [rows, search, statusFilter]);
 
   const openRenew = (item: BorrowItem) => {
     setRenewing(item);
@@ -202,7 +156,7 @@ export default function BorrowingPage() {
             <p className="px-6 py-16 text-center text-sm text-red-600">
               Failed to load borrowing records: {(error as Error).message}
             </p>
-          ) : rows.length === 0 ? (
+          ) : filteredRows.length === 0 ? (
             <div className="px-6 py-16 text-center">
               <p className="text-lg font-bold text-ink">No borrow records found.</p>
               <p className="mt-1 text-sm text-muted">
@@ -224,7 +178,7 @@ export default function BorrowingPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-line-soft">
-                  {rows.map(({ item, user, book, copy }) => (
+                  {filteredRows.map(({ item, user, book, copy }) => (
                     <tr key={item.id} className="transition-colors hover:bg-cream/40">
                       <td className="max-w-[220px] truncate px-6 py-4 font-semibold text-ink">
                         {book?.title ?? `Book #${copy?.bookId ?? item.bookCopyId}`}

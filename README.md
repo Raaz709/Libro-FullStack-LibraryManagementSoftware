@@ -316,6 +316,15 @@ Frontend - Authentication
 - [x] Renew action with new due date dialog
 - [x] Loading, empty, and error states
 
+### Frontend - Returns Management (Librarian/Admin)
+- [x] Returns list with open / returned / all filter tabs
+- [x] Search by book, borrower, or barcode
+- [x] Return dialog with condition-at-return recording
+- [x] Days-late badge for overdue items
+- [x] Copy automatically returns to Available after return
+- [x] Loading, empty, and error states
+- [x] Shared borrow-row data hook reused by Borrowing and Returns pages
+
 ### Frontend - Design System (Bookly)
 - [x] Warm beige page background (#E4DAD1), white cards, 24px rounded corners
 - [x] Camel/terracotta brand accent (#D09B7A) with charcoal text (#111)

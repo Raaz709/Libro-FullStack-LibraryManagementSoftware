@@ -15,6 +15,7 @@ import CategoriesPage from "@/features/categories/pages/CategoriesPage";
 import PublishersPage from "@/features/publishers/pages/PublishersPage";
 import BookCopiesPage from "@/features/bookCopies/pages/BookCopiesPage";
 import BorrowingPage from "@/features/borrowing/pages/BorrowingPage";
+import ReturnsPage from "@/features/borrowing/pages/ReturnsPage";
 
 export default function App() {
   const isHydrating = useAuthStore((state) => state.isHydrating);
@@ -82,7 +83,7 @@ export default function App() {
               <Route path="/librarian/categories" element={<CategoriesPage />} />
               <Route path="/librarian/publishers" element={<PublishersPage />} />
               <Route path="/librarian/borrowing" element={<BorrowingPage />} />
-              <Route path="/librarian/returns" element={<ComingSoon />} />
+              <Route path="/librarian/returns" element={<ReturnsPage />} />
               <Route path="/librarian/fines" element={<ComingSoon />} />
               <Route path="/librarian/payments" element={<ComingSoon />} />
             </Route>
@@ -97,7 +98,7 @@ export default function App() {
               <Route path="/admin/categories" element={<CategoriesPage />} />
               <Route path="/admin/publishers" element={<PublishersPage />} />
               <Route path="/admin/borrowing" element={<BorrowingPage />} />
-              <Route path="/admin/returns" element={<ComingSoon />} />
+              <Route path="/admin/returns" element={<ReturnsPage />} />
               <Route path="/admin/fines" element={<ComingSoon />} />
               <Route path="/admin/payments" element={<ComingSoon />} />
               <Route path="/admin/audit-logs" element={<ComingSoon />} />
