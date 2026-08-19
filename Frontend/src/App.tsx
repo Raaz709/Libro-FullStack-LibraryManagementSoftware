@@ -21,6 +21,7 @@ import PaymentsPage from "@/features/payments/pages/PaymentsPage";
 import ProfilePage from "@/features/profile/pages/ProfilePage";
 import FavouritesPage from "@/features/favourites/pages/FavouritesPage";
 import NotificationsPage from "@/features/notifications/pages/NotificationsPage";
+import MemberDashboardPage from "@/features/dashboard/pages/MemberDashboardPage";
 
 export default function App() {
   const isHydrating = useAuthStore((state) => state.isHydrating);
@@ -69,7 +70,7 @@ export default function App() {
 
             {/* Member routes (Student & Faculty) */}
             <Route element={<ProtectedRoute roles={["Student", "Faculty"]} />}>
-              <Route path="/dashboard" element={<ComingSoon />} />
+              <Route path="/dashboard" element={<MemberDashboardPage />} />
               <Route path="/books" element={<BooksPage />} />
               <Route path="/books/:bookId" element={<BookDetailsPage />} />
               <Route path="/my-borrowing" element={<ComingSoon />} />

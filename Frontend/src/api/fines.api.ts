@@ -8,6 +8,16 @@ export const finesApi = {
     return response.data.data ?? [];
   },
 
+  getByUser: async (userId: number): Promise<Fine[]> => {
+    const response = await axiosClient.get<ApiResponse<Fine[]>>(`/fines/user/${userId}`);
+    return response.data.data ?? [];
+  },
+
+  getUnpaidByUser: async (userId: number): Promise<Fine[]> => {
+    const response = await axiosClient.get<ApiResponse<Fine[]>>(`/fines/user/${userId}/unpaid`);
+    return response.data.data ?? [];
+  },
+
   create: async (payload: CreateFinePayload): Promise<Fine> => {
     const response = await axiosClient.post<ApiResponse<Fine>>("/fines", payload);
     if (!response.data.data) {

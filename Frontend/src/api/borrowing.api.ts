@@ -13,6 +13,13 @@ export const borrowingApi = {
     return response.data.data ?? [];
   },
 
+  getUserTransactions: async (userId: number): Promise<BorrowTransaction[]> => {
+    const response = await axiosClient.get<ApiResponse<BorrowTransaction[]>>(
+      `/borrowtransactions/user/${userId}`,
+    );
+    return response.data.data ?? [];
+  },
+
   getItems: async (): Promise<BorrowItem[]> => {
     const response = await axiosClient.get<ApiResponse<BorrowItem[]>>("/borrowitems");
     return response.data.data ?? [];
