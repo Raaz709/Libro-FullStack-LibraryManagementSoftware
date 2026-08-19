@@ -70,21 +70,51 @@ public class AuthService : IAuthService
             throw new InvalidOperationException("A user with this email already exists.");
         }
 
+        if (request.RoleId != 1 && request.RoleId != 2)
+        {
+            throw new InvalidOperationException(
+                "Only Student and Faculty accounts can self-register."
+            );
+        }
+
+        if (request.RoleId == 2)
+        {
+            var facultyPassword = _configuration["Registration:FacultyPassword"];
+
+            if (string.IsNullOrEmpty(facultyPassword) ||
+                !string.Equals(
+                    request.FacultyPassword,
+                    facultyPassword,
+                    StringComparison.Ordinal
+                ))
+            {
+                throw new InvalidOperationException(
+                    "Invalid faculty registration password."
+                );
+            }
+        }
+
         var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
         var user = new User
         {
-            RoleId = 1,
+            RoleId = request.RoleId,
             FirstName = request.FirstName,
             LastName = request.LastName,
             Email = request.Email,
             Phone = request.Phone,
             PasswordHash = passwordHash,
             Status = "Active",
-            MembershipNumber = string.Empty
+            MembershipNumber = GenerateMembershipNumber()
         };
 
         return await _userRepository.CreateAsync(user);
+    }
+
+    private static string GenerateMembershipNumber()
+    {
+        var random = new Random();
+        return $"LBM-{DateTime.UtcNow:yyyyMMddHHmmss}-{random.Next(1000, 9999)}";
     }
 
     public async Task<RefreshResultDto?> RefreshTokenAsync(string refreshToken, string? ipAddress)

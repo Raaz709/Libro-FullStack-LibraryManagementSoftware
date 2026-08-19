@@ -221,6 +221,13 @@ Library_Management/
 - [x] Create an audit log
 - [x] Delete an audit log
 
+### Backend - Registration (Roles & Membership)
+- [x] Self-registration as Student (default) or Faculty (choice from registration page)
+- [x] Faculty registration gated by a shared faculty password (config `Registration:FacultyPassword`)
+- [x] Student/Faculty-only guard on self-registration (Librarian/Admin not self-service)
+- [x] Unique auto-generated membership number for every new user
+- [x] Fix: registration no longer fails on empty membership number (unique constraint)
+
 ### Backend Completion
 - [x] Backend done
 
