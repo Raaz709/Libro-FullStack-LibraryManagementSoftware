@@ -59,8 +59,23 @@ public class UsersController : ControllerBase
     [Authorize(Roles = "Librarian,Admin")]
     public async Task<IActionResult> Create([FromBody] User user)
     {
-        var newId = await _userService.CreateAsync(user);
+        int newId;
+
+        try
+        {
+            newId = await _userService.CreateAsync(user);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Conflict(ApiResponse<object>.ErrorResponse(
+                ex.Message,
+                "DUPLICATE_EMAIL",
+                HttpContext.TraceIdentifier
+            ));
+        }
+
         user.Id = newId;
+        user.PasswordHash = string.Empty;
 
         return CreatedAtAction(
             nameof(GetById),

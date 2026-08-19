@@ -393,6 +393,21 @@ Frontend - Authentication
 - [x] Unpaid fines panel
 - [x] Links from every card/panel to its management page
 
+### Backend - User Management
+- [x] `UsersController` GET (Librarian/Admin), POST/PUT (Librarian/Admin), DELETE (Admin)
+- [x] Create hashes passwords with BCrypt and auto-generates `LBM-{timestamp}-{random}` membership numbers
+- [x] Duplicate email rejected with `DUPLICATE_EMAIL` (409)
+- [x] Update persists RoleId, status, name, email, phone
+- [x] PasswordHash never echoed back in API responses
+
+### Frontend - User Management (Admin)
+- [x] User list with search (name/email/membership) and role/status filters
+- [x] Role badges and membership numbers
+- [x] Create user dialog (name, email, phone, role, status, temporary password)
+- [x] Edit dialog (role, status, name, email, phone)
+- [x] Delete with confirmation (permanent)
+- [x] Route `/admin/users`
+
 ### Frontend - Design System (Bookly)
 - [x] Warm beige page background (#E4DAD1), white cards, 24px rounded corners
 - [x] Camel/terracotta brand accent (#D09B7A) with charcoal text (#111)

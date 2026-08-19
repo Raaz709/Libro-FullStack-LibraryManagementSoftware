@@ -116,6 +116,7 @@ public class UserRepository : IUserRepository
                 LastName = @LastName,
                 Email = @Email,
                 Phone = @Phone,
+                RoleId = @RoleId,
                 Status = @Status,
                 UpdatedAt = NOW()
             WHERE Id = @Id;";

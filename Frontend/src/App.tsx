@@ -18,6 +18,7 @@ import BorrowingPage from "@/features/borrowing/pages/BorrowingPage";
 import ReturnsPage from "@/features/borrowing/pages/ReturnsPage";
 import FinesPage from "@/features/fines/pages/FinesPage";
 import PaymentsPage from "@/features/payments/pages/PaymentsPage";
+import UsersPage from "@/features/users/pages/UsersPage";
 import ProfilePage from "@/features/profile/pages/ProfilePage";
 import FavouritesPage from "@/features/favourites/pages/FavouritesPage";
 import NotificationsPage from "@/features/notifications/pages/NotificationsPage";
@@ -97,7 +98,7 @@ export default function App() {
             {/* Admin routes */}
             <Route element={<ProtectedRoute roles={["Admin"]} />}>
               <Route path="/admin" element={<ComingSoon />} />
-              <Route path="/admin/users" element={<ComingSoon />} />
+              <Route path="/admin/users" element={<UsersPage />} />
               <Route path="/admin/books" element={<ComingSoon />} />
               <Route path="/admin/copies" element={<BookCopiesPage />} />
               <Route path="/admin/authors" element={<AuthorsPage />} />

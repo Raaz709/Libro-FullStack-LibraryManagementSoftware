@@ -1,5 +1,6 @@
 ﻿using Library_Management.Models;
 using Library_Management.Repositories;
+using Library_Management.Repositories.Interface;
 
 namespace Library_Management.Services;
 
@@ -29,6 +30,25 @@ public class UserService : IUserService
 
     public async Task<int> CreateAsync(User user)
     {
+        var existingUser = await _userRepository.GetByEmailAsync(user.Email);
+
+        if (existingUser != null)
+        {
+            throw new InvalidOperationException(
+                "A user with this email already exists."
+            );
+        }
+
+        if (!string.IsNullOrWhiteSpace(user.PasswordHash))
+        {
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
+        }
+
+        if (string.IsNullOrWhiteSpace(user.MembershipNumber))
+        {
+            user.MembershipNumber = GenerateMembershipNumber();
+        }
+
         return await _userRepository.CreateAsync(user);
     }
 
@@ -40,5 +60,11 @@ public class UserService : IUserService
     public async Task<bool> DeleteAsync(int id)
     {
         return await _userRepository.DeleteAsync(id);
+    }
+
+    private static string GenerateMembershipNumber()
+    {
+        var random = new Random();
+        return $"LBM-{DateTime.UtcNow:yyyyMMddHHmmss}-{random.Next(1000, 9999)}";
     }
 }
