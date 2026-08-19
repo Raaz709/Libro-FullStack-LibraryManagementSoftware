@@ -19,6 +19,10 @@ import ReturnsPage from "@/features/borrowing/pages/ReturnsPage";
 import FinesPage from "@/features/fines/pages/FinesPage";
 import PaymentsPage from "@/features/payments/pages/PaymentsPage";
 import UsersPage from "@/features/users/pages/UsersPage";
+import AuditLogsPage from "@/features/admin-logs/pages/AuditLogsPage";
+import ActivityLogsPage from "@/features/admin-logs/pages/ActivityLogsPage";
+import EmailTemplatesPage from "@/features/email-templates/pages/EmailTemplatesPage";
+import AdminDashboardPage from "@/features/dashboard/pages/AdminDashboardPage";
 import ProfilePage from "@/features/profile/pages/ProfilePage";
 import FavouritesPage from "@/features/favourites/pages/FavouritesPage";
 import NotificationsPage from "@/features/notifications/pages/NotificationsPage";
@@ -84,7 +88,7 @@ export default function App() {
             {/* Librarian routes */}
             <Route element={<ProtectedRoute roles={["Librarian"]} />}>
               <Route path="/librarian" element={<LibrarianDashboardPage />} />
-              <Route path="/librarian/books" element={<ComingSoon />} />
+              <Route path="/librarian/books" element={<BooksPage />} />
               <Route path="/librarian/copies" element={<BookCopiesPage />} />
               <Route path="/librarian/authors" element={<AuthorsPage />} />
               <Route path="/librarian/categories" element={<CategoriesPage />} />
@@ -97,9 +101,9 @@ export default function App() {
 
             {/* Admin routes */}
             <Route element={<ProtectedRoute roles={["Admin"]} />}>
-              <Route path="/admin" element={<ComingSoon />} />
+              <Route path="/admin" element={<AdminDashboardPage />} />
               <Route path="/admin/users" element={<UsersPage />} />
-              <Route path="/admin/books" element={<ComingSoon />} />
+              <Route path="/admin/books" element={<BooksPage />} />
               <Route path="/admin/copies" element={<BookCopiesPage />} />
               <Route path="/admin/authors" element={<AuthorsPage />} />
               <Route path="/admin/categories" element={<CategoriesPage />} />
@@ -108,9 +112,9 @@ export default function App() {
               <Route path="/admin/returns" element={<ReturnsPage />} />
               <Route path="/admin/fines" element={<FinesPage />} />
               <Route path="/admin/payments" element={<PaymentsPage />} />
-              <Route path="/admin/audit-logs" element={<ComingSoon />} />
-              <Route path="/admin/activity-logs" element={<ComingSoon />} />
-              <Route path="/admin/email-templates" element={<ComingSoon />} />
+              <Route path="/admin/audit-logs" element={<AuditLogsPage />} />
+              <Route path="/admin/activity-logs" element={<ActivityLogsPage />} />
+              <Route path="/admin/email-templates" element={<EmailTemplatesPage />} />
             </Route>
 
             {/* Shared for all authenticated roles */}

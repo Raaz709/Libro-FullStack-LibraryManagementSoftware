@@ -408,6 +408,37 @@ Frontend - Authentication
 - [x] Delete with confirmation (permanent)
 - [x] Route `/admin/users`
 
+### Frontend - Audit Logs (Admin)
+- [x] Table of audit records (when, user, action, entity, IP)
+- [x] Search + action filter
+- [x] Details dialog with formatted old/new values JSON, user agent, IP
+- [x] Delete with confirmation
+- [x] Route `/admin/audit-logs`
+
+### Frontend - Activity Logs (Admin)
+- [x] Timeline list of user actions with details and IP
+- [x] Search + details dialog + delete
+- [x] Route `/admin/activity-logs`
+
+### Frontend - Email Templates (Admin)
+- [x] Card grid with search
+- [x] Create/edit dialog (name, code, subject, HTML body, description)
+- [x] Live preview dialog rendering template HTML
+- [x] Delete with confirmation
+- [x] Route `/admin/email-templates`
+
+### Frontend - Admin Dashboard
+- [x] Stat cards: users, books, copies, available copies, active loans, overdue, unpaid fines (रू), audit logs
+- [x] Recent loans panel
+- [x] Latest audit activity panel
+- [x] Overdue items and unpaid fines panels
+- [x] Links from every card/panel to its management page
+- [x] Route `/admin`
+
+### Frontend - Role Landing Pages
+- [x] `/` redirects by role (HomeRedirect)
+- [x] Login lands on role dashboard: members → `/dashboard`, Librarian → `/librarian`, Admin → `/admin`
+
 ### Frontend - Design System (Bookly)
 - [x] Warm beige page background (#E4DAD1), white cards, 24px rounded corners
 - [x] Camel/terracotta brand accent (#D09B7A) with charcoal text (#111)
@@ -416,5 +447,8 @@ Frontend - Authentication
 - [x] Rounded pill buttons and soft-focus inputs throughout
 - [x] "Libro" wordmark with camel accent logo
 - [x] Restyled auth, books, book details, authors, and categories pages
+- [x] Shared components: PageHeader, PillTabs, PageState, MessageBanner used across all pages
+- [x] Consistent card radius, table headers, headings, and empty states everywhere
+- [x] Mobile top bar shows Libro brand + avatar
 
 🚧 Currently in active development.

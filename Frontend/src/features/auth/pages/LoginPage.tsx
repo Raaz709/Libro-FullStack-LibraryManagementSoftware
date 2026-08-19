@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { authApi } from "@/api/auth.api";
 import { useAuthStore } from "@/store/authStore";
+import { roleHomePath } from "@/components/layout/navConfig";
 import { loginSchema, type LoginFormValues } from "@/lib/validation/authSchemas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,12 +33,12 @@ export default function LoginPage() {
 
   const mutation = useMutation({
     mutationFn: authApi.login,
-    onSuccess: (data) => {
+onSuccess: (data) => {
       setAccessToken(data.token, {
         firstName: data.firstName,
         lastName: data.lastName,
       });
-      navigate("/books");
+      navigate(roleHomePath(useAuthStore.getState().user?.role), { replace: true });
     },
     onError: () => {
       setServerError("Invalid email or password.");
