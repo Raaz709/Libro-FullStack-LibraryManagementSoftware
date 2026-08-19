@@ -10,6 +10,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { PillTabs } from "@/components/ui/pill-tabs";
+import { MessageBanner } from "@/components/ui/message-banner";
 import {
   Dialog,
   DialogContent,
@@ -99,55 +102,33 @@ export default function BorrowingPage() {
       <div className="absolute -right-32 -top-32 h-72 w-72 rounded-full bg-camel/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-6xl animate-in fade-in duration-500">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <div className="mb-2 flex items-center gap-3">
-              <div className="h-1 w-10 bg-camel" />
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-camel-dark">Library</p>
-            </div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-ink">Borrowing</h1>
-            <p className="mt-1 text-sm text-muted">Issue books to users and manage active loans.</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <Input
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Search book, user, or barcode..."
-              aria-label="Search borrowing records"
-              className="h-9 w-64 text-xs"
-            />
-            <Button onClick={() => setFormOpen(true)}>+ New Borrow</Button>
-          </div>
-        </div>
+        <PageHeader
+          eyebrow="Library"
+          title="Borrowing"
+          description="Issue books to users and manage active loans."
+        >
+          <Input
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Search book, user, or barcode..."
+            aria-label="Search borrowing records"
+            className="h-9 w-64 text-xs"
+          />
+          <Button onClick={() => setFormOpen(true)}>+ New Borrow</Button>
+        </PageHeader>
 
-        {message && (
-          <div
-            className={`mb-4 rounded-card border px-4 py-2.5 text-sm ${
-              message.kind === "error"
-                ? "border-red-200 bg-red-50 text-red-600"
-                : "border-emerald-200 bg-emerald-50 text-emerald-700"
-            }`}
-          >
-            {message.text}
-          </div>
-        )}
+        <MessageBanner message={message} />
 
-        <div className="mb-4 flex flex-wrap gap-2">
-          {(["active", "overdue", "returned", "all"] as const).map((option) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => setStatusFilter(option)}
-              className={`rounded-full px-4 py-1.5 text-sm font-semibold capitalize transition-colors ${
-                statusFilter === option
-                  ? "bg-ink text-card"
-                  : "bg-card text-muted hover:bg-cream-deep hover:text-ink"
-              }`}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
+        <PillTabs
+          value={statusFilter}
+          onChange={(value) => setStatusFilter(value as typeof statusFilter)}
+          options={[
+            { value: "active", label: "Active" },
+            { value: "overdue", label: "Overdue", count: rows.filter((r) => isOverdue(r.item)).length },
+            { value: "returned", label: "Returned" },
+            { value: "all", label: "All" },
+          ]}
+        />
 
         <section className="overflow-hidden rounded-card border border-line bg-card shadow-sm">
           {isLoading ? (

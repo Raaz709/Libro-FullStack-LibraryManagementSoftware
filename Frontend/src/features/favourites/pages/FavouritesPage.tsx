@@ -8,6 +8,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { PageState } from "@/components/ui/page-state";
 import type { Book } from "@/types/book.types";
 
 function BookCover({ book }: { book: Book }) {
@@ -50,15 +52,11 @@ export default function FavouritesPage() {
       <div className="absolute -bottom-32 -right-32 h-72 w-72 rounded-full bg-ink/10 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl animate-in fade-in duration-500">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <div className="mb-2 flex items-center gap-3">
-              <div className="h-1 w-10 bg-camel" />
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-camel-dark">Library</p>
-            </div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-ink">Favorites</h1>
-            <p className="mt-1 text-sm text-muted">Books you have saved for later.</p>
-          </div>
+        <PageHeader
+          eyebrow="Library"
+          title="Favorites"
+          description="Books you have saved for later."
+        >
           <Input
             value={search}
             onChange={(event) => setSearch(event.target.value)}
@@ -66,31 +64,29 @@ export default function FavouritesPage() {
             aria-label="Search favorites"
             className="h-9 w-64 text-xs"
           />
-        </div>
+        </PageHeader>
 
         {isLoading ? (
           <p className="py-16 text-center text-sm text-muted">Loading favorites...</p>
         ) : isError ? (
           <p className="py-16 text-center text-sm text-red-600">Failed to load favorites: {(error as Error).message}</p>
         ) : filteredBooks.length === 0 ? (
-          <div className="rounded-card border border-dashed border-line bg-white/60 px-6 py-20 text-center">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-cream">
-              <Heart className="h-7 w-7 text-camel" />
-            </div>
-            <p className="mt-4 text-lg font-bold text-ink">
-              {books.length === 0 ? "No favorites yet." : "No favorites match your search."}
-            </p>
-            <p className="mx-auto mt-1 max-w-md text-sm text-muted">
-              {books.length === 0
+          <PageState
+            icon={<Heart className="h-7 w-7 text-camel" />}
+            title={books.length === 0 ? "No favorites yet." : "No favorites match your search."}
+            description={
+              books.length === 0
                 ? "Tap the heart on any book to save it here for later."
-                : "Try adjusting your search."}
-            </p>
-            {books.length === 0 && (
-              <Link to="/books">
-                <Button className="mt-6">Browse books</Button>
-              </Link>
-            )}
-          </div>
+                : "Try adjusting your search."
+            }
+            action={
+              books.length === 0 ? (
+                <Link to="/books">
+                  <Button>Browse books</Button>
+                </Link>
+              ) : undefined
+            }
+          />
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {filteredBooks.map((book) => (

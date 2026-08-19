@@ -15,6 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { booksApi } from "@/api/books.api";
 import { bookCopiesApi } from "@/api/bookCopies.api";
 import { Badge } from "@/components/ui/badge";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { formatNPR } from "@/lib/currency";
 
 function formatDate(value: string | null | undefined) {
@@ -103,14 +104,11 @@ export default function LibrarianDashboardPage() {
       <div className="absolute -right-32 -top-32 h-72 w-72 rounded-full bg-camel/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl animate-in fade-in duration-500">
-        <div className="mb-8">
-          <div className="mb-2 flex items-center gap-3">
-            <div className="h-1 w-10 bg-camel" />
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-camel-dark">Librarian</p>
-          </div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-ink">Dashboard</h1>
-          <p className="mt-1 text-sm text-muted">Library operations at a glance.</p>
-        </div>
+        <PageHeader
+          eyebrow="Librarian"
+          title="Dashboard"
+          description="Library operations at a glance."
+        />
 
         {isLoading ? (
           <p className="py-16 text-center text-sm text-muted">Loading dashboard...</p>

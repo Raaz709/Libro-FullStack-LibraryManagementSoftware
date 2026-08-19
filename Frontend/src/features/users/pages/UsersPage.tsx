@@ -31,6 +31,8 @@ import {
   useUpdateUser,
   useUsers,
 } from "@/features/users/hooks/useUsers";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { MessageBanner } from "@/components/ui/message-banner";
 import { ROLE_MAP } from "@/lib/constants";
 import type { UserAdmin } from "@/types/users.types";
 
@@ -128,54 +130,38 @@ export default function UsersPage() {
       <div className="absolute -right-32 -top-32 h-72 w-72 rounded-full bg-camel/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl animate-in fade-in duration-500">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <div className="mb-2 flex items-center gap-3">
-              <div className="h-1 w-10 bg-camel" />
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-camel-dark">Admin</p>
-            </div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-ink">Users</h1>
-            <p className="mt-1 text-sm text-muted">Manage member and staff accounts.</p>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Input
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Search name, email, or membership..."
-              aria-label="Search users"
-              className="h-9 w-64 text-xs"
-            />
-            <Select value={roleFilter} onChange={(event) => setRoleFilter(event.target.value)} aria-label="Filter by role">
-              <option value="">All roles</option>
-              {ROLE_IDS.map((id) => (
-                <option key={id} value={id}>
-                  {ROLE_MAP[id]}
-                </option>
-              ))}
-            </Select>
-            <Select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} aria-label="Filter by status">
-              <option value="">All statuses</option>
-              {STATUSES.map((status) => (
-                <option key={status} value={status}>
-                  {status}
-                </option>
-              ))}
-            </Select>
-            <Button onClick={openCreate}>+ New User</Button>
-          </div>
-        </div>
+        <PageHeader
+          eyebrow="Admin"
+          title="Users"
+          description="Manage member and staff accounts."
+        >
+          <Input
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Search name, email, or membership..."
+            aria-label="Search users"
+            className="h-9 w-64 text-xs"
+          />
+          <Select value={roleFilter} onChange={(event) => setRoleFilter(event.target.value)} aria-label="Filter by role">
+            <option value="">All roles</option>
+            {ROLE_IDS.map((id) => (
+              <option key={id} value={id}>
+                {ROLE_MAP[id]}
+              </option>
+            ))}
+          </Select>
+          <Select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} aria-label="Filter by status">
+            <option value="">All statuses</option>
+            {STATUSES.map((status) => (
+              <option key={status} value={status}>
+                {status}
+              </option>
+            ))}
+          </Select>
+          <Button onClick={openCreate}>+ New User</Button>
+        </PageHeader>
 
-        {message && (
-          <div
-            className={`mb-4 rounded-card border px-4 py-2.5 text-sm ${
-              message.kind === "error"
-                ? "border-red-200 bg-red-50 text-red-600"
-                : "border-emerald-200 bg-emerald-50 text-emerald-700"
-            }`}
-          >
-            {message.text}
-          </div>
-        )}
+        <MessageBanner message={message} />
 
         <section className="overflow-hidden rounded-card border border-line bg-card shadow-sm">
           {isLoading ? (

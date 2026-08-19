@@ -7,6 +7,10 @@ import type { Book } from "@/types/book.types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { PageState } from "@/components/ui/page-state";
+import { BookOpen } from "lucide-react";
 
 const ITEMS_PER_PAGE = 12;
 
@@ -68,7 +72,7 @@ function BookGridCard({ book }: { book: Book }) {
   return (
     <Link
       to={`/books/${book.id}`}
-      className="group overflow-hidden rounded-xl border border-line bg-white shadow-[0_12px_35px_-15px_rgba(31,41,55,0.16)] transition-all duration-300 hover:-translate-y-1 hover:border-camel hover:shadow-[0_20px_45px_-18px_rgba(154,119,60,0.28)]"
+      className="group overflow-hidden rounded-soft border border-line bg-white shadow-[0_12px_35px_-15px_rgba(31,41,55,0.16)] transition-all duration-300 hover:-translate-y-1 hover:border-camel hover:shadow-[0_20px_45px_-18px_rgba(154,119,60,0.28)]"
     >
       <div className="h-52 border-b border-line bg-cream"><BookCover book={book} /></div>
       <div className="flex min-h-56 flex-col p-6">
@@ -91,7 +95,7 @@ function BookListRow({ book }: { book: Book }) {
   return (
     <Link
       to={`/books/${book.id}`}
-      className="group flex items-start gap-5 rounded-xl border border-line bg-white p-5 shadow-sm transition-all duration-200 hover:border-camel hover:shadow-md"
+      className="group flex items-start gap-5 rounded-soft border border-line bg-white p-5 shadow-sm transition-all duration-200 hover:border-camel hover:shadow-md"
     >
       <div className="h-28 w-20 shrink-0 overflow-hidden rounded-md border border-line bg-cream"><BookCover book={book} compact /></div>
       <div className="min-w-0 flex-1 py-1">
@@ -189,16 +193,17 @@ export default function BooksPage() {
       <div className="absolute -bottom-32 -right-32 h-72 w-72 rounded-full bg-ink/10 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl animate-in fade-in duration-500">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <div className="mb-2 flex items-center gap-3"><div className="h-1 w-10 bg-camel" /><p className="text-xs font-medium uppercase tracking-[0.18em] text-camel">Library</p></div>
-            <h1 className="text-3xl font-semibold tracking-tight text-ink">Books</h1>
-            <p className="mt-1 text-sm text-muted">Find and explore titles across your collection.</p>
-          </div>
-          <p className="rounded-full border border-line bg-white/70 px-3 py-1.5 text-xs font-medium text-camel-dark">{filteredBooks.length} {filteredBooks.length === 1 ? "result" : "results"}</p>
-        </div>
+        <PageHeader
+          eyebrow="Library"
+          title="Books"
+          description="Find and explore titles across your collection."
+        >
+          <p className="rounded-full border border-line bg-white/70 px-3 py-1.5 text-xs font-medium text-camel-dark">
+            {filteredBooks.length} {filteredBooks.length === 1 ? "result" : "results"}
+          </p>
+        </PageHeader>
 
-        <section className="mb-8 rounded-xl border border-line bg-white/80 p-3 shadow-sm backdrop-blur-sm">
+        <section className="mb-8 rounded-card border border-line bg-white/80 p-3 shadow-sm backdrop-blur-sm">
           <div className="grid gap-3 lg:grid-cols-[minmax(0,1.6fr)_repeat(4,minmax(0,1fr))]">
             <Input
               value={search}
@@ -207,19 +212,19 @@ export default function BooksPage() {
               aria-label="Search books by title or ISBN"
               className="h-9 text-xs"
             />
-            <Select value={categoryId} onChange={(value) => { setCategoryId(value); resetPage(); }} ariaLabel="Filter by category">
+            <Select value={categoryId} onChange={(event) => { setCategoryId(event.target.value); resetPage(); }} aria-label="Filter by category">
               <option value="">All categories</option>
               {categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
             </Select>
-            <Select value={status} onChange={(value) => { setStatus(value); resetPage(); }} ariaLabel="Filter by status">
+            <Select value={status} onChange={(event) => { setStatus(event.target.value); resetPage(); }} aria-label="Filter by status">
               <option value="">All statuses</option>
               {statuses.map((item) => <option key={item} value={item}>{item}</option>)}
             </Select>
-            <Select value={language} onChange={(value) => { setLanguage(value); resetPage(); }} ariaLabel="Filter by language">
+            <Select value={language} onChange={(event) => { setLanguage(event.target.value); resetPage(); }} aria-label="Filter by language">
               <option value="">All languages</option>
               {languages.map((item) => <option key={item} value={item}>{item}</option>)}
             </Select>
-            <Select value={sort} onChange={(value) => { setSort(value as SortOption); resetPage(); }} ariaLabel="Sort books">
+            <Select value={sort} onChange={(event) => { setSort(event.target.value as SortOption); resetPage(); }} aria-label="Sort books">
               <option value="recent">Newest first</option>
               <option value="title">Title A–Z</option>
               <option value="price-low">Price: low to high</option>
@@ -229,7 +234,7 @@ export default function BooksPage() {
 
           <div className="mt-3 flex flex-wrap items-center justify-between gap-3 border-t border-line-soft pt-3">
             <Button variant="ghost" size="xs" onClick={clearFilters}>Clear filters</Button>
-            <div className="flex rounded-lg border border-line bg-card p-1">
+            <div className="flex rounded-soft border border-line bg-card p-1">
               <ViewButton active={view === "grid"} onClick={() => setView("grid")}>Grid</ViewButton>
               <ViewButton active={view === "list"} onClick={() => setView("list")}>List</ViewButton>
             </div>
@@ -239,10 +244,14 @@ export default function BooksPage() {
         {isCategoryLoading ? (
           <PageMessage message="Loading books in this category..." embedded />
         ) : displayedBooks.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-line bg-white/60 px-6 py-16 text-center">
-            <p className="text-lg font-medium text-ink">No books match these filters.</p>
-            <Button variant="link" className="mt-2" onClick={clearFilters}>Clear filters and show all books</Button>
-          </div>
+          <PageState
+            icon={<BookOpen className="h-7 w-7 text-camel" />}
+            title="No books match these filters."
+            description="Try adjusting your search or filters."
+            action={
+              <Button variant="link" onClick={clearFilters}>Clear filters and show all books</Button>
+            }
+          />
         ) : view === "grid" ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">{displayedBooks.map((book) => <BookGridCard key={book.id} book={book} />)}</div>
         ) : (
@@ -264,12 +273,8 @@ export default function BooksPage() {
   );
 }
 
-function Select({ value, onChange, ariaLabel, children }: { value: string; onChange: (value: string) => void; ariaLabel: string; children: ReactNode }) {
-  return <select value={value} onChange={(event) => onChange(event.target.value)} aria-label={ariaLabel} className="h-9 w-full rounded-md border border-line bg-card px-2.5 text-xs text-ink outline-none transition-colors hover:border-camel/60 focus:border-camel focus:bg-white focus:ring-3 focus:ring-camel/15">{children}</select>;
-}
-
 function ViewButton({ active, onClick, children }: { active: boolean; onClick: () => void; children: ReactNode }) {
-  return <button type="button" onClick={onClick} className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${active ? "bg-white text-camel-dark shadow-sm" : "text-muted hover:text-camel-dark"}`}>{children}</button>;
+  return <button type="button" onClick={onClick} className={`rounded-soft px-3 py-1 text-xs font-semibold transition-colors ${active ? "bg-white text-camel-dark shadow-sm" : "text-muted hover:text-camel-dark"}`}>{children}</button>;
 }
 
 function PageMessage({ message, error = false, embedded = false }: { message: string; error?: boolean; embedded?: boolean }) {

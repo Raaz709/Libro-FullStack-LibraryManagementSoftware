@@ -36,6 +36,9 @@ import {
   useWaiveFine,
 } from "@/features/fines/hooks/useFines";
 import { useAuthStore } from "@/store/authStore";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { PillTabs } from "@/components/ui/pill-tabs";
+import { MessageBanner } from "@/components/ui/message-banner";
 import { formatNPR } from "@/lib/currency";
 import type { Fine } from "@/types/fines.types";
 
@@ -147,38 +150,22 @@ export default function FinesPage() {
       <div className="absolute -right-32 -top-32 h-72 w-72 rounded-full bg-camel/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-6xl animate-in fade-in duration-500">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <div className="mb-2 flex items-center gap-3">
-              <div className="h-1 w-10 bg-camel" />
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-camel-dark">Library</p>
-            </div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-ink">Fines</h1>
-            <p className="mt-1 text-sm text-muted">Manage charges for overdue, damaged, or lost books.</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <Input
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Search by user..."
-              aria-label="Search fines"
-              className="h-9 w-64 text-xs"
-            />
-            <Button onClick={openCreate}>+ New Fine</Button>
-          </div>
-        </div>
+        <PageHeader
+          eyebrow="Library"
+          title="Fines"
+          description="Manage charges for overdue, damaged, or lost books."
+        >
+          <Input
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Search by user..."
+            aria-label="Search fines"
+            className="h-9 w-64 text-xs"
+          />
+          <Button onClick={openCreate}>+ New Fine</Button>
+        </PageHeader>
 
-        {message && (
-          <div
-            className={`mb-4 rounded-card border px-4 py-2.5 text-sm ${
-              message.kind === "error"
-                ? "border-red-200 bg-red-50 text-red-600"
-                : "border-emerald-200 bg-emerald-50 text-emerald-700"
-            }`}
-          >
-            {message.text}
-          </div>
-        )}
+        <MessageBanner message={message} />
 
         <div className="mb-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <div className="rounded-card border border-line bg-card p-4">
@@ -195,22 +182,16 @@ export default function FinesPage() {
           </div>
         </div>
 
-        <div className="mb-4 flex flex-wrap gap-2">
-          {["Unpaid", "Paid", "Waived", "All"].map((option) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => setStatusFilter(option)}
-              className={`rounded-full px-4 py-1.5 text-sm font-semibold capitalize transition-colors ${
-                statusFilter === option
-                  ? "bg-ink text-card"
-                  : "bg-card text-muted hover:bg-cream-deep hover:text-ink"
-              }`}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
+        <PillTabs
+          value={statusFilter}
+          onChange={(value) => setStatusFilter(value as typeof statusFilter)}
+          options={[
+            { value: "Unpaid", label: "Unpaid", count: fines.filter((f) => f.status === "Unpaid").length },
+            { value: "Paid", label: "Paid" },
+            { value: "Waived", label: "Waived" },
+            { value: "All", label: "All" },
+          ]}
+        />
 
         <section className="overflow-hidden rounded-card border border-line bg-card shadow-sm">
           {isLoading ? (

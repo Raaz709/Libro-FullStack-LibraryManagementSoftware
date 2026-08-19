@@ -180,14 +180,27 @@ export default function SidebarLayout() {
       <div className={cn("transition-all duration-300", collapsed ? "lg:pl-20" : "lg:pl-64")}>
         {/* Top bar - mobile only */}
         <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-line bg-cream/95 px-4 backdrop-blur-md lg:hidden">
-          <button
-            type="button"
-            onClick={() => setSidebarOpen(true)}
-            className="rounded-full p-1.5 text-ink hover:bg-card"
-            aria-label="Open navigation"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
+          <div className="flex items-center gap-2.5">
+            <button
+              type="button"
+              onClick={() => setSidebarOpen(true)}
+              className="rounded-full p-1.5 text-ink hover:bg-card"
+              aria-label="Open navigation"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-camel text-ink">
+              <BookOpen className="h-4 w-4" />
+            </div>
+            <p className="text-lg font-extrabold tracking-tight text-ink">
+              Libr<span className="text-camel-dark">o</span>
+            </p>
+          </div>
+          {user && (
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-camel text-xs font-bold text-ink">
+              {avatarInitial}
+            </div>
+          )}
         </header>
 
         <main className="min-h-[calc(100vh-4rem)] lg:min-h-screen">

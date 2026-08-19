@@ -131,7 +131,7 @@ export default function BookDetailsPage() {
                   {favoriteToggle.isFavorite ? "Saved" : "Save"}
                 </button>
               </div>
-              <h1 className="mt-4 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">{book.title}</h1>
+              <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">{book.title}</h1>
               {book.subtitle && <p className="mt-2 text-lg text-muted">{book.subtitle}</p>}
 
               <div className="mt-6">

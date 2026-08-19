@@ -7,6 +7,8 @@ import {
 } from "@/features/notifications/hooks/useNotifications";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { PillTabs } from "@/components/ui/pill-tabs";
 import type { Notification } from "@/types/notifications.types";
 
 function formatRelativeTime(value: string) {
@@ -68,17 +70,15 @@ export default function NotificationsPage() {
       <div className="absolute -right-32 -top-32 h-72 w-72 rounded-full bg-camel/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-3xl animate-in fade-in duration-500">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <div className="mb-2 flex items-center gap-3">
-              <div className="h-1 w-10 bg-camel" />
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-camel-dark">Library</p>
-            </div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-ink">Notifications</h1>
-            <p className="mt-1 text-sm text-muted">
-              {unreadCount > 0 ? `You have ${unreadCount} unread notification${unreadCount === 1 ? "" : "s"}.` : "You're all caught up."}
-            </p>
-          </div>
+        <PageHeader
+          eyebrow="Library"
+          title="Notifications"
+          description={
+            unreadCount > 0
+              ? `You have ${unreadCount} unread notification${unreadCount === 1 ? "" : "s"}.`
+              : "You're all caught up."
+          }
+        >
           <Button
             variant="outline"
             size="sm"
@@ -88,29 +88,16 @@ export default function NotificationsPage() {
             <CheckCheck className="mr-2 h-4 w-4" />
             {markAllAsRead.isPending ? "Marking..." : "Mark all as read"}
           </Button>
-        </div>
+        </PageHeader>
 
-        <div className="mb-4 flex flex-wrap gap-2">
-          {(["all", "unread"] as const).map((option) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => setFilter(option)}
-              className={`rounded-full px-4 py-1.5 text-sm font-semibold capitalize transition-colors ${
-                filter === option
-                  ? "bg-ink text-card"
-                  : "bg-card text-muted hover:bg-cream-deep hover:text-ink"
-              }`}
-            >
-              {option}
-              {option === "unread" && unreadCount > 0 && (
-                <span className="ml-1.5 rounded-full bg-camel px-1.5 text-[10px] font-bold text-ink">
-                  {unreadCount}
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
+        <PillTabs
+          value={filter}
+          onChange={(value) => setFilter(value as typeof filter)}
+          options={[
+            { value: "all", label: "All" },
+            { value: "unread", label: "Unread", count: unreadCount },
+          ]}
+        />
 
         {isLoading ? (
           <p className="py-16 text-center text-sm text-muted">Loading notifications...</p>

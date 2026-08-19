@@ -17,6 +17,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useAuthStore } from "@/store/authStore";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { MessageBanner } from "@/components/ui/message-banner";
 import { formatNPR } from "@/lib/currency";
 import type { Payment } from "@/types/payments.types";
 
@@ -85,15 +87,11 @@ export default function PaymentsPage() {
       <div className="absolute -right-32 -top-32 h-72 w-72 rounded-full bg-camel/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-6xl animate-in fade-in duration-500">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <div className="mb-2 flex items-center gap-3">
-              <div className="h-1 w-10 bg-camel" />
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-camel-dark">Library</p>
-            </div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-ink">Payments</h1>
-            <p className="mt-1 text-sm text-muted">Payment history for fines across all users.</p>
-          </div>
+        <PageHeader
+          eyebrow="Library"
+          title="Payments"
+          description="Payment history for fines across all users."
+        >
           <Input
             value={search}
             onChange={(event) => setSearch(event.target.value)}
@@ -101,19 +99,9 @@ export default function PaymentsPage() {
             aria-label="Search payments"
             className="h-9 w-72 text-xs"
           />
-        </div>
+        </PageHeader>
 
-        {message && (
-          <div
-            className={`mb-4 rounded-card border px-4 py-2.5 text-sm ${
-              message.kind === "error"
-                ? "border-red-200 bg-red-50 text-red-600"
-                : "border-emerald-200 bg-emerald-50 text-emerald-700"
-            }`}
-          >
-            {message.text}
-          </div>
-        )}
+        <MessageBanner message={message} />
 
         <div className="mb-4 grid gap-3 sm:grid-cols-3">
           <div className="rounded-card border border-line bg-card p-4">

@@ -4,6 +4,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { PillTabs } from "@/components/ui/pill-tabs";
+import { MessageBanner } from "@/components/ui/message-banner";
 import {
   Dialog,
   DialogContent,
@@ -76,15 +79,11 @@ export default function ReturnsPage() {
       <div className="absolute -right-32 -top-32 h-72 w-72 rounded-full bg-camel/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-6xl animate-in fade-in duration-500">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <div className="mb-2 flex items-center gap-3">
-              <div className="h-1 w-10 bg-camel" />
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-camel-dark">Library</p>
-            </div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-ink">Returns</h1>
-            <p className="mt-1 text-sm text-muted">Receive returned books and record their condition.</p>
-          </div>
+        <PageHeader
+          eyebrow="Library"
+          title="Returns"
+          description="Receive returned books and record their condition."
+        >
           <Input
             value={search}
             onChange={(event) => setSearch(event.target.value)}
@@ -92,36 +91,19 @@ export default function ReturnsPage() {
             aria-label="Search returns"
             className="h-9 w-72 text-xs"
           />
-        </div>
+        </PageHeader>
 
-        {message && (
-          <div
-            className={`mb-4 rounded-card border px-4 py-2.5 text-sm ${
-              message.kind === "error"
-                ? "border-red-200 bg-red-50 text-red-600"
-                : "border-emerald-200 bg-emerald-50 text-emerald-700"
-            }`}
-          >
-            {message.text}
-          </div>
-        )}
+        <MessageBanner message={message} />
 
-        <div className="mb-4 flex flex-wrap gap-2">
-          {(["open", "returned", "all"] as const).map((option) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => setFilter(option)}
-              className={`rounded-full px-4 py-1.5 text-sm font-semibold capitalize transition-colors ${
-                filter === option
-                  ? "bg-ink text-card"
-                  : "bg-card text-muted hover:bg-cream-deep hover:text-ink"
-              }`}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
+        <PillTabs
+          value={filter}
+          onChange={(value) => setFilter(value as typeof filter)}
+          options={[
+            { value: "open", label: "Open", count: rows.filter((r) => r.item.status === "Borrowed").length },
+            { value: "returned", label: "Returned" },
+            { value: "all", label: "All" },
+          ]}
+        />
 
         <section className="overflow-hidden rounded-card border border-line bg-card shadow-sm">
           {isLoading ? (

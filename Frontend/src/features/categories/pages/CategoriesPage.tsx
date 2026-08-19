@@ -108,9 +108,9 @@ export default function CategoriesPage() {
           <div>
             <div className="mb-2 flex items-center gap-3">
               <div className="h-1 w-10 bg-camel" />
-              <p className="text-xs font-medium uppercase tracking-[0.18em] text-camel">Library</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-camel-dark">Library</p>
             </div>
-            <h1 className="text-3xl font-semibold tracking-tight text-ink">Categories</h1>
+            <h1 className="text-3xl font-extrabold tracking-tight text-ink">Categories</h1>
             <p className="mt-1 text-sm text-muted">Organize your collection by category.</p>
           </div>
           <div className="flex items-center gap-3">
@@ -127,7 +127,7 @@ export default function CategoriesPage() {
 
         {message && (
           <div
-            className={`mb-4 rounded-md border px-4 py-2.5 text-sm ${
+            className={`mb-4 rounded-card border px-4 py-2.5 text-sm ${
               message.kind === "error"
                 ? "border-red-200 bg-red-50 text-red-600"
                 : "border-emerald-200 bg-emerald-50 text-emerald-700"
@@ -137,7 +137,7 @@ export default function CategoriesPage() {
           </div>
         )}
 
-        <section className="overflow-hidden rounded-xl border border-line bg-white shadow-sm">
+        <section className="overflow-hidden rounded-card border border-line bg-card shadow-sm">
           {isLoading ? (
             <p className="px-6 py-16 text-center text-sm text-muted">Loading categories...</p>
           ) : isError ? (
@@ -146,7 +146,7 @@ export default function CategoriesPage() {
             </p>
           ) : filtered.length === 0 ? (
             <div className="px-6 py-16 text-center">
-              <p className="text-lg font-medium text-ink">No categories found.</p>
+              <p className="text-lg font-bold text-ink">No categories found.</p>
               <p className="mt-1 text-sm text-muted">
                 {search ? "Try a different search." : "Add your first category to get started."}
               </p>
@@ -154,15 +154,15 @@ export default function CategoriesPage() {
           ) : (
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-line-soft bg-card text-xs uppercase tracking-[0.12em] text-camel">
-                  <th className="px-6 py-3 font-medium">Name</th>
-                  <th className="px-6 py-3 font-medium">Description</th>
-                  <th className="px-6 py-3 text-right font-medium">Actions</th>
+                <tr className="border-b border-line-soft bg-cream/50 text-xs uppercase tracking-[0.12em] text-camel-dark">
+                  <th className="px-6 py-3 font-semibold">Name</th>
+                  <th className="px-6 py-3 font-semibold">Description</th>
+                  <th className="px-6 py-3 text-right font-semibold">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-line-soft">
                 {filtered.map((category) => (
-                  <tr key={category.id} className="transition-colors hover:bg-card">
+                  <tr key={category.id} className="transition-colors hover:bg-cream/40">
                     <td className="px-6 py-4 font-medium text-ink">{category.name}</td>
                     <td className="max-w-md truncate px-6 py-4 text-muted">
                       {category.description ?? "—"}
