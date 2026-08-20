@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  backend:
+    name: Backend build + tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+      - name: Restore
+        run: dotnet restore Backend/Library_Management.csproj
+      - name: Build
+        run: dotnet build Backend/Library_Management.csproj -c Release --no-restore
+      - name: Test
+        run: dotnet test Backend/Library_Management.Tests/Library_Management.Tests.csproj -c Release --no-build
+
+  frontend:
+    name: Frontend lint + build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: Frontend/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build

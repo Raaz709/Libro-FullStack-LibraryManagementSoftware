@@ -1,0 +1,8 @@
+**/bin
+**/obj
+**/Library_Management.Tests/bin
+**/Library_Management.Tests/obj
+Backend/.vs
+Backend/Properties/launchSettings.json
+Dockerfile
+.dockerignore

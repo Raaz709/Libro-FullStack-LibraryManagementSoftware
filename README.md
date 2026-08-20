@@ -86,6 +86,34 @@ dotnet user-secrets set "Email:FromName" "Library"
 
 Emails are rendered from `emailtemplates` (keyed by `Code`) and support `{{Key}}` placeholders. A welcome email is sent to new members on registration. SMTP failures are logged and never break API requests.
 
+## Docker
+
+The whole stack can run in containers:
+
+```bash
+# set a strong JWT signing key (base64, at least 32 bytes)
+export JWT_KEY="$(openssl rand -base64 48)"
+
+docker compose up -d --build
+```
+
+This starts:
+
+| Service  | Port  | Notes |
+|----------|-------|-------|
+| MySQL 8  | 3306  | Auto-initialized from `Database/schema.sql` + `Database/seed.sql` |
+| Backend  | 8080  | ASP.NET Core API (config via `ConnectionStrings__*`, `Jwt__*` env vars) |
+| Frontend | 5173  | nginx serving the built SPA, proxying `/api` to the backend |
+
+Override MySQL root password with `MYSQL_ROOT_PASSWORD`. SMTP/email stays disabled unless you add `Email__*` env vars.
+
+## CI
+
+GitHub Actions (`.github/workflows/ci.yml`) runs on every push to `master` and on pull requests:
+
+- **Backend**: `dotnet restore` → Release build → xUnit test suite.
+- **Frontend**: `npm ci` → ESLint → production build.
+
 ## Tech Stack
 
 ### Backend

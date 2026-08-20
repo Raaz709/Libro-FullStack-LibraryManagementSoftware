@@ -1,0 +1,55 @@
+services:
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-libro_root_pw}
+      MYSQL_DATABASE: library_management
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./Database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./Database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD:-libro_root_pw}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: .
+      dockerfile: Backend/Dockerfile
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: "Server=db;Port=3306;Database=library_management;User ID=root;Password=${MYSQL_ROOT_PASSWORD:-libro_root_pw};"
+      Jwt__Key: ${JWT_KEY:?Set JWT_KEY to a base64 string of at least 32 bytes}
+      Jwt__Issuer: "LibraryManagementApi"
+      Jwt__Audience: "LibraryManagementClient"
+      Jwt__ExpiryMinutes: "60"
+      Jwt__RefreshTokenExpiryDays: "7"
+      Registration__FacultyPassword: "Faculty@2026"
+      Email__Enable: "false"
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Frontend/Dockerfile
+      args:
+        VITE_API_BASE_URL: /api
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+
+volumes:
+  db_data:
