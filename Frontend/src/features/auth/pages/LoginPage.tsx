@@ -33,7 +33,7 @@ export default function LoginPage() {
 
   const mutation = useMutation({
     mutationFn: authApi.login,
-onSuccess: (data) => {
+    onSuccess: (data) => {
       setAccessToken(data.token, {
         firstName: data.firstName,
         lastName: data.lastName,
@@ -51,33 +51,33 @@ onSuccess: (data) => {
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-cream px-4">
-      <div className="absolute -left-32 -top-32 h-72 w-72 rounded-full bg-camel/20 blur-3xl" />
-      <div className="absolute -bottom-32 -right-32 h-72 w-72 rounded-full bg-ink/10 blur-3xl" />
+    <div className="page-ambient relative flex min-h-screen items-center justify-center overflow-hidden px-4">
+      <div className="pointer-events-none absolute -right-40 -top-40 h-96 w-96 rounded-full bg-camel/15 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-ink/[0.06] blur-3xl" />
 
-      <div className="relative w-full max-w-md animate-in fade-in slide-in-from-right-4 duration-500">
-        <Card className="overflow-hidden border-line bg-white shadow-[0_20px_60px_-20px_rgba(31,41,55,0.25)]">
-          <div className="h-1 bg-camel" />
+      <div className="relative w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <Card className="overflow-hidden border-line bg-card shadow-[0_24px_70px_-24px_rgba(17,17,17,0.3)]">
+          <div className="h-1.5 bg-gradient-to-r from-camel via-camel-dark to-camel/40" />
 
           <CardHeader className="pb-5">
-            <div className="mb-5 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-camel text-ink shadow-sm">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-camel to-camel-dark text-ink shadow-pill ring-1 ring-black/5">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-6 w-6">
                   <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
                   <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z" />
                   <path d="M8 7h8M8 11h6" />
                 </svg>
               </div>
               <div>
-                <p className="text-xs font-medium uppercase tracking-[0.18em] text-camel">Library</p>
-                <p className="text-xs text-muted-foreground">Management System</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-camel-dark">Libro Library</p>
+                <p className="text-xs text-muted">Management System</p>
               </div>
             </div>
 
-            <CardTitle className="text-3xl font-semibold tracking-tight text-ink">
+            <CardTitle className="text-3xl font-extrabold tracking-tight text-ink">
               Welcome back
             </CardTitle>
-            <p className="mt-1 text-sm text-muted-foreground">Sign in to continue to your account.</p>
+            <p className="mt-1.5 text-sm text-muted">Sign in to continue to your account.</p>
           </CardHeader>
 
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -88,7 +88,7 @@ onSuccess: (data) => {
                   id="email"
                   type="email"
                   placeholder="you@example.com"
-                  className="h-11 border-line bg-card transition-all duration-200 placeholder:text-muted focus:border-camel focus:ring-camel/20"
+                  className="h-11 border-line bg-card placeholder:text-muted"
                   {...register("email")}
                 />
                 {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
@@ -100,7 +100,7 @@ onSuccess: (data) => {
                   id="password"
                   type="password"
                   placeholder="Enter your password"
-                  className="h-11 border-line bg-card transition-all duration-200 placeholder:text-muted focus:border-camel focus:ring-camel/20"
+                  className="h-11 border-line bg-card placeholder:text-muted"
                   {...register("password")}
                 />
                 {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
@@ -116,16 +116,16 @@ onSuccess: (data) => {
             <CardFooter className="flex flex-col gap-4 pt-2">
               <Button
                 type="submit"
-                className="h-11 w-full transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+                className="h-11 w-full"
                 disabled={mutation.isPending}
               >
                 {mutation.isPending ? "Signing in..." : "Sign in"}
               </Button>
 
-              <div className="flex items-center gap-3">
-                <div className="h-px w-10 bg-line" />
-                <p className="text-sm text-muted-foreground">Don't have an account?</p>
-                <div className="h-px w-10 bg-line" />
+              <div className="flex w-full items-center gap-3">
+                <div className="h-px flex-1 bg-line" />
+                <p className="text-sm text-muted">Don't have an account?</p>
+                <div className="h-px flex-1 bg-line" />
               </div>
 
               <Link

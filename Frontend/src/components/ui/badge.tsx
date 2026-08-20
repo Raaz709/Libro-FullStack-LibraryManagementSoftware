@@ -19,6 +19,9 @@ const badgeVariants = cva(
         destructive:
           "border-red-200 bg-red-50 text-red-600 [a]:hover:bg-red-100",
 
+        success:
+          "border-emerald-200 bg-emerald-50 text-emerald-700 [a]:hover:bg-emerald-100",
+
         outline:
           "border-line bg-card text-ink [a]:hover:border-camel [a]:hover:bg-cream/40 [a]:hover:text-camel-dark",
 

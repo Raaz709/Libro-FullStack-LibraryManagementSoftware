@@ -649,6 +649,15 @@ Frontend - Authentication
 - [x] Consistent card radius, table headers, headings, and empty states everywhere
 - [x] Mobile top bar shows Libro brand + avatar
 
+### Frontend - Design Polish (Bookly v2)
+- [x] Soft shadow system (`shadow-card`, `shadow-card-hover`, `shadow-lift`, `shadow-pill`) and `page-ambient` radial background washes
+- [x] Gradient camel sidebar, active nav pill with accent bar, gradient brand mark + avatar
+- [x] Gradient eyebrow bars in PageHeader and auth cards; refined focus rings and camel scrollbars
+- [x] Shared `StatCard` (gradient icon chips, tone variants, hover lift) and `Panel` (section header with accent dot + link) components
+- [x] Member / Librarian / Admin dashboards rebuilt on StatCard + Panel
+- [x] Button default gradient, Badge `success` variant, polished pill tabs and loading/empty states
+- [x] Login and register pages restyled with gradient accents and balanced layout
+
 ### Frontend - Reviews
 - [x] Review section on book details (average rating, member reviews, dates)
 - [x] Write / edit / delete your own review (1–5 stars + optional comment)

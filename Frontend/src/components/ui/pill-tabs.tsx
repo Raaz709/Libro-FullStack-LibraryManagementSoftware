@@ -26,18 +26,19 @@ export function PillTabs({
             key={option.value}
             type="button"
             onClick={() => onChange(option.value)}
+            aria-pressed={active}
             className={cn(
-              "inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-semibold capitalize transition-colors",
+              "inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-semibold capitalize shadow-sm transition-all duration-200",
               active
-                ? "bg-ink text-card"
-                : "bg-card text-muted hover:bg-cream-deep hover:text-ink",
+                ? "bg-ink text-card shadow-pill"
+                : "bg-card text-muted hover:-translate-y-px hover:bg-cream-deep hover:text-ink",
             )}
           >
             {option.label}
             {typeof option.count === "number" && option.count > 0 && (
               <span
                 className={cn(
-                  "rounded-full px-1.5 py-px text-[10px] font-bold leading-none",
+                  "rounded-full px-1.5 py-px text-[10px] font-bold leading-none transition-colors",
                   active ? "bg-camel text-ink" : "bg-cream text-camel-dark",
                 )}
               >

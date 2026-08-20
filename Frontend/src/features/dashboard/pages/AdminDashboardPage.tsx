@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import { Link } from "react-router-dom";
 import {
   BookOpen,
   Library,
@@ -9,7 +8,6 @@ import {
   CircleDollarSign,
   Users,
   ScrollText,
-  ArrowRight,
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { booksApi } from "@/api/books.api";
@@ -19,7 +17,10 @@ import { auditApi } from "@/api/audit.api";
 import { useBorrowRows, isOverdue } from "@/features/borrowing/hooks/useBorrowRows";
 import { useFines } from "@/features/fines/hooks/useFines";
 import { Badge } from "@/components/ui/badge";
+import { StatCard } from "@/components/ui/stat-card";
+import { Panel } from "@/components/ui/panel";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { LoadingState } from "@/components/ui/page-state";
 import { formatNPR } from "@/lib/currency";
 
 function formatDateTime(value: string | null | undefined) {
@@ -84,63 +85,61 @@ export default function AdminDashboardPage() {
       value: users.length,
       to: "/admin/users",
       icon: Users,
-      tone: "bg-cream text-camel-dark",
+      tone: "ink" as const,
     },
     {
       label: "Total books",
       value: books.length,
       to: "/admin/books",
       icon: BookOpen,
-      tone: "bg-camel/15 text-camel-dark",
+      tone: "camel" as const,
     },
     {
       label: "Copies",
       value: copies.length,
       to: "/admin/copies",
       icon: Library,
-      tone: "bg-cream text-camel-dark",
+      tone: "camel" as const,
     },
     {
       label: "Available copies",
       value: availableCopies,
       to: "/admin/copies",
       icon: CheckCircle2,
-      tone: "bg-emerald-50 text-emerald-700",
+      tone: "green" as const,
     },
     {
       label: "Active loans",
       value: activeLoans.length,
       to: "/admin/borrowing",
       icon: ArrowLeftRight,
-      tone: "bg-cream text-camel-dark",
+      tone: "camel" as const,
     },
     {
       label: "Overdue",
       value: overdueLoans.length,
       to: "/admin/returns",
       icon: AlertTriangle,
-      tone: "bg-red-50 text-red-600",
+      tone: "red" as const,
     },
     {
       label: "Unpaid fines",
       value: formatNPR(unpaidTotal),
       to: "/admin/fines",
       icon: CircleDollarSign,
-      tone: "bg-red-50 text-red-600",
+      tone: "red" as const,
     },
     {
       label: "Audit logs",
       value: auditLogs.length,
       to: "/admin/audit-logs",
       icon: ScrollText,
-      tone: "bg-cream text-camel-dark",
+      tone: "ink" as const,
     },
   ];
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-cream p-6 lg:p-8">
-      <div className="absolute -right-32 -top-32 h-72 w-72 rounded-full bg-camel/20 blur-3xl" />
-
+    <div className="page-ambient min-h-screen p-6 lg:p-8">
       <div className="relative mx-auto max-w-7xl animate-in fade-in duration-500">
         <PageHeader
           eyebrow="Admin"
@@ -149,7 +148,7 @@ export default function AdminDashboardPage() {
         />
 
         {isLoading ? (
-          <p className="py-16 text-center text-sm text-muted">Loading dashboard...</p>
+          <LoadingState label="Loading dashboard..." />
         ) : isError ? (
           <p className="py-16 text-center text-sm text-red-600">
             Failed to load dashboard: {(error as Error).message}
@@ -157,43 +156,21 @@ export default function AdminDashboardPage() {
         ) : (
           <>
             <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {stats.map((stat) => {
-                const Icon = stat.icon;
-                return (
-                  <Link
-                    key={stat.label}
-                    to={stat.to}
-                    className="group rounded-card border border-line bg-card p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-camel hover:shadow-md"
-                  >
-                    <div className={`flex h-10 w-10 items-center justify-center rounded-full ${stat.tone}`}>
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <p className="mt-4 truncate text-2xl font-extrabold tracking-tight text-ink">{stat.value}</p>
-                    <p className="mt-1 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.12em] text-muted">
-                      {stat.label}
-                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-                    </p>
-                  </Link>
-                );
-              })}
+              {stats.map((stat) => (
+                <StatCard key={stat.label} {...stat} />
+              ))}
             </div>
 
             <div className="grid gap-6 lg:grid-cols-2">
-              <section className="overflow-hidden rounded-card border border-line bg-card shadow-sm">
-                <div className="flex items-center justify-between border-b border-line-soft px-6 py-4">
-                  <h2 className="text-lg font-bold text-ink">Recent loans</h2>
-                  <Link to="/admin/borrowing" className="text-xs font-semibold text-camel-dark hover:text-ink">
-                    Manage borrowing →
-                  </Link>
-                </div>
+              <Panel title="Recent loans" linkTo="/admin/borrowing" linkLabel="Manage borrowing" bodyClassName="p-0 py-0">
                 {recentLoans.length === 0 ? (
                   <p className="px-6 py-12 text-center text-sm text-muted">No loans yet.</p>
                 ) : (
                   <ul className="divide-y divide-line-soft">
                     {recentLoans.map(({ item, user, book, copy }) => (
                       <li key={item.id} className="flex items-center gap-4 px-6 py-4">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cream">
-                          <BookOpen className="h-4 w-4 text-camel-dark" />
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-camel/30 to-camel/10 text-camel-dark">
+                          <BookOpen className="h-4 w-4" />
                         </div>
                         <div className="min-w-0 flex-1">
                           <p className="truncate text-sm font-bold text-ink">
@@ -211,23 +188,17 @@ export default function AdminDashboardPage() {
                     ))}
                   </ul>
                 )}
-              </section>
+              </Panel>
 
-              <section className="overflow-hidden rounded-card border border-line bg-card shadow-sm">
-                <div className="flex items-center justify-between border-b border-line-soft px-6 py-4">
-                  <h2 className="text-lg font-bold text-ink">Latest audit activity</h2>
-                  <Link to="/admin/audit-logs" className="text-xs font-semibold text-camel-dark hover:text-ink">
-                    All logs →
-                  </Link>
-                </div>
+              <Panel title="Latest audit activity" linkTo="/admin/audit-logs" linkLabel="All logs" bodyClassName="p-0 py-0">
                 {recentAuditLogs.length === 0 ? (
                   <p className="px-6 py-12 text-center text-sm text-muted">No audit logs yet.</p>
                 ) : (
                   <ul className="divide-y divide-line-soft">
                     {recentAuditLogs.map((log) => (
                       <li key={log.id} className="flex items-center gap-4 px-6 py-4">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cream">
-                          <ScrollText className="h-4 w-4 text-camel-dark" />
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-cream-deep to-cream text-camel-dark">
+                          <ScrollText className="h-4 w-4" />
                         </div>
                         <div className="min-w-0 flex-1">
                           <p className="truncate text-sm font-bold text-ink">{log.action || "Activity"}</p>
@@ -241,21 +212,15 @@ export default function AdminDashboardPage() {
                     ))}
                   </ul>
                 )}
-              </section>
+              </Panel>
             </div>
 
             <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_1fr]">
-              <section className="overflow-hidden rounded-card border border-line bg-card shadow-sm">
-                <div className="flex items-center justify-between border-b border-line-soft px-6 py-4">
-                  <h2 className="text-lg font-bold text-ink">Overdue items</h2>
-                  <Link to="/admin/returns" className="text-xs font-semibold text-camel-dark hover:text-ink">
-                    Returns →
-                  </Link>
-                </div>
+              <Panel title="Overdue items" linkTo="/admin/returns" linkLabel="Returns" bodyClassName="p-0 py-0">
                 {overdueLoans.length === 0 ? (
                   <div className="px-6 py-10 text-center">
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50">
-                      <CheckCircle2 className="h-6 w-6 text-emerald-600" />
+                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-600">
+                      <CheckCircle2 className="h-6 w-6" />
                     </div>
                     <p className="mt-3 text-sm font-bold text-ink">No overdue items.</p>
                   </div>
@@ -274,15 +239,9 @@ export default function AdminDashboardPage() {
                     ))}
                   </ul>
                 )}
-              </section>
+              </Panel>
 
-              <section className="overflow-hidden rounded-card border border-line bg-card shadow-sm">
-                <div className="flex items-center justify-between border-b border-line-soft px-6 py-4">
-                  <h2 className="text-lg font-bold text-ink">Unpaid fines</h2>
-                  <Link to="/admin/fines" className="text-xs font-semibold text-camel-dark hover:text-ink">
-                    Fines →
-                  </Link>
-                </div>
+              <Panel title="Unpaid fines" linkTo="/admin/fines" linkLabel="Fines" bodyClassName="p-0 py-0">
                 {unpaidFines.length === 0 ? (
                   <p className="px-6 py-10 text-center text-sm text-muted">No unpaid fines.</p>
                 ) : (
@@ -298,7 +257,7 @@ export default function AdminDashboardPage() {
                     ))}
                   </ul>
                 )}
-              </section>
+              </Panel>
             </div>
           </>
         )}

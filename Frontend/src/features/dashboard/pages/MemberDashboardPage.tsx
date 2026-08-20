@@ -5,7 +5,6 @@ import {
   Heart,
   Bell,
   BookOpen,
-  ArrowRight,
 } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import {
@@ -13,12 +12,18 @@ import {
   isLoanOverdue,
 } from "@/features/dashboard/hooks/useMemberDashboard";
 import { Badge } from "@/components/ui/badge";
+import { StatCard } from "@/components/ui/stat-card";
+import { Panel } from "@/components/ui/panel";
+import { LoadingState } from "@/components/ui/page-state";
 import { formatNPR } from "@/lib/currency";
 
 function formatDate(value: string | null | undefined) {
   if (!value) return "—";
   const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? "—" : date.toLocaleDateString();
+  return Number.isNaN(date.getTime()) ? "—" : date.toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+  });
 }
 
 export default function MemberDashboardPage() {
@@ -48,41 +53,38 @@ export default function MemberDashboardPage() {
       value: currentLoans.length,
       to: "/my-borrowing",
       icon: ArrowLeftRight,
-      tone: "bg-camel/15 text-camel-dark",
+      tone: "camel" as const,
     },
     {
       label: "Unpaid fines",
       value: formatNPR(unpaidTotal),
       to: "/my-fines",
       icon: CircleDollarSign,
-      tone: "bg-red-50 text-red-600",
+      tone: "red" as const,
     },
     {
       label: "Favorites",
       value: favoritesCount,
       to: "/favorites",
       icon: Heart,
-      tone: "bg-cream text-camel-dark",
+      tone: "ink" as const,
     },
     {
       label: "Unread notifications",
       value: unreadCount,
       to: "/notifications",
       icon: Bell,
-      tone: "bg-cream text-camel-dark",
+      tone: "camel" as const,
     },
   ];
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-cream p-6 lg:p-8">
-      <div className="absolute -right-32 -top-32 h-72 w-72 rounded-full bg-camel/20 blur-3xl" />
-      <div className="absolute -bottom-32 -left-32 h-72 w-72 rounded-full bg-ink/10 blur-3xl" />
-
+    <div className="page-ambient min-h-screen p-6 lg:p-8">
       <div className="relative mx-auto max-w-6xl animate-in fade-in duration-500">
         {/* Greeting */}
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-camel text-xl font-extrabold text-ink shadow-sm">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-camel to-camel-dark text-xl font-extrabold text-ink shadow-pill ring-1 ring-black/5">
               {avatarInitial}
             </div>
             <div>
@@ -92,7 +94,7 @@ export default function MemberDashboardPage() {
               <h1 className="text-3xl font-extrabold tracking-tight text-ink">{displayName}</h1>
             </div>
           </div>
-          <p className="rounded-full border border-line bg-card px-4 py-1.5 text-xs font-semibold text-camel-dark">
+          <p className="rounded-full border border-line bg-card/80 px-4 py-1.5 text-xs font-semibold text-camel-dark shadow-sm">
             {new Date().toLocaleDateString(undefined, {
               weekday: "long",
               month: "long",
@@ -103,7 +105,7 @@ export default function MemberDashboardPage() {
         </div>
 
         {isLoading ? (
-          <p className="py-16 text-center text-sm text-muted">Loading your dashboard...</p>
+          <LoadingState label="Loading your dashboard..." />
         ) : isError ? (
           <p className="py-16 text-center text-sm text-red-600">
             Failed to load dashboard: {error instanceof Error ? error.message : "Unknown error"}
@@ -112,45 +114,23 @@ export default function MemberDashboardPage() {
           <>
             {/* Stats */}
             <div className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-              {stats.map((stat) => {
-                const Icon = stat.icon;
-                return (
-                  <Link
-                    key={stat.label}
-                    to={stat.to}
-                    className="group rounded-card border border-line bg-card p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-camel hover:shadow-md"
-                  >
-                    <div className={`flex h-10 w-10 items-center justify-center rounded-full ${stat.tone}`}>
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <p className="mt-4 text-2xl font-extrabold tracking-tight text-ink">{stat.value}</p>
-                    <p className="mt-1 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.12em] text-muted">
-                      {stat.label}
-                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-                    </p>
-                  </Link>
-                );
-              })}
+              {stats.map((stat) => (
+                <StatCard key={stat.label} {...stat} />
+              ))}
             </div>
 
             <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
               {/* Current loans */}
-              <section className="overflow-hidden rounded-card border border-line bg-card shadow-sm">
-                <div className="flex items-center justify-between border-b border-line-soft px-6 py-4">
-                  <h2 className="text-lg font-bold text-ink">Your current loans</h2>
-                  <Link to="/my-borrowing" className="text-xs font-semibold text-camel-dark hover:text-ink">
-                    View all →
-                  </Link>
-                </div>
+              <Panel title="Your current loans" linkTo="/my-borrowing" bodyClassName="p-0 py-0">
                 {sortedLoans.length === 0 ? (
                   <div className="px-6 py-12 text-center">
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-cream">
-                      <BookOpen className="h-6 w-6 text-camel" />
+                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-camel/30 to-camel/10 text-camel">
+                      <BookOpen className="h-6 w-6" />
                     </div>
                     <p className="mt-3 text-sm font-bold text-ink">Nothing borrowed right now.</p>
                     <p className="mt-1 text-xs text-muted">Explore the collection and start reading.</p>
                     <Link to="/books">
-                      <span className="mt-4 inline-block rounded-full bg-ink px-4 py-2 text-xs font-semibold text-card transition-colors hover:bg-camel-dark">
+                      <span className="mt-4 inline-block rounded-full bg-ink px-4 py-2 text-xs font-semibold text-card shadow-sm transition-all hover:-translate-y-0.5 hover:bg-camel-dark">
                         Browse books
                       </span>
                     </Link>
@@ -159,13 +139,13 @@ export default function MemberDashboardPage() {
                   <ul className="divide-y divide-line-soft">
                     {sortedLoans.map(({ item, book, copy }) => (
                       <li key={item.id} className="flex items-center gap-4 px-6 py-4">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cream">
-                          <BookOpen className="h-4 w-4 text-camel-dark" />
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-camel/30 to-camel/10 text-camel-dark">
+                          <BookOpen className="h-4 w-4" />
                         </div>
                         <div className="min-w-0 flex-1">
                           <Link
                             to={`/books/${copy?.bookId ?? ""}`}
-                            className="block truncate text-sm font-bold text-ink hover:text-camel-dark"
+                            className="block truncate text-sm font-bold text-ink transition-colors hover:text-camel-dark"
                           >
                             {book?.title ?? `Book #${copy?.bookId ?? item.bookCopyId}`}
                           </Link>
@@ -183,20 +163,14 @@ export default function MemberDashboardPage() {
                     ))}
                   </ul>
                 )}
-              </section>
+              </Panel>
 
               {/* Unpaid fines */}
-              <section className="overflow-hidden rounded-card border border-line bg-card shadow-sm">
-                <div className="flex items-center justify-between border-b border-line-soft px-6 py-4">
-                  <h2 className="text-lg font-bold text-ink">Unpaid fines</h2>
-                  <Link to="/my-fines" className="text-xs font-semibold text-camel-dark hover:text-ink">
-                    View all →
-                  </Link>
-                </div>
+              <Panel title="Unpaid fines" linkTo="/my-fines" bodyClassName="p-0 py-0">
                 {unpaidFines.length === 0 ? (
                   <div className="px-6 py-12 text-center">
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50">
-                      <CircleDollarSign className="h-6 w-6 text-emerald-600" />
+                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-600">
+                      <CircleDollarSign className="h-6 w-6" />
                     </div>
                     <p className="mt-3 text-sm font-bold text-ink">No outstanding fines.</p>
                     <p className="mt-1 text-xs text-muted">You're in the clear.</p>
@@ -214,7 +188,7 @@ export default function MemberDashboardPage() {
                     ))}
                   </ul>
                 )}
-              </section>
+              </Panel>
             </div>
           </>
         )}

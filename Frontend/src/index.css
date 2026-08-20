@@ -9,6 +9,7 @@
   --color-card: #ffffff;
   --color-camel: #d09b7a;
   --color-camel-dark: #c49272;
+  --color-camel-soft: #f3e7dc;
   --color-ink: #111111;
   --color-muted: #666666;
   --color-line: #e2d6cb;
@@ -20,4 +21,77 @@
 
   --radius-card: 1.5rem;
   --radius-soft: 1rem;
+
+  /* Soft shadow system */
+  --shadow-card: 0 14px 45px -18px rgb(17 17 17 / 0.18);
+  --shadow-card-hover: 0 18px 50px -18px rgb(17 17 17 / 0.22);
+  --shadow-lift: 0 22px 55px -22px rgb(154 119 60 / 0.4);
+  --shadow-pill: 0 6px 18px -8px rgb(17 17 17 / 0.22);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background-color: var(--color-camel);
+    color: var(--color-ink);
+  }
+
+  /* Subtle, theme-matched scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-camel) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--color-camel) 55%, transparent);
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  :focus-visible {
+    outline: none;
+  }
+}
+
+@layer utilities {
+  /* Ambient page background: soft radial washes over the cream base */
+  .page-ambient {
+    background-color: var(--color-cream);
+    background-image:
+      radial-gradient(58rem 36rem at 112% -12%, rgb(208 155 122 / 0.16), transparent 62%),
+      radial-gradient(46rem 30rem at -14% 112%, rgb(17 17 17 / 0.07), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  /* Cautiously refined focus ring for form controls */
+  .focus-ring {
+    transition:
+      border-color 200ms ease,
+      box-shadow 200ms ease,
+      background-color 200ms ease;
+  }
+
+  /* Gradient wash for icon chips and accents */
+  .icon-chip {
+    background-image: linear-gradient(145deg, color-mix(in srgb, var(--color-camel) 22%, transparent), color-mix(in srgb, var(--color-camel) 8%, transparent));
+  }
 }

@@ -11,7 +11,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-camel text-ink shadow-sm hover:-translate-y-0.5 hover:bg-camel-dark hover:shadow-md active:translate-y-0",
+          "bg-gradient-to-b from-camel to-camel-dark text-ink shadow-pill hover:-translate-y-0.5 hover:from-camel-dark hover:to-camel-dark hover:shadow-md active:translate-y-0",
 
         outline:
           "border-line bg-card text-ink shadow-sm hover:-translate-y-0.5 hover:border-camel hover:bg-cream/40 hover:text-camel-dark hover:shadow-sm active:translate-y-0",

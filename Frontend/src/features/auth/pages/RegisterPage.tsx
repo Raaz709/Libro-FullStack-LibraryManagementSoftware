@@ -64,28 +64,23 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-cream px-4 py-8">
+    <div className="page-ambient relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-8">
+      <div className="pointer-events-none absolute -right-40 -top-40 h-96 w-96 rounded-full bg-camel/15 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-ink/[0.06] blur-3xl" />
 
-      {/* Background decoration */}
-      <div className="absolute -right-32 -top-32 h-72 w-72 rounded-full bg-camel/20 blur-3xl" />
-      <div className="absolute -bottom-32 -left-32 h-72 w-72 rounded-full bg-ink/10 blur-3xl" />
-
-      <div className="relative w-full max-w-md animate-in fade-in slide-in-from-left-4 duration-500">
-
-        <Card className="overflow-hidden border-line bg-white shadow-[0_20px_60px_-20px_rgba(31,41,55,0.25)]">
-
-          {/* Top accent */}
-          <div className="h-1 bg-camel" />
+      <div className="relative w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <Card className="overflow-hidden border-line bg-card shadow-[0_24px_70px_-24px_rgba(17,17,17,0.3)]">
+          <div className="h-1.5 bg-gradient-to-r from-camel via-camel-dark to-camel/40" />
 
           <CardHeader className="pb-5">
-            <div className="mb-5 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-camel text-ink shadow-sm">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-camel to-camel-dark text-ink shadow-pill ring-1 ring-black/5">
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="1.8"
-                  className="h-5 w-5"
+                  className="h-6 w-6"
                 >
                   <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
                   <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z" />
@@ -94,28 +89,24 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <p className="text-xs font-medium uppercase tracking-[0.18em] text-camel">
-                  Library
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-camel-dark">
+                  Libro Library
                 </p>
-                <p className="text-xs text-muted-foreground">
-                  Management System
-                </p>
+                <p className="text-xs text-muted">Management System</p>
               </div>
             </div>
 
-            <CardTitle className="text-3xl font-semibold tracking-tight text-ink">
+            <CardTitle className="text-3xl font-extrabold tracking-tight text-ink">
               Create your account
             </CardTitle>
 
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1.5 text-sm text-muted">
               Join the library and start managing your collection.
             </p>
           </CardHeader>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <CardContent className="space-y-4">
-
-              {/* Role */}
               <div className="space-y-2">
                 <Label className="text-sm font-medium text-ink">I am registering as a</Label>
                 <div className="grid grid-cols-2 gap-3">
@@ -134,7 +125,6 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              {/* Faculty password */}
               {selectedRole === 2 && (
                 <div className="animate-in fade-in slide-in-from-top-2 duration-300 space-y-2">
                   <Label
@@ -148,7 +138,7 @@ export default function RegisterPage() {
                     id="facultyPassword"
                     type="password"
                     placeholder="Enter faculty password"
-                    className="h-11 border-line bg-card transition-all duration-200 placeholder:text-muted focus:border-camel focus:ring-camel/20"
+                    className="h-11 border-line bg-card placeholder:text-muted"
                     {...register("facultyPassword")}
                   />
 
@@ -160,7 +150,6 @@ export default function RegisterPage() {
                 </div>
               )}
 
-              {/* Name */}
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-2">
                   <Label
@@ -173,7 +162,7 @@ export default function RegisterPage() {
                   <Input
                     id="firstName"
                     placeholder="John"
-                    className="h-11 border-line bg-card transition-all duration-200 placeholder:text-muted focus:border-camel focus:ring-camel/20"
+                    className="h-11 border-line bg-card placeholder:text-muted"
                     {...register("firstName")}
                   />
 
@@ -195,7 +184,7 @@ export default function RegisterPage() {
                   <Input
                     id="lastName"
                     placeholder="Doe"
-                    className="h-11 border-line bg-card transition-all duration-200 placeholder:text-muted focus:border-camel focus:ring-camel/20"
+                    className="h-11 border-line bg-card placeholder:text-muted"
                     {...register("lastName")}
                   />
 
@@ -207,7 +196,6 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              {/* Email */}
               <div className="space-y-2">
                 <Label
                   htmlFor="email"
@@ -220,7 +208,7 @@ export default function RegisterPage() {
                   id="email"
                   type="email"
                   placeholder="you@example.com"
-                  className="h-11 border-line bg-card transition-all duration-200 placeholder:text-muted focus:border-camel focus:ring-camel/20"
+                  className="h-11 border-line bg-card placeholder:text-muted"
                   {...register("email")}
                 />
 
@@ -231,14 +219,13 @@ export default function RegisterPage() {
                 )}
               </div>
 
-              {/* Phone */}
               <div className="space-y-2">
                 <Label
                   htmlFor="phone"
                   className="text-sm font-medium text-ink"
                 >
                   Phone
-                  <span className="ml-1 text-xs font-normal text-muted-foreground">
+                  <span className="ml-1 text-xs font-normal text-muted">
                     (optional)
                   </span>
                 </Label>
@@ -246,12 +233,11 @@ export default function RegisterPage() {
                 <Input
                   id="phone"
                   placeholder="98XXXXXXXX"
-                  className="h-11 border-line bg-card transition-all duration-200 placeholder:text-muted focus:border-camel focus:ring-camel/20"
+                  className="h-11 border-line bg-card placeholder:text-muted"
                   {...register("phone")}
                 />
               </div>
 
-              {/* Password */}
               <div className="space-y-2">
                 <Label
                   htmlFor="password"
@@ -264,7 +250,7 @@ export default function RegisterPage() {
                   id="password"
                   type="password"
                   placeholder="Create a password"
-                  className="h-11 border-line bg-card transition-all duration-200 placeholder:text-muted focus:border-camel focus:ring-camel/20"
+                  className="h-11 border-line bg-card placeholder:text-muted"
                   {...register("password")}
                 />
 
@@ -275,7 +261,6 @@ export default function RegisterPage() {
                 )}
               </div>
 
-              {/* Confirm password */}
               <div className="space-y-2">
                 <Label
                   htmlFor="confirmPassword"
@@ -288,7 +273,7 @@ export default function RegisterPage() {
                   id="confirmPassword"
                   type="password"
                   placeholder="Repeat your password"
-                  className="h-11 border-line bg-card transition-all duration-200 placeholder:text-muted focus:border-camel focus:ring-camel/20"
+                  className="h-11 border-line bg-card placeholder:text-muted"
                   {...register("confirmPassword")}
                 />
 
@@ -299,7 +284,6 @@ export default function RegisterPage() {
                 )}
               </div>
 
-              {/* Server error */}
               {serverError && (
                 <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2">
                   <p className="text-sm text-red-600">
@@ -312,7 +296,7 @@ export default function RegisterPage() {
             <CardFooter className="flex flex-col gap-4 pt-5">
               <Button
                 type="submit"
-                className="h-11 w-full transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+                className="h-11 w-full"
                 disabled={mutation.isPending}
               >
                 {mutation.isPending
@@ -320,14 +304,14 @@ export default function RegisterPage() {
                   : "Create account"}
               </Button>
 
-              <div className="flex items-center gap-3">
-                <div className="h-px w-10 bg-line" />
+              <div className="flex w-full items-center gap-3">
+                <div className="h-px flex-1 bg-line" />
 
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted">
                   Already have an account?
                 </p>
 
-                <div className="h-px w-10 bg-line" />
+                <div className="h-px flex-1 bg-line" />
               </div>
 
               <Link
@@ -369,8 +353,8 @@ function RoleCard({
       aria-pressed={active}
       className={`rounded-soft border px-3.5 py-3 text-left transition-all duration-200 ${
         active
-          ? "border-camel bg-camel/10 ring-2 ring-camel/25"
-          : "border-line bg-card hover:border-camel/60"
+          ? "border-camel bg-gradient-to-br from-camel/15 to-camel/5 shadow-sm ring-2 ring-camel/25"
+          : "border-line bg-card hover:-translate-y-0.5 hover:border-camel/60 hover:shadow-sm"
       }`}
     >
       <p className={`text-sm font-bold ${active ? "text-camel-dark" : "text-ink"}`}>{title}</p>
