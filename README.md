@@ -45,6 +45,15 @@ Demo accounts seeded by `seed.sql` (change passwords before real use):
 | Student   | student@libro.test  | `Student@123` |
 | Faculty   | faculty@libro.test  | `Faculty@123` |
 
+## Running Tests
+
+Backend unit tests cover authentication, JWT, payments, and borrow notifications:
+
+```bash
+cd Backend
+dotnet test
+```
+
 ## Tech Stack
 
 ### Backend
