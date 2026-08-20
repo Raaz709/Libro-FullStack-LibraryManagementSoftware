@@ -6,9 +6,12 @@ using Library_Management.Repositories.Interface;
 using Library_Management.Services;
 using Library_Management.Services.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using System.Security.Claims;
 using System.Text;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -119,6 +122,60 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddAuthorization();
 
+// Rate limiting
+var rateLimiting = builder.Configuration.GetSection("RateLimiting");
+var globalPerMinute = rateLimiting.GetValue("GlobalRequestsPerMinute", 120);
+var authPerMinute = rateLimiting.GetValue("AuthRequestsPerMinute", 10);
+var windowSeconds = rateLimiting.GetValue("WindowSeconds", 60);
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.OnRejected = async (context, cancellationToken) =>
+    {
+        context.HttpContext.Response.ContentType = "application/json";
+        context.HttpContext.Response.Headers.RetryAfter = "60";
+        await context.HttpContext.Response.WriteAsJsonAsync(new
+        {
+            success = false,
+            message = "Too many requests. Please try again later."
+        }, cancellationToken);
+    };
+
+    // Every endpoint: fixed window per IP (or per authenticated user).
+    options.AddPolicy("global", httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            PartitionKey(httpContext),
+            _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = globalPerMinute,
+                Window = TimeSpan.FromSeconds(windowSeconds),
+                QueueLimit = 0
+            }));
+
+    // Auth endpoints: strict per-IP window to slow down brute force.
+    options.AddPolicy("auth", httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = authPerMinute,
+                Window = TimeSpan.FromSeconds(windowSeconds),
+                QueueLimit = 0
+            }));
+});
+
+static string PartitionKey(HttpContext httpContext)
+{
+    var userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    if (!string.IsNullOrEmpty(userId))
+    {
+        return "user:" + userId;
+    }
+
+    return httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+}
+
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 
@@ -152,6 +209,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors("AllowFrontend");
+
+app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();

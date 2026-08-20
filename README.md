@@ -114,6 +114,25 @@ GitHub Actions (`.github/workflows/ci.yml`) runs on every push to `master` and o
 - **Backend**: `dotnet restore` → Release build → xUnit test suite.
 - **Frontend**: `npm ci` → ESLint → production build.
 
+## Rate Limiting
+
+The API uses ASP.NET Core rate limiting (fixed-window, configured in `appsettings.json`):
+
+| Policy | Limit | Partition | Applied to |
+|--------|-------|-----------|------------|
+| `global` | 120 req/min | IP, or authenticated user id | All endpoints |
+| `auth` | 10 req/min | IP | `/api/auth/*` (login, register, refresh, logout) |
+
+Exceeding a limit returns `429 Too Many Requests` with a JSON body and a `Retry-After` header. Tune via:
+
+```json
+"RateLimiting": {
+  "GlobalRequestsPerMinute": 120,
+  "AuthRequestsPerMinute": 10,
+  "WindowSeconds": 60
+}
+```
+
 ## Tech Stack
 
 ### Backend
