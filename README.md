@@ -439,6 +439,17 @@ Frontend - Authentication
 - [x] `/` redirects by role (HomeRedirect)
 - [x] Login lands on role dashboard: members → `/dashboard`, Librarian → `/librarian`, Admin → `/admin`
 
+### Frontend - Member Self-Service Pages (Student/Faculty)
+- [x] My Borrowing `/my-borrowing`: active / overdue / returned tabs, book + barcode, overdue badges, stat cards
+- [x] My Fines `/my-fines`: outstanding total, status tabs, self-pay dialog (`POST /api/payments`)
+- [x] My Payments `/my-payments`: payment history (fine, amount रू, method, reference, date)
+- [x] All queries scoped to the logged-in user (no staff-only endpoints used)
+
+### Frontend - Book Details (All Roles)
+- [x] `/books/:bookId` shared by all roles (fix: Admin/Librarian no longer redirected to dashboard)
+- [x] Role-aware back link: Admin → `/admin/books`, Librarian → `/librarian/books`, member → `/books`
+- [x] All ComingSoon placeholder pages removed
+
 ### Frontend - Design System (Bookly)
 - [x] Warm beige page background (#E4DAD1), white cards, 24px rounded corners
 - [x] Camel/terracotta brand accent (#D09B7A) with charcoal text (#111)

@@ -7,7 +7,6 @@ import RegisterPage from "@/features/auth/pages/RegisterPage";
 import ProtectedRoute from "@/routes/ProtectedRoute";
 import HomeRedirect from "@/routes/HomeRedirect";
 import SidebarLayout from "@/components/layout/SidebarLayout";
-import ComingSoon from "@/components/ComingSoon";
 import BooksPage from "@/features/books/pages/BooksPage";
 import BookDetailsPage from "@/features/books/pages/BookDetailsPage";
 import AuthorsPage from "@/features/authors/pages/AuthorsPage";
@@ -28,6 +27,9 @@ import FavouritesPage from "@/features/favourites/pages/FavouritesPage";
 import NotificationsPage from "@/features/notifications/pages/NotificationsPage";
 import MemberDashboardPage from "@/features/dashboard/pages/MemberDashboardPage";
 import LibrarianDashboardPage from "@/features/dashboard/pages/LibrarianDashboardPage";
+import MyBorrowingPage from "@/features/my/pages/MyBorrowingPage";
+import MyFinesPage from "@/features/my/pages/MyFinesPage";
+import MyPaymentsPage from "@/features/my/pages/MyPaymentsPage";
 
 export default function App() {
   const isHydrating = useAuthStore((state) => state.isHydrating);
@@ -78,10 +80,9 @@ export default function App() {
             <Route element={<ProtectedRoute roles={["Student", "Faculty"]} />}>
               <Route path="/dashboard" element={<MemberDashboardPage />} />
               <Route path="/books" element={<BooksPage />} />
-              <Route path="/books/:bookId" element={<BookDetailsPage />} />
-              <Route path="/my-borrowing" element={<ComingSoon />} />
-              <Route path="/my-fines" element={<ComingSoon />} />
-              <Route path="/my-payments" element={<ComingSoon />} />
+              <Route path="/my-borrowing" element={<MyBorrowingPage />} />
+              <Route path="/my-fines" element={<MyFinesPage />} />
+              <Route path="/my-payments" element={<MyPaymentsPage />} />
               <Route path="/favorites" element={<FavouritesPage />} />
             </Route>
 
@@ -118,6 +119,7 @@ export default function App() {
             </Route>
 
             {/* Shared for all authenticated roles */}
+            <Route path="/books/:bookId" element={<BookDetailsPage />} />
             <Route path="/notifications" element={<NotificationsPage />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Route>

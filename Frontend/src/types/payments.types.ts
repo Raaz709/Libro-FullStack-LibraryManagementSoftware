@@ -8,3 +8,10 @@ export interface Payment {
   paidAt: string;
   processedByUserId: number | null;
 }
+
+export interface CreatePaymentPayload {
+  fineId: number;
+  amount: number;
+  paymentMethod: string;
+  transactionReference?: string | null;
+}

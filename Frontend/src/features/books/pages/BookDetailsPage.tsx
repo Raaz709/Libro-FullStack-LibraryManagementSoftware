@@ -49,6 +49,8 @@ function formatPrice(value: number | null) {
 export default function BookDetailsPage() {
   const { bookId } = useParams();
   const token = useAuthStore((state) => state.token);
+  const role = useAuthStore((state) => state.user?.role);
+  const booksPath = role === "Admin" ? "/admin/books" : role === "Librarian" ? "/librarian/books" : "/books";
   const id = Number(bookId);
   const isValidId = Number.isInteger(id) && id > 0;
   const queryEnabled = !!token && isValidId;
@@ -71,7 +73,7 @@ export default function BookDetailsPage() {
 
   const favoriteToggle = useFavoriteToggle(id, queryEnabled);
 
-  if (!isValidId) return <BookNotFound />;
+  if (!isValidId) return <BookNotFound booksPath={booksPath} />;
   if (isLoading) return <PageMessage message="Loading book details..." />;
   if (isError || !book) {
     return <PageMessage message={`Failed to load book details: ${error?.message ?? "Book not found."}`} error />;
@@ -90,7 +92,7 @@ export default function BookDetailsPage() {
       <div className="absolute -bottom-32 -right-32 h-72 w-72 rounded-full bg-ink/10 blur-3xl" />
 
       <div className="relative mx-auto max-w-6xl animate-in fade-in duration-500">
-        <Link to="/books" className="mb-8 inline-block text-sm font-medium text-camel-dark transition-colors hover:text-camel">
+        <Link to={booksPath} className="mb-8 inline-block text-sm font-medium text-camel-dark transition-colors hover:text-camel">
           ← Back to books
         </Link>
 
@@ -208,12 +210,12 @@ function PageMessage({ message, error = false }: { message: string; error?: bool
   );
 }
 
-function BookNotFound() {
+function BookNotFound({ booksPath }: { booksPath: string }) {
   return (
     <div className="min-h-screen bg-cream p-6">
       <div className="mx-auto max-w-6xl">
         <p className="text-muted">This book could not be found.</p>
-        <Link to="/books" className="mt-4 inline-block text-sm font-medium text-camel-dark hover:text-camel">Back to books</Link>
+        <Link to={booksPath} className="mt-4 inline-block text-sm font-medium text-camel-dark hover:text-camel">Back to books</Link>
       </div>
     </div>
   );
