@@ -18,6 +18,7 @@ public class UserRepository : IUserRepository
         const string sql = @"
             SELECT 
                 Id,
+                RoleId,
                 FirstName,
                 LastName,
                 Email,
@@ -38,6 +39,7 @@ public class UserRepository : IUserRepository
         const string sql = @"
             SELECT 
                 Id,
+                RoleId,
                 FirstName,
                 LastName,
                 Email,
