@@ -54,6 +54,38 @@ cd Backend
 dotnet test
 ```
 
+## Email (SMTP)
+
+Outbound email is sent with MailKit and is optional — the app runs fine with SMTP disabled.
+
+Configuration (via user secrets or environment variables):
+
+| Key | Description |
+|-----|-------------|
+| `Email:Enable` | Set `true` to send real emails |
+| `Email:Host` | SMTP host (e.g. `smtp.gmail.com`) |
+| `Email:Port` | SMTP port (default `587`) |
+| `Email:Username` | SMTP username |
+| `Email:Password` | SMTP password or app password |
+| `Email:From` | Sender address |
+| `Email:FromName` | Sender display name |
+| `Email:UseSsl` | Use SSL on connect |
+
+Example:
+
+```bash
+cd Backend
+dotnet user-secrets set "Email:Enable" "true"
+dotnet user-secrets set "Email:Host" "smtp.gmail.com"
+dotnet user-secrets set "Email:Port" "587"
+dotnet user-secrets set "Email:Username" "you@gmail.com"
+dotnet user-secrets set "Email:Password" "your-app-password"
+dotnet user-secrets set "Email:From" "you@gmail.com"
+dotnet user-secrets set "Email:FromName" "Library"
+```
+
+Emails are rendered from `emailtemplates` (keyed by `Code`) and support `{{Key}}` placeholders. A welcome email is sent to new members on registration. SMTP failures are logged and never break API requests.
+
 ## Tech Stack
 
 ### Backend

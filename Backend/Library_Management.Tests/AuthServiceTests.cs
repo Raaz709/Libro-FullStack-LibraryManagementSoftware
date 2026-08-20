@@ -15,10 +15,11 @@ public class AuthServiceTests
     private readonly Mock<IUserRepository> _userRepo = new();
     private readonly Mock<IRefreshTokenRepository> _refreshRepo = new();
     private readonly Mock<IJwtService> _jwtService = new();
+    private readonly Mock<IEmailService> _emailService = new();
     private readonly IConfiguration _config = BuildConfig();
 
     private AuthService CreateService() =>
-        new(_userRepo.Object, _refreshRepo.Object, _jwtService.Object, _config);
+        new(_userRepo.Object, _refreshRepo.Object, _jwtService.Object, _config, _emailService.Object);
 
     private static IConfiguration BuildConfig()
     {
@@ -99,6 +100,42 @@ public class AuthServiceTests
                 Password = "Pass@123",
                 RoleId = 3
             }));
+    }
+
+    [Fact]
+    public async Task RegisterAsync_Student_SendsWelcomeEmail()
+    {
+        _userRepo.Setup(r => r.GetByEmailAsync("new@test.com"))
+            .ReturnsAsync((User?)null);
+        _userRepo.Setup(r => r.CreateAsync(It.IsAny<User>())).ReturnsAsync(42);
+
+        await CreateService().RegisterAsync(new RegisterRequestDto
+        {
+            Email = "new@test.com",
+            Password = "Pass@123",
+            RoleId = 1
+        });
+
+        _emailService.Verify(e => e.SendWelcomeAsync(It.Is<User>(u =>
+            u.Email == "new@test.com" &&
+            u.MembershipNumber.StartsWith("LBM-"))), Times.Once);
+    }
+
+    [Fact]
+    public async Task RegisterAsync_CreateFails_DoesNotSendWelcomeEmail()
+    {
+        _userRepo.Setup(r => r.GetByEmailAsync("new@test.com"))
+            .ReturnsAsync((User?)null);
+        _userRepo.Setup(r => r.CreateAsync(It.IsAny<User>())).ReturnsAsync(0);
+
+        await CreateService().RegisterAsync(new RegisterRequestDto
+        {
+            Email = "new@test.com",
+            Password = "Pass@123",
+            RoleId = 1
+        });
+
+        _emailService.Verify(e => e.SendWelcomeAsync(It.IsAny<User>()), Times.Never);
     }
 
     [Theory]

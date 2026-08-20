@@ -13,17 +13,20 @@ public class AuthService : IAuthService
     private readonly IRefreshTokenRepository _refreshTokenRepository;
     private readonly IJwtService _jwtService;
     private readonly IConfiguration _configuration;
+    private readonly IEmailService _emailService;
 
     public AuthService(
         IUserRepository userRepository,
         IRefreshTokenRepository refreshTokenRepository,
         IJwtService jwtService,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        IEmailService emailService)
     {
         _userRepository = userRepository;
         _refreshTokenRepository = refreshTokenRepository;
         _jwtService = jwtService;
         _configuration = configuration;
+        _emailService = emailService;
     }
 
     public async Task<LoginResponseDto?> LoginAsync(LoginRequestDto request, string? ipAddress)
@@ -108,7 +111,12 @@ public class AuthService : IAuthService
             MembershipNumber = GenerateMembershipNumber()
         };
 
-        return await _userRepository.CreateAsync(user);
+        var id = await _userRepository.CreateAsync(user);
+        if (id > 0)
+        {
+            await _emailService.SendWelcomeAsync(user);
+        }
+        return id;
     }
 
     private static string GenerateMembershipNumber()

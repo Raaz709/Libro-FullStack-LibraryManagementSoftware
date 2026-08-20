@@ -1,5 +1,6 @@
 using Library_Management.Data;
 using Library_Management.Middleware;
+using Library_Management.Models;
 using Library_Management.Repositories;
 using Library_Management.Repositories.Interface;
 using Library_Management.Services;
@@ -53,6 +54,11 @@ builder.Services.AddScoped<IActivityLogService, ActivityLogService>();
 builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
 builder.Services.AddScoped<IAuditLogService, AuditLogService>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+
+// Email
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Email"));
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Background services
 builder.Services.AddHostedService<OverdueNotificationService>();

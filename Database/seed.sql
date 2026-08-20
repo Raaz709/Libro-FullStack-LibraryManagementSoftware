@@ -88,4 +88,13 @@ INSERT INTO `bookcopies` (`BookId`, `ShelfId`, `Barcode`, `ConditionStatus`, `St
   (3, 4, 'BC-CN-0002',   'Good',   'Available', '2025-03-01', 39.99),
   (4, 4, 'BC-BPF-0001',  'Good',   'Available', '2025-04-20', 49.99);
 
+-- ---------------------------------------------------------------------------
+-- Email templates - SMTP body uses {{Key}} placeholders
+-- ---------------------------------------------------------------------------
+
+INSERT INTO `emailtemplates` (`Name`, `Code`, `Subject`, `BodyHtml`, `Description`, `CreatedAt`, `UpdatedAt`) VALUES
+  ('Welcome', 'Welcome', 'Welcome to the Library, {{FirstName}}!',
+   '<p>Hello {{FirstName}} {{LastName}},</p><p>Welcome to the Library! Your membership is now active.</p><p>Your membership number is <strong>{{MembershipNumber}}</strong>.</p><p>You can log in with {{Email}}.</p><p>Regards,<br/>Library Team</p>',
+   'Sent to new members after registration.', NOW(), NOW());
+
 SET FOREIGN_KEY_CHECKS = 1;
