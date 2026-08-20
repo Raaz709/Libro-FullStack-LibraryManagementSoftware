@@ -1,10 +1,12 @@
 ﻿using Library_Management.Common;
 using Library_Management.Models;
 using Library_Management.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library_Management.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class BorrowItemsController : ControllerBase
@@ -39,6 +41,7 @@ public class BorrowItemsController : ControllerBase
     }
 
     [HttpGet("overdue")]
+    [Authorize(Roles = "Librarian,Admin")]
     public async Task<IActionResult> GetOverdueItems()
     {
         var items = await _borrowItemService.GetOverdueItemsAsync();
@@ -46,6 +49,7 @@ public class BorrowItemsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Librarian,Admin")]
     public async Task<IActionResult> Create([FromBody] BorrowItem item)
     {
         var id = await _borrowItemService.CreateAsync(item);
@@ -54,6 +58,7 @@ public class BorrowItemsController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
+    [Authorize(Roles = "Librarian,Admin")]
     public async Task<IActionResult> Update(int id, [FromBody] BorrowItem item)
     {
         item.Id = id;
@@ -63,6 +68,7 @@ public class BorrowItemsController : ControllerBase
     }
 
     [HttpPut("{id:int}/return")]
+    [Authorize(Roles = "Librarian,Admin")]
     public async Task<IActionResult> ReturnItem(int id, [FromBody] string? conditionAtReturn)
     {
         var returned = await _borrowItemService.ReturnItemAsync(id, conditionAtReturn);
@@ -71,6 +77,7 @@ public class BorrowItemsController : ControllerBase
     }
 
     [HttpPut("{id:int}/renew")]
+    [Authorize(Roles = "Librarian,Admin")]
     public async Task<IActionResult> RenewItem(int id, [FromBody] DateTime newDueDate)
     {
         var renewed = await _borrowItemService.RenewItemAsync(id, newDueDate);
@@ -79,6 +86,7 @@ public class BorrowItemsController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
+    [Authorize(Roles = "Librarian,Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         var deleted = await _borrowItemService.DeleteAsync(id);

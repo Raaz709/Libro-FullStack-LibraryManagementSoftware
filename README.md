@@ -7,8 +7,43 @@ A full-stack Library Management System designed to manage books, users, borrowin
 ```
 Library_Management/
 ├── Backend/     # ASP.NET Core Web API (C#, Dapper, MySQL)
-└── Frontend/    # React + TypeScript + Vite
+├── Frontend/    # React + TypeScript + Vite
+└── Database/    # schema.sql + seed.sql (reproducible MySQL setup)
 ```
+
+## Database Setup
+
+The database is MySQL 8.x and is fully reproducible from the SQL files in `Database/`.
+
+1. Create the schema and seed data:
+
+   ```bash
+   mysql -u root -p < Database/schema.sql
+   mysql -u root -p library_management < Database/seed.sql
+   ```
+
+2. Configure the connection string (user secrets or an environment variable):
+
+   ```bash
+   cd Backend
+   dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=localhost;Port=3306;Database=library_management;User ID=root;Password=YOUR_PASSWORD;"
+   ```
+
+3. Configure a strong JWT signing key (required, at least 32 bytes):
+
+   ```bash
+   cd Backend
+   dotnet user-secrets set "Jwt:Key" "<a-64-byte-random-base64-string>"
+   ```
+
+Demo accounts seeded by `seed.sql` (change passwords before real use):
+
+| Role      | Email               | Password      |
+|-----------|---------------------|---------------|
+| Admin     | admin@libro.test    | `Admin@123`   |
+| Librarian | librarian@libro.test| `Librarian@123` |
+| Student   | student@libro.test  | `Student@123` |
+| Faculty   | faculty@libro.test  | `Faculty@123` |
 
 ## Tech Stack
 
