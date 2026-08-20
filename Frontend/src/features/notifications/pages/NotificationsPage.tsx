@@ -44,6 +44,7 @@ const typeVariant: Record<string, "default" | "secondary" | "destructive" | "out
   Info: "secondary",
   Warning: "outline",
   Due: "destructive",
+  Overdue: "destructive",
   Success: "secondary",
 };
 

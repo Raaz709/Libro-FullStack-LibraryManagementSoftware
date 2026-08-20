@@ -21,6 +21,40 @@ public class BorrowItemRepository : IBorrowItemRepository
             sql,
             new { Id = id });
     }
+
+    public async Task<BorrowItemNotificationContext?> GetNotificationContextByItemIdAsync(int id)
+    {
+        const string sql = @"
+            SELECT bt.UserId, b.Title AS BookTitle
+            FROM borrowitems bi
+            INNER JOIN borrowtransactions bt
+                ON bt.Id = bi.BorrowTransactionId
+            INNER JOIN bookcopies bc
+                ON bc.Id = bi.BookCopyId
+            INNER JOIN books b
+                ON b.Id = bc.BookId
+            WHERE bi.Id = @Id;";
+
+        using var connection = _connectionFactory.CreateConnection();
+        return await connection.QueryFirstOrDefaultAsync<BorrowItemNotificationContext>(sql, new { Id = id });
+    }
+
+    public async Task<BorrowItemNotificationContext?> GetNotificationContextAsync(int transactionId, int copyId)
+    {
+        const string sql = @"
+            SELECT bt.UserId, b.Title AS BookTitle
+            FROM borrowtransactions bt
+            INNER JOIN bookcopies bc
+                ON bc.Id = @CopyId
+            INNER JOIN books b
+                ON b.Id = bc.BookId
+            WHERE bt.Id = @TransactionId;";
+
+        using var connection = _connectionFactory.CreateConnection();
+        return await connection.QueryFirstOrDefaultAsync<BorrowItemNotificationContext>(
+            sql,
+            new { TransactionId = transactionId, CopyId = copyId });
+    }
     private readonly IDbConnectionFactory _connectionFactory;
 
     public BorrowItemRepository(IDbConnectionFactory connectionFactory)

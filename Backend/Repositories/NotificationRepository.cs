@@ -16,7 +16,7 @@ public class NotificationRepository : INotificationRepository
     public async Task<IEnumerable<Notification>> GetAllAsync()
     {
         const string sql = @"
-            SELECT Id, UserId, Title, Message, Type, IsRead, CreatedAt
+            SELECT Id, UserId, Title, Message, Type, ReferenceId, IsRead, CreatedAt
             FROM notifications
             ORDER BY Id DESC;";
 
@@ -27,7 +27,7 @@ public class NotificationRepository : INotificationRepository
     public async Task<Notification?> GetByIdAsync(int id)
     {
         const string sql = @"
-            SELECT Id, UserId, Title, Message, Type, IsRead, CreatedAt
+            SELECT Id, UserId, Title, Message, Type, ReferenceId, IsRead, CreatedAt
             FROM notifications
             WHERE Id = @Id;";
 
@@ -38,7 +38,7 @@ public class NotificationRepository : INotificationRepository
     public async Task<IEnumerable<Notification>> GetByUserIdAsync(int userId)
     {
         const string sql = @"
-            SELECT Id, UserId, Title, Message, Type, IsRead, CreatedAt
+            SELECT Id, UserId, Title, Message, Type, ReferenceId, IsRead, CreatedAt
             FROM notifications
             WHERE UserId = @UserId
             ORDER BY Id DESC;";
@@ -50,7 +50,7 @@ public class NotificationRepository : INotificationRepository
     public async Task<IEnumerable<Notification>> GetUnreadByUserIdAsync(int userId)
     {
         const string sql = @"
-            SELECT Id, UserId, Title, Message, Type, IsRead, CreatedAt
+            SELECT Id, UserId, Title, Message, Type, ReferenceId, IsRead, CreatedAt
             FROM notifications
             WHERE UserId = @UserId AND IsRead = 0
             ORDER BY Id DESC;";
@@ -62,12 +62,24 @@ public class NotificationRepository : INotificationRepository
     public async Task<int> CreateAsync(Notification notification)
     {
         const string sql = @"
-            INSERT INTO notifications (UserId, Title, Message, Type, IsRead, CreatedAt)
-            VALUES (@UserId, @Title, @Message, @Type, 0, NOW());
+            INSERT INTO notifications (UserId, Title, Message, Type, ReferenceId, IsRead, CreatedAt)
+            VALUES (@UserId, @Title, @Message, @Type, @ReferenceId, 0, NOW());
             SELECT LAST_INSERT_ID();";
 
         using var connection = _connectionFactory.CreateConnection();
         return await connection.ExecuteScalarAsync<int>(sql, notification);
+    }
+
+    public async Task<bool> ExistsByTypeAndReferenceAsync(string type, int referenceId)
+    {
+        const string sql = @"
+            SELECT COUNT(1)
+            FROM notifications
+            WHERE Type = @Type AND ReferenceId = @ReferenceId;";
+
+        using var connection = _connectionFactory.CreateConnection();
+        var count = await connection.ExecuteScalarAsync<int>(sql, new { Type = type, ReferenceId = referenceId });
+        return count > 0;
     }
 
     public async Task<bool> MarkAsReadAsync(int id)

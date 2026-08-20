@@ -198,6 +198,18 @@ Library_Management/
 - [x] Mark all notifications as read for a user
 - [x] Delete a notification
 
+### Automated Notifications
+- [x] Notification sent when a book is issued (`BorrowItemService.CreateAsync`)
+- [x] Notification sent when a book is returned (`ReturnItemAsync`)
+- [x] Notification sent when a loan is renewed (`RenewItemAsync`)
+- [x] Notification sent when a fine is created (`FineService.CreateAsync`)
+- [x] Notification sent when a fine is waived (`WaiveFineAsync`)
+- [x] Notification sent when a payment is received (`PaymentService.CreateAsync`)
+- [x] Overdue notifications via background service (`OverdueNotificationService`, interval `Notifications:OverdueIntervalMinutes`)
+- [x] Overdue notifications deduplicated per borrow item via `ReferenceId` column
+- [x] `ReferenceId` column added to the notifications table
+- [x] `NotificationService.NotifyAsync` never throws (notifications can't break primary operations)
+
 ### Email Templates
 - [x] Get all email templates
 - [x] Get email template by ID
@@ -372,12 +384,13 @@ Frontend - Authentication
 - [x] Sends roleId + faculty password with registration payload
 
 ### Frontend - Notifications (All Roles)
-- [x] Notifications list with type-aware icons (due, warning, success, info)
+- [x] Notifications list with type-aware icons (due, warning, success, info, overdue)
 - [x] Unread highlighting with indicator dot
 - [x] Mark individual notification as read
 - [x] Mark all as read
 - [x] All / unread filter with unread count badge
 - [x] Relative timestamps and empty states
+- [x] `referenceId` field surfaced on the notification type
 
 ### Frontend - Member Dashboard (Student/Faculty)
 - [x] Welcome header with avatar, name, and current date

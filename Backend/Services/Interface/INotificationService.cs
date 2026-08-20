@@ -9,6 +9,8 @@ public interface INotificationService
     Task<IEnumerable<Notification>> GetByUserIdAsync(int userId);
     Task<IEnumerable<Notification>> GetUnreadByUserIdAsync(int userId);
     Task<int> CreateAsync(Notification notification);
+    Task<bool> ExistsByTypeAndReferenceAsync(string type, int referenceId);
+    Task NotifyAsync(int userId, string title, string message, string type, int? referenceId = null);
     Task<bool> MarkAsReadAsync(int id);
     Task<bool> MarkAllAsReadByUserIdAsync(int userId);
     Task<bool> DeleteAsync(int id);
