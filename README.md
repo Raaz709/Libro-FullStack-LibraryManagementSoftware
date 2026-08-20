@@ -47,12 +47,63 @@ Demo accounts seeded by `seed.sql` (change passwords before real use):
 
 ## Running Tests
 
-Backend unit tests cover authentication, JWT, payments, and borrow notifications:
+Backend xUnit tests cover authentication, JWT, payments, borrow notifications, and the new reservation flow:
 
 ```bash
 cd Backend
 dotnet test
 ```
+
+Frontend tests (Vitest + React Testing Library) cover currency/utility helpers, JWT decoding, auth form validation, and the reviews component:
+
+```bash
+cd Frontend
+npm test
+```
+
+## Reviews
+
+Members can rate (1–5 stars) and review books.
+
+- `GET /api/reviews/book/{bookId}` → reviews plus an average-rating summary (public to authenticated users)
+- `POST /api/reviews`, `PUT /api/reviews/{id}`, `DELETE /api/reviews/{id}` (owner or Librarian/Admin)
+- One review per user per book (unique constraint, duplicate submission returns `409`)
+- Frontend: review section on the book details page (write/edit/delete your own review, live average)
+
+## Reservations
+
+Members can place holds on books; staff fulfill or cancel them.
+
+- `GET /api/reservations/my`, `POST /api/reservations` (member)
+- `POST /api/reservations/{id}/cancel` (owner or staff)
+- `GET /api/reservations`, `POST /api/reservations/{id}/fulfill` (Librarian/Admin)
+- Frontend: Reserve button on book details, `/my-reservations` (members), `/librarian/reservations` + `/admin/reservations` (staff)
+
+## Settings (Admin)
+
+Admin-managed key/value configuration stored in the `settings` table.
+
+- `GET /api/settings`, `PUT /api/settings/{key}`, `DELETE /api/settings/{key}` (Admin)
+- Frontend: `/admin/settings` page with inline edit/delete per key
+- Seeded defaults include library contact info and borrowing limits
+
+## Permissions (Admin)
+
+Admin-managed permissions assigned to roles via the `permissions` / `rolepermissions` tables.
+
+- `GET /api/permissions`, `GET /api/permissions/roles`, `POST` / `PUT` / `DELETE`, `POST /api/permissions/assign`, `POST /api/permissions/revoke` (Admin)
+- Frontend: `/admin/permissions` page with role toggles per permission
+- Seeded permissions cover catalog, circulation, fines, reservations, reviews, users, settings, and reporting
+
+## Pagination
+
+The books endpoint is server-side paginated with filtering, search, and sorting:
+
+```text
+GET /api/books?page=1&pageSize=20&search=clean&status=Active&language=English&categoryId=3&sort=title
+```
+
+Responses use a `PagedResult` envelope (`items`, `total`, `page`, `pageSize`, `totalPages`). The frontend books collection page pages over the server and keeps search, filters, and sort in the query.
 
 ## Email (SMTP)
 
@@ -112,7 +163,7 @@ Override MySQL root password with `MYSQL_ROOT_PASSWORD`. SMTP/email stays disabl
 GitHub Actions (`.github/workflows/ci.yml`) runs on every push to `master` and on pull requests:
 
 - **Backend**: `dotnet restore` → Release build → xUnit test suite.
-- **Frontend**: `npm ci` → ESLint → production build.
+- **Frontend**: `npm ci` → ESLint → Vitest test suite → production build.
 
 ## Rate Limiting
 
@@ -597,5 +648,40 @@ Frontend - Authentication
 - [x] Shared components: PageHeader, PillTabs, PageState, MessageBanner used across all pages
 - [x] Consistent card radius, table headers, headings, and empty states everywhere
 - [x] Mobile top bar shows Libro brand + avatar
+
+### Frontend - Reviews
+- [x] Review section on book details (average rating, member reviews, dates)
+- [x] Write / edit / delete your own review (1–5 stars + optional comment)
+- [x] Live average from the server summary
+- [x] Duplicate review per book blocked by backend
+
+### Frontend - Reservations
+- [x] Reserve button on book details (members), disabled while already reserved
+- [x] My Reservations page `/my-reservations` with cancel action
+- [x] Staff reservations page `/librarian/reservations` + `/admin/reservations` with fulfill/cancel
+- [x] Search + status badges (Waiting / Fulfilled / Cancelled)
+
+### Frontend - Settings (Admin)
+- [x] `/admin/settings` key/value manager with inline edit, save, and delete
+
+### Frontend - Permissions (Admin)
+- [x] `/admin/permissions` manager with create, delete, and per-role assign/revoke toggles
+
+### Frontend - Server-Side Pagination
+- [x] `/api/books` paginated with search, status/language/category filters, and sorting
+- [x] `PagedResult` envelope shared with the books collection page
+- [x] Books page keeps filters/sort in the query and resets page on change
+
+### Frontend - Test Suite (Vitest)
+- [x] Unit tests: `formatNPR`, `cn`, login/register Zod schemas, JWT decode + expiry
+- [x] Component test: ReviewsSection renders reviews/averages and submits a review
+- [x] `npm test` wired into CI
+
+### Database - Active Tables
+- [x] `shelves` table removed everywhere (schema, seed, backend, frontend)
+- [x] `reviews` wired end-to-end (API + UI)
+- [x] `reservations` wired end-to-end (API + UI)
+- [x] `permissions` / `rolepermissions` wired (admin manager + seeded defaults)
+- [x] `settings` wired (admin manager + seeded defaults)
 
 🚧 Currently in active development.

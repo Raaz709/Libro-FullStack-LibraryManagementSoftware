@@ -22,7 +22,7 @@ jobs:
         run: dotnet test Backend/Library_Management.Tests/Library_Management.Tests.csproj -c Release --no-build
 
   frontend:
-    name: Frontend lint + build
+    name: Frontend lint + tests + build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -38,5 +38,7 @@ jobs:
         run: npm ci
       - name: Lint
         run: npm run lint
+      - name: Test
+        run: npm test
       - name: Build
         run: npm run build

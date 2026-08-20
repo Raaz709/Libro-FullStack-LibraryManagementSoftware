@@ -30,12 +30,20 @@ public class BooksController : ControllerBase
 
     // All authenticated users can view books
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20,
+        [FromQuery] string? search = null,
+        [FromQuery] string? status = null,
+        [FromQuery] string? language = null,
+        [FromQuery] int? categoryId = null,
+        [FromQuery] string? sort = null)
     {
-        var books = await _bookService.GetAllAsync();
+        var result = await _bookService.GetPagedAsync(
+            page, pageSize, search, status, language, categoryId, sort);
 
-        return Ok(ApiResponse<IEnumerable<BookResponse>>.SuccessResponse(
-            books,
+        return Ok(ApiResponse<PagedResult<BookResponse>>.SuccessResponse(
+            result,
             "Books retrieved successfully."
         ));
     }

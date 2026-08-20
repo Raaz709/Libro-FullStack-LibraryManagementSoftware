@@ -35,8 +35,8 @@ export default function AdminDashboardPage() {
   const { data: fines = [] } = useFines();
 
   const { data: books = [] } = useQuery({
-    queryKey: ["books"],
-    queryFn: booksApi.getAll,
+    queryKey: ["books", "all"],
+    queryFn: () => booksApi.getAll({ page: 1, pageSize: 100 }).then((result) => result.items),
     retry: false,
   });
   const { data: copies = [] } = useQuery({

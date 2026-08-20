@@ -6,11 +6,23 @@ import type {
   Category,
   Publisher,
 } from "@/types/book.types";
-import type { ApiResponse } from "@/types/api.types";
+import type { ApiResponse, PagedResult } from "@/types/api.types";
+
+export interface BookQueryParams {
+  page?: number;
+  pageSize?: number;
+  search?: string;
+  status?: string;
+  language?: string;
+  categoryId?: number;
+  sort?: string;
+}
 
 export const booksApi = {
-  getAll: async (): Promise<Book[]> => {
-    const response = await axiosClient.get<ApiResponse<Book[]>>("/books");
+  getAll: async (params: BookQueryParams = {}): Promise<PagedResult<Book>> => {
+    const response = await axiosClient.get<ApiResponse<PagedResult<Book>>>("/books", {
+      params,
+    });
     if (!response.data.data) {
       throw new Error(response.data.message || "Failed to fetch books.");
     }

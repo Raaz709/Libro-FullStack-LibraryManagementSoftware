@@ -41,7 +41,6 @@ const CONDITION_OPTIONS = ["Good", "Fair", "Poor", "Damaged"];
 const copySchema = z.object({
   bookId: z.string().min(1, "Select a book."),
   barcode: z.string().trim().min(1, "Barcode is required."),
-  shelfId: z.string().trim().optional(),
   qrCode: z.string().trim().optional(),
   conditionStatus: z.enum(CONDITION_OPTIONS as [string, ...string[]]),
   status: z.enum(STATUS_OPTIONS as [string, ...string[]]),
@@ -55,7 +54,6 @@ function toFormValues(copy: BookCopy | null): CopyFormValues {
   return {
     bookId: copy?.bookId ? String(copy.bookId) : "",
     barcode: copy?.barcode ?? "",
-    shelfId: copy?.shelfId ? String(copy.shelfId) : "",
     qrCode: copy?.qrCode ?? "",
     conditionStatus: copy?.conditionStatus ?? "Good",
     status: copy?.status ?? "Available",
@@ -68,7 +66,6 @@ function toPayload(values: CopyFormValues): BookCopyPayload {
   return {
     bookId: Number(values.bookId),
     barcode: values.barcode,
-    shelfId: values.shelfId ? Number(values.shelfId) : null,
     qrCode: values.qrCode || null,
     conditionStatus: values.conditionStatus,
     status: values.status,
@@ -85,8 +82,8 @@ function formatPrice(value: number | null) {
 export default function BookCopiesPage() {
   const { data: copies = [], isLoading, isError, error } = useBookCopies();
   const { data: books = [] } = useQuery({
-    queryKey: ["books"],
-    queryFn: booksApi.getAll,
+    queryKey: ["books", "all"],
+    queryFn: () => booksApi.getAll({ page: 1, pageSize: 100 }).then((result) => result.items),
     retry: false,
   });
   const createCopy = useCreateBookCopy();
@@ -372,10 +369,6 @@ function CopyFormDialog({
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
-            <div className="grid gap-1.5">
-              <Label htmlFor="shelfId">Shelf ID</Label>
-              <Input id="shelfId" type="number" placeholder="e.g. 3" {...register("shelfId")} />
-            </div>
             <div className="grid gap-1.5">
               <Label htmlFor="purchaseDate">Purchase date</Label>
               <Input id="purchaseDate" type="date" {...register("purchaseDate")} />

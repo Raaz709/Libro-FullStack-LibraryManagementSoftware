@@ -30,6 +30,10 @@ import LibrarianDashboardPage from "@/features/dashboard/pages/LibrarianDashboar
 import MyBorrowingPage from "@/features/my/pages/MyBorrowingPage";
 import MyFinesPage from "@/features/my/pages/MyFinesPage";
 import MyPaymentsPage from "@/features/my/pages/MyPaymentsPage";
+import MyReservationsPage from "@/features/reservations/pages/MyReservationsPage";
+import ReservationsPage from "@/features/reservations/pages/ReservationsPage";
+import SettingsPage from "@/features/settings/pages/SettingsPage";
+import PermissionsPage from "@/features/permissions/pages/PermissionsPage";
 
 export default function App() {
   const isHydrating = useAuthStore((state) => state.isHydrating);
@@ -83,6 +87,7 @@ export default function App() {
               <Route path="/my-borrowing" element={<MyBorrowingPage />} />
               <Route path="/my-fines" element={<MyFinesPage />} />
               <Route path="/my-payments" element={<MyPaymentsPage />} />
+              <Route path="/my-reservations" element={<MyReservationsPage />} />
               <Route path="/favorites" element={<FavouritesPage />} />
             </Route>
 
@@ -98,6 +103,7 @@ export default function App() {
               <Route path="/librarian/returns" element={<ReturnsPage />} />
               <Route path="/librarian/fines" element={<FinesPage />} />
               <Route path="/librarian/payments" element={<PaymentsPage />} />
+              <Route path="/librarian/reservations" element={<ReservationsPage />} />
             </Route>
 
             {/* Admin routes */}
@@ -113,9 +119,12 @@ export default function App() {
               <Route path="/admin/returns" element={<ReturnsPage />} />
               <Route path="/admin/fines" element={<FinesPage />} />
               <Route path="/admin/payments" element={<PaymentsPage />} />
+              <Route path="/admin/reservations" element={<ReservationsPage />} />
               <Route path="/admin/audit-logs" element={<AuditLogsPage />} />
               <Route path="/admin/activity-logs" element={<ActivityLogsPage />} />
               <Route path="/admin/email-templates" element={<EmailTemplatesPage />} />
+              <Route path="/admin/permissions" element={<PermissionsPage />} />
+              <Route path="/admin/settings" element={<SettingsPage />} />
             </Route>
 
             {/* Shared for all authenticated roles */}

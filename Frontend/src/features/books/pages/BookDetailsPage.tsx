@@ -1,9 +1,11 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
-import { Heart } from "lucide-react";
+import { BookMarked, Heart } from "lucide-react";
 import { booksApi } from "@/api/books.api";
 import { useAuthStore } from "@/store/authStore";
 import { useFavoriteToggle } from "@/features/favourites/hooks/useFavorites";
+import { useCreateReservation, useMyReservations } from "@/features/reservations/hooks/useReservations";
+import ReviewsSection from "@/features/reviews/components/ReviewsSection";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -73,6 +75,17 @@ export default function BookDetailsPage() {
 
   const favoriteToggle = useFavoriteToggle(id, queryEnabled);
 
+  const isMember = role === "Student" || role === "Faculty";
+  const { data: myReservations = [] } = useMyReservations();
+  const createReservation = useCreateReservation();
+  const activeReservation = myReservations.find(
+    (reservation) => reservation.bookId === id && reservation.status === "Waiting",
+  );
+
+  const handleReserve = () => {
+    createReservation.mutate({ bookId: id });
+  };
+
   if (!isValidId) return <BookNotFound booksPath={booksPath} />;
   if (isLoading) return <PageMessage message="Loading book details..." />;
   if (isError || !book) {
@@ -132,6 +145,18 @@ export default function BookDetailsPage() {
                   <Heart className={`h-3.5 w-3.5 ${favoriteToggle.isFavorite ? "fill-red-600 text-red-600" : "text-camel"}`} />
                   {favoriteToggle.isFavorite ? "Saved" : "Save"}
                 </button>
+                {isMember && (
+                  <button
+                    type="button"
+                    onClick={handleReserve}
+                    disabled={createReservation.isPending || !!activeReservation}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-camel bg-camel px-3 py-1 text-xs font-semibold text-card transition-colors hover:bg-camel-dark disabled:cursor-not-allowed disabled:opacity-50"
+                    aria-pressed={!!activeReservation}
+                  >
+                    <BookMarked className="h-3.5 w-3.5" />
+                    {activeReservation ? "Reserved" : "Reserve"}
+                  </button>
+                )}
               </div>
               <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">{book.title}</h1>
               {book.subtitle && <p className="mt-2 text-lg text-muted">{book.subtitle}</p>}
@@ -193,6 +218,8 @@ export default function BookDetailsPage() {
             </Card>
           </div>
         </div>
+
+        <ReviewsSection bookId={id} />
       </div>
     </div>
   );

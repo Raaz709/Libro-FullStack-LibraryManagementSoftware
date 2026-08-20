@@ -127,9 +127,18 @@ export default function BooksPage() {
   const [view, setView] = useState<ViewMode>("grid");
   const [page, setPage] = useState(1);
 
-  const { data: books, isLoading, isError, error } = useQuery({
-    queryKey: ["books"],
-    queryFn: booksApi.getAll,
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["books", { search, status, language, categoryId, sort, page }],
+    queryFn: () =>
+      booksApi.getAll({
+        page,
+        pageSize: ITEMS_PER_PAGE,
+        search: search.trim() || undefined,
+        status: status || undefined,
+        language: language || undefined,
+        categoryId: categoryId ? Number(categoryId) : undefined,
+        sort,
+      }),
     enabled: !!token,
     retry: false,
   });
@@ -141,38 +150,12 @@ export default function BooksPage() {
     retry: false,
   });
 
-  const { data: categoryBooks, isLoading: isCategoryLoading } = useQuery({
-    queryKey: ["books", "category", categoryId],
-    queryFn: () => booksApi.getByCategory(Number(categoryId)),
-    enabled: !!token && Boolean(categoryId),
-    retry: false,
-  });
-
-  const sourceBooks = useMemo(
-    () => (categoryId ? categoryBooks ?? [] : books ?? []),
-    [categoryBooks, categoryId, books],
-  );
-  const statuses = useMemo(() => [...new Set((books ?? []).map((book) => book.status).filter(Boolean))].sort(), [books]);
-  const languages = useMemo(() => [...new Set((books ?? []).map((book) => book.language).filter((value): value is string => Boolean(value)))].sort(), [books]);
-
-  const filteredBooks = useMemo(() => {
-    const normalizedSearch = search.trim().toLowerCase();
-    const filtered = sourceBooks.filter((book) => {
-      const matchesSearch = !normalizedSearch || book.title.toLowerCase().includes(normalizedSearch) || book.isbn.toLowerCase().includes(normalizedSearch);
-      return matchesSearch && (!status || book.status === status) && (!language || book.language === language);
-    });
-
-    return [...filtered].sort((a, b) => {
-      if (sort === "title") return a.title.localeCompare(b.title);
-      if (sort === "price-low") return (a.price ?? Number.MAX_SAFE_INTEGER) - (b.price ?? Number.MAX_SAFE_INTEGER);
-      if (sort === "price-high") return (b.price ?? -1) - (a.price ?? -1);
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    });
-  }, [sourceBooks, search, status, language, sort]);
-
-  const totalPages = Math.max(1, Math.ceil(filteredBooks.length / ITEMS_PER_PAGE));
+  const books = data?.items ?? [];
+  const totalResults = data?.total ?? 0;
+  const totalPages = Math.max(1, data?.totalPages ?? 1);
   const currentPage = Math.min(page, totalPages);
-  const displayedBooks = filteredBooks.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+  const statuses = useMemo(() => [...new Set(books.map((book) => book.status).filter(Boolean))].sort(), [books]);
+  const languages = useMemo(() => [...new Set(books.map((book) => book.language).filter((value): value is string => Boolean(value)))].sort(), [books]);
 
   const resetPage = () => setPage(1);
   const clearFilters = () => {
@@ -199,7 +182,7 @@ export default function BooksPage() {
           description="Find and explore titles across your collection."
         >
           <p className="rounded-full border border-line bg-white/70 px-3 py-1.5 text-xs font-medium text-camel-dark">
-            {filteredBooks.length} {filteredBooks.length === 1 ? "result" : "results"}
+            {totalResults} {totalResults === 1 ? "result" : "results"}
           </p>
         </PageHeader>
 
@@ -241,9 +224,7 @@ export default function BooksPage() {
           </div>
         </section>
 
-        {isCategoryLoading ? (
-          <PageMessage message="Loading books in this category..." embedded />
-        ) : displayedBooks.length === 0 ? (
+        {books.length === 0 ? (
           <PageState
             icon={<BookOpen className="h-7 w-7 text-camel" />}
             title="No books match these filters."
@@ -253,14 +234,14 @@ export default function BooksPage() {
             }
           />
         ) : view === "grid" ? (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">{displayedBooks.map((book) => <BookGridCard key={book.id} book={book} />)}</div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">{books.map((book) => <BookGridCard key={book.id} book={book} />)}</div>
         ) : (
-          <div className="space-y-3">{displayedBooks.map((book) => <BookListRow key={book.id} book={book} />)}</div>
+          <div className="space-y-3">{books.map((book) => <BookListRow key={book.id} book={book} />)}</div>
         )}
 
-        {filteredBooks.length > 0 && (
+        {books.length > 0 && (
           <nav className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-5" aria-label="Book pagination">
-            <p className="text-sm text-muted">Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filteredBooks.length)} of {filteredBooks.length}</p>
+            <p className="text-sm text-muted">Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, totalResults)} of {totalResults}</p>
             <div className="flex items-center gap-2">
               <Button variant="outline" size="sm" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>Previous</Button>
               <span className="px-2 text-sm font-medium text-ink">Page {currentPage} of {totalPages}</span>

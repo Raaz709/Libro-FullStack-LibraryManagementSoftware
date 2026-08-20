@@ -55,12 +55,6 @@ INSERT INTO `categories` (`ParentCategoryId`, `Name`, `Description`, `Icon`) VAL
   (NULL, 'Technology', 'Computer science and engineering.', 'cpu'),
   (1,    'Dystopian', 'Fiction exploring dystopian societies.', 'shield');
 
-INSERT INTO `shelves` (`Name`, `Floor`, `Section`, `Rack`, `ShelfNumber`, `Description`) VALUES
-  ('Fiction A', '1', 'A', '1', 'A1.1', 'Fiction first rack'),
-  ('Fiction B', '1', 'A', '2', 'A2.1', 'Fiction second rack'),
-  ('History',   '2', 'B', '1', 'B1.1', 'History section'),
-  ('Tech',      '3', 'C', '1', 'C1.1', 'Technology section');
-
 INSERT INTO `books` (`ISBN`, `Title`, `Subtitle`, `Description`, `Language`, `Edition`, `PublisherId`, `PublishedDate`, `Price`, `Status`) VALUES
   ('978-0451524935', '1984', 'A Novel', 'A dystopian classic set in a totalitarian state ruled by Big Brother.', 'English', 'Signet Classics', 1, '1949-06-08', 9.99, 'Active'),
   ('978-0062316097', 'Sapiens', 'A Brief History of Humankind', 'Explores how Homo sapiens came to dominate the world.', 'English', 'Harper', 3, '2015-02-10', 15.99, 'Active'),
@@ -80,13 +74,13 @@ INSERT INTO `bookcategories` (`BookId`, `CategoryId`) VALUES
   (3, 3),
   (4, 3);
 
-INSERT INTO `bookcopies` (`BookId`, `ShelfId`, `Barcode`, `ConditionStatus`, `Status`, `PurchaseDate`, `Price`) VALUES
-  (1, 1, 'BC-1984-0001', 'Good',   'Available', '2025-01-10', 9.99),
-  (1, 1, 'BC-1984-0002', 'Good',   'Available', '2025-01-10', 9.99),
-  (2, 3, 'BC-SAP-0001',  'Good',   'Available', '2025-02-05', 15.99),
-  (3, 4, 'BC-CN-0001',   'Good',   'Available', '2025-03-01', 39.99),
-  (3, 4, 'BC-CN-0002',   'Good',   'Available', '2025-03-01', 39.99),
-  (4, 4, 'BC-BPF-0001',  'Good',   'Available', '2025-04-20', 49.99);
+INSERT INTO `bookcopies` (`BookId`, `Barcode`, `ConditionStatus`, `Status`, `PurchaseDate`, `Price`) VALUES
+  (1, 'BC-1984-0001', 'Good',   'Available', '2025-01-10', 9.99),
+  (1, 'BC-1984-0002', 'Good',   'Available', '2025-01-10', 9.99),
+  (2, 'BC-SAP-0001',  'Good',   'Available', '2025-02-05', 15.99),
+  (3, 'BC-CN-0001',   'Good',   'Available', '2025-03-01', 39.99),
+  (3, 'BC-CN-0002',   'Good',   'Available', '2025-03-01', 39.99),
+  (4, 'BC-BPF-0001',  'Good',   'Available', '2025-04-20', 49.99);
 
 -- ---------------------------------------------------------------------------
 -- Email templates - SMTP body uses {{Key}} placeholders
@@ -96,5 +90,39 @@ INSERT INTO `emailtemplates` (`Name`, `Code`, `Subject`, `BodyHtml`, `Descriptio
   ('Welcome', 'Welcome', 'Welcome to the Library, {{FirstName}}!',
    '<p>Hello {{FirstName}} {{LastName}},</p><p>Welcome to the Library! Your membership is now active.</p><p>Your membership number is <strong>{{MembershipNumber}}</strong>.</p><p>You can log in with {{Email}}.</p><p>Regards,<br/>Library Team</p>',
    'Sent to new members after registration.', NOW(), NOW());
+
+-- ---------------------------------------------------------------------------
+-- Permissions (used by the admin permissions manager)
+-- ---------------------------------------------------------------------------
+
+INSERT INTO `permissions` (`Name`, `Description`) VALUES
+  ('manage_books',        'Create, edit and deactivate books'),
+  ('manage_copies',       'Add, edit and retire book copies'),
+  ('manage_borrowing',    'Issue and return borrowed items'),
+  ('manage_fines',        'Create, adjust and waive fines'),
+  ('manage_reservations', 'Fulfill and cancel reservations'),
+  ('manage_reviews',      'Moderate and remove reviews'),
+  ('manage_users',        'Manage member and staff accounts'),
+  ('manage_settings',     'Change system-wide settings'),
+  ('view_reports',        'View circulation and financial reports');
+
+INSERT INTO `rolepermissions` (`RoleId`, `PermissionId`) VALUES
+  (1, 9),  -- Student: view reports (unused by app; kept for future reporting)
+  (3, 1),  (3, 2),  (3, 3),  (3, 4),  (3, 5),  (3, 6),  (3, 9),
+  (4, 1),  (4, 2),  (4, 3),  (4, 4),  (4, 5),  (4, 6),  (4, 7),  (4, 8),  (4, 9);
+
+-- ---------------------------------------------------------------------------
+-- System settings (used by the admin settings manager)
+-- ---------------------------------------------------------------------------
+
+INSERT INTO `settings` (`Key`, `Value`, `Description`, `UpdatedByUserId`) VALUES
+  ('library.name',        'Libro Library', 'Display name of the library.', 1),
+  ('library.address',     'Kathmandu, Nepal', 'Physical address of the library.', 1),
+  ('library.phone',       '+977-9800000000', 'Public contact phone number.', 1),
+  ('library.email',       'library@libro.test', 'Public contact email address.', 1),
+  ('borrowing.max_items', '5', 'Maximum books a member may borrow at once.', 1),
+  ('borrowing.loan_days', '14', 'Standard loan period in days.', 1),
+  ('borrowing.fine_per_day', '0.50', 'Late return fine charged per day.', 1),
+  ('reservation.days',    '3', 'How long a fulfilled reservation is held.', 1);
 
 SET FOREIGN_KEY_CHECKS = 1;

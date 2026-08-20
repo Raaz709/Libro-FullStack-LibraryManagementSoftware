@@ -16,7 +16,7 @@ public class BookCopyRepository : IBookCopyRepository
     public async Task<IEnumerable<BookCopy>> GetAllAsync()
     {
         const string sql = @"
-            SELECT Id, BookId, ShelfId, Barcode, QRCode, ConditionStatus, Status, PurchaseDate, Price, CreatedAt, UpdatedAt
+            SELECT Id, BookId, Barcode, QRCode, ConditionStatus, Status, PurchaseDate, Price, CreatedAt, UpdatedAt
             FROM bookcopies
             ORDER BY Id DESC;";
 
@@ -27,7 +27,7 @@ public class BookCopyRepository : IBookCopyRepository
     public async Task<IEnumerable<BookCopy>> GetByBookIdAsync(int bookId)
     {
         const string sql = @"
-            SELECT Id, BookId, ShelfId, Barcode, QRCode, ConditionStatus, Status, PurchaseDate, Price, CreatedAt, UpdatedAt
+            SELECT Id, BookId, Barcode, QRCode, ConditionStatus, Status, PurchaseDate, Price, CreatedAt, UpdatedAt
             FROM bookcopies
             WHERE BookId = @BookId;";
 
@@ -38,7 +38,7 @@ public class BookCopyRepository : IBookCopyRepository
     public async Task<BookCopy?> GetByIdAsync(int id)
     {
         const string sql = @"
-            SELECT Id, BookId, ShelfId, Barcode, QRCode, ConditionStatus, Status, PurchaseDate, Price, CreatedAt, UpdatedAt
+            SELECT Id, BookId, Barcode, QRCode, ConditionStatus, Status, PurchaseDate, Price, CreatedAt, UpdatedAt
             FROM bookcopies
             WHERE Id = @Id;";
 
@@ -49,7 +49,7 @@ public class BookCopyRepository : IBookCopyRepository
     public async Task<BookCopy?> GetByBarcodeAsync(string barcode)
     {
         const string sql = @"
-            SELECT Id, BookId, ShelfId, Barcode, QRCode, ConditionStatus, Status, PurchaseDate, Price, CreatedAt, UpdatedAt
+            SELECT Id, BookId, Barcode, QRCode, ConditionStatus, Status, PurchaseDate, Price, CreatedAt, UpdatedAt
             FROM bookcopies
             WHERE Barcode = @Barcode;";
 
@@ -60,8 +60,8 @@ public class BookCopyRepository : IBookCopyRepository
     public async Task<int> CreateAsync(BookCopy bookCopy)
     {
         const string sql = @"
-            INSERT INTO bookcopies (BookId, ShelfId, Barcode, QRCode, ConditionStatus, Status, PurchaseDate, Price, CreatedAt, UpdatedAt)
-            VALUES (@BookId, @ShelfId, @Barcode, @QRCode, @ConditionStatus, @Status, @PurchaseDate, @Price, NOW(), NOW());
+            INSERT INTO bookcopies (BookId, Barcode, QRCode, ConditionStatus, Status, PurchaseDate, Price, CreatedAt, UpdatedAt)
+            VALUES (@BookId, @Barcode, @QRCode, @ConditionStatus, @Status, @PurchaseDate, @Price, NOW(), NOW());
             SELECT LAST_INSERT_ID();";
 
         using var connection = _connectionFactory.CreateConnection();
@@ -72,8 +72,7 @@ public class BookCopyRepository : IBookCopyRepository
     {
         const string sql = @"
             UPDATE bookcopies
-            SET ShelfId = @ShelfId,
-                Barcode = @Barcode,
+            SET Barcode = @Barcode,
                 QRCode = @QRCode,
                 ConditionStatus = @ConditionStatus,
                 Status = @Status,

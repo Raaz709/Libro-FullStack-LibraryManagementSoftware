@@ -27,8 +27,8 @@ export function useBorrowRows() {
     retry: false,
   });
   const { data: books = [] } = useQuery({
-    queryKey: ["books"],
-    queryFn: booksApi.getAll,
+    queryKey: ["books", "all"],
+    queryFn: () => booksApi.getAll({ page: 1, pageSize: 100 }).then((result) => result.items),
     retry: false,
   });
   const { data: allCopies = [] } = useQuery({

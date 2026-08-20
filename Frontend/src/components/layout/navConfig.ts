@@ -13,6 +13,9 @@ import {
   ScrollText,
   FileText,
   Mail,
+  BookMarked,
+  ShieldCheck,
+  Settings,
   type LucideIcon,
 } from "lucide-react";
 import type { RoleName } from "@/types/auth.types";
@@ -33,12 +36,16 @@ const borrowing = (to: string): NavItem => ({ label: "Borrowing", to, icon: Arro
 const returns = (to: string): NavItem => ({ label: "Returns", to, icon: RotateCcw });
 const fines = (to: string): NavItem => ({ label: "Fines", to, icon: CircleDollarSign });
 const payments = (to: string): NavItem => ({ label: "Payments", to, icon: Wallet });
+const reservations = (to: string): NavItem => ({ label: "Reservations", to, icon: BookMarked });
+const settings = (to: string): NavItem => ({ label: "Settings", to, icon: Settings });
+const permissions = (to: string): NavItem => ({ label: "Permissions", to, icon: ShieldCheck });
 const notifications = (to = "/notifications"): NavItem => ({ label: "Notifications", to, icon: Bell });
 
 export const MEMBER_NAV: NavItem[] = [
   dashboard("/dashboard"),
   books("/books"),
   { label: "My Borrowing", to: "/my-borrowing", icon: ArrowLeftRight },
+  { label: "My Reservations", to: "/my-reservations", icon: BookMarked },
   { label: "My Fines", to: "/my-fines", icon: CircleDollarSign },
   { label: "My Payments", to: "/my-payments", icon: Wallet },
   { label: "Favorites", to: "/favorites", icon: Heart },
@@ -56,6 +63,7 @@ export const STAFF_NAV: NavItem[] = [
   returns("/librarian/returns"),
   fines("/librarian/fines"),
   payments("/librarian/payments"),
+  reservations("/librarian/reservations"),
   notifications(),
 ];
 
@@ -76,9 +84,12 @@ export const ADMIN_NAV: NavItem[] = [
   returns("/admin/returns"),
   fines("/admin/fines"),
   payments("/admin/payments"),
+  reservations("/admin/reservations"),
   { label: "Audit Logs", to: "/admin/audit-logs", icon: ScrollText },
   { label: "Activity Logs", to: "/admin/activity-logs", icon: FileText },
   { label: "Email Templates", to: "/admin/email-templates", icon: Mail },
+  permissions("/admin/permissions"),
+  settings("/admin/settings"),
   notifications(),
 ];
 

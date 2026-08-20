@@ -172,25 +172,10 @@ CREATE TABLE `bookcategories` (
   CONSTRAINT `FK_BookCategories_Categories` FOREIGN KEY (`CategoryId`) REFERENCES `categories` (`Id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-DROP TABLE IF EXISTS `shelves`;
-CREATE TABLE `shelves` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `Name` varchar(100) NOT NULL,
-  `Floor` varchar(50) DEFAULT NULL,
-  `Section` varchar(100) DEFAULT NULL,
-  `Rack` varchar(50) DEFAULT NULL,
-  `ShelfNumber` varchar(50) DEFAULT NULL,
-  `Description` varchar(255) DEFAULT NULL,
-  `CreatedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `UpdatedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 DROP TABLE IF EXISTS `bookcopies`;
 CREATE TABLE `bookcopies` (
   `Id` int NOT NULL AUTO_INCREMENT,
   `BookId` int NOT NULL,
-  `ShelfId` int DEFAULT NULL,
   `Barcode` varchar(100) NOT NULL,
   `QRCode` varchar(255) DEFAULT NULL,
   `ConditionStatus` varchar(30) NOT NULL DEFAULT 'Good',
@@ -201,11 +186,9 @@ CREATE TABLE `bookcopies` (
   `UpdatedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `UQ_BookCopies_Barcode` (`Barcode`),
-  KEY `FK_BookCopies_Shelves` (`ShelfId`),
   KEY `IX_BookCopies_BookId` (`BookId`),
   KEY `IX_BookCopies_Status` (`Status`),
-  CONSTRAINT `FK_BookCopies_Books` FOREIGN KEY (`BookId`) REFERENCES `books` (`Id`),
-  CONSTRAINT `FK_BookCopies_Shelves` FOREIGN KEY (`ShelfId`) REFERENCES `shelves` (`Id`) ON DELETE SET NULL
+  CONSTRAINT `FK_BookCopies_Books` FOREIGN KEY (`BookId`) REFERENCES `books` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ---------------------------------------------------------------------------

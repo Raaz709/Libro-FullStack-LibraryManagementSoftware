@@ -21,6 +21,27 @@ public class BookService : IBookService
         return books.Select(MapToResponse);
     }
 
+    public async Task<PagedResult<BookResponse>> GetPagedAsync(
+        int page,
+        int pageSize,
+        string? search = null,
+        string? status = null,
+        string? language = null,
+        int? categoryId = null,
+        string? sort = null)
+    {
+        var paged = await _bookRepository.GetPagedAsync(
+            page, pageSize, search, status, language, categoryId, sort);
+
+        return new PagedResult<BookResponse>
+        {
+            Items = paged.Items.Select(MapToResponse),
+            Total = paged.Total,
+            Page = paged.Page,
+            PageSize = paged.PageSize
+        };
+    }
+
     public async Task<BookResponse?> GetByIdAsync(int id)
     {
         var book = await _bookRepository.GetByIdAsync(id);

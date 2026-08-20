@@ -34,8 +34,8 @@ export function useMyLoans(userId: number | undefined) {
   });
 
   const booksQuery = useQuery({
-    queryKey: ["books"],
-    queryFn: booksApi.getAll,
+    queryKey: ["books", "all"],
+    queryFn: () => booksApi.getAll({ page: 1, pageSize: 100 }).then((result) => result.items),
     enabled,
     retry: false,
   });

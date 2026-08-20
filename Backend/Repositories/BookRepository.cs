@@ -40,6 +40,102 @@ public class BookRepository : IBookRepository
         return await connection.QueryAsync<Book>(sql);
     }
 
+    public async Task<PagedResult<Book>> GetPagedAsync(
+        int page,
+        int pageSize,
+        string? search = null,
+        string? status = null,
+        string? language = null,
+        int? categoryId = null,
+        string? sort = null)
+    {
+        if (page < 1)
+        {
+            page = 1;
+        }
+
+        if (pageSize < 1 || pageSize > 100)
+        {
+            pageSize = 20;
+        }
+
+        var conditions = new List<string>();
+        var parameters = new DynamicParameters();
+        parameters.Add("Offset", (page - 1) * pageSize);
+        parameters.Add("PageSize", pageSize);
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            conditions.Add("(Title LIKE @Search OR ISBN LIKE @Search)");
+            parameters.Add("Search", $"%{search.Trim()}%");
+        }
+
+        if (!string.IsNullOrWhiteSpace(status))
+        {
+            conditions.Add("Status = @Status");
+            parameters.Add("Status", status.Trim());
+        }
+
+        if (!string.IsNullOrWhiteSpace(language))
+        {
+            conditions.Add("Language = @Language");
+            parameters.Add("Language", language.Trim());
+        }
+
+        if (categoryId is not null)
+        {
+            conditions.Add(@"EXISTS (
+                SELECT 1 FROM bookcategories bc
+                WHERE bc.BookId = Books.Id AND bc.CategoryId = @CategoryId)");
+            parameters.Add("CategoryId", categoryId.Value);
+        }
+
+        var whereClause = conditions.Count > 0 ? $" WHERE {string.Join(" AND ", conditions)}" : string.Empty;
+
+        var orderBy = sort switch
+        {
+            "title" => "Title ASC",
+            "price-low" => "Price ASC",
+            "price-high" => "Price DESC",
+            _ => "Id DESC"
+        };
+
+        var countSql = $"SELECT COUNT(1) FROM Books{whereClause};";
+
+        var itemsSql = $"""
+            SELECT
+                Id,
+                ISBN,
+                Title,
+                Subtitle,
+                Description,
+                Language,
+                Edition,
+                PublisherId,
+                PublishedDate,
+                Price,
+                CoverImageUrl,
+                Status,
+                CreatedAt
+            FROM Books{whereClause}
+            ORDER BY {orderBy}
+            LIMIT @Offset, @PageSize;
+            """;
+
+        using var connection = _connectionFactory.CreateConnection();
+
+        var total = await connection.ExecuteScalarAsync<int>(countSql, parameters);
+        var items = await connection.QueryAsync<Book>(itemsSql, parameters);
+
+        return new PagedResult<Book>
+        {
+            Items = items,
+            Total = total,
+            Page = page,
+            PageSize = pageSize
+        };
+    }
+
     public async Task<Book?> GetByIdAsync(int id)
     {
         const string sql = """
