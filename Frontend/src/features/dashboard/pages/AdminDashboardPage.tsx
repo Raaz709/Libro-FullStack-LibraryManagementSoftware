@@ -17,6 +17,7 @@ import { auditApi } from "@/api/audit.api";
 import { useBorrowRows, isOverdue } from "@/features/borrowing/hooks/useBorrowRows";
 import { useFines } from "@/features/fines/hooks/useFines";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 import { StatCard } from "@/components/ui/stat-card";
 import { Panel } from "@/components/ui/panel";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -85,21 +86,21 @@ export default function AdminDashboardPage() {
       value: users.length,
       to: "/admin/users",
       icon: Users,
-      tone: "ink" as const,
+      tone: "indigo" as const,
     },
     {
       label: "Total books",
       value: books.length,
       to: "/admin/books",
       icon: BookOpen,
-      tone: "camel" as const,
+      tone: "indigo" as const,
     },
     {
       label: "Copies",
       value: copies.length,
       to: "/admin/copies",
       icon: Library,
-      tone: "camel" as const,
+      tone: "indigo" as const,
     },
     {
       label: "Available copies",
@@ -113,7 +114,7 @@ export default function AdminDashboardPage() {
       value: activeLoans.length,
       to: "/admin/borrowing",
       icon: ArrowLeftRight,
-      tone: "camel" as const,
+      tone: "indigo" as const,
     },
     {
       label: "Overdue",
@@ -134,12 +135,12 @@ export default function AdminDashboardPage() {
       value: auditLogs.length,
       to: "/admin/audit-logs",
       icon: ScrollText,
-      tone: "ink" as const,
+      tone: "indigo" as const,
     },
   ];
 
   return (
-    <div className="page-ambient min-h-screen p-6 lg:p-8">
+    <div className="bg-slate-50 min-h-screen p-6 lg:p-8">
       <div className="relative mx-auto max-w-7xl animate-in fade-in duration-500">
         <PageHeader
           eyebrow="Admin"
@@ -164,24 +165,26 @@ export default function AdminDashboardPage() {
             <div className="grid gap-6 lg:grid-cols-2">
               <Panel title="Recent loans" linkTo="/admin/borrowing" linkLabel="Manage borrowing" bodyClassName="p-0 py-0">
                 {recentLoans.length === 0 ? (
-                  <p className="px-6 py-12 text-center text-sm text-muted">No loans yet.</p>
+                  <p className="px-6 py-12 text-center text-slate-500">
+                    No loans yet.
+                  </p>
                 ) : (
-                  <ul className="divide-y divide-line-soft">
+                  <ul className="divide-y divide-border divide-slate-200">
                     {recentLoans.map(({ item, user, book, copy }) => (
                       <li key={item.id} className="flex items-center gap-4 px-6 py-4">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-camel/30 to-camel/10 text-camel-dark">
-                          <BookOpen className="h-4 w-4" />
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-50 border border-slate-200">
+                          <BookOpen className="h-4 w-4 text-indigo-500" />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <p className="truncate text-sm font-bold text-ink">
+                          <p className="truncate text-sm font-bold text-slate-900">
                             {book?.title ?? `Book #${copy?.bookId ?? item.bookCopyId}`}
                           </p>
-                          <p className="text-xs text-muted">
+                          <p className="text-xs text-slate-500">
                             {user ? `${user.firstName} ${user.lastName}` : `User #${item.borrowTransactionId}`}
                             {" · "}Copy {copy?.barcode ?? item.bookCopyId}
                           </p>
                         </div>
-                        <p className={`shrink-0 text-xs font-semibold ${isOverdue(item) ? "text-red-600" : "text-muted"}`}>
+                        <p className={cn("shrink-0 text-xs font-semibold", isOverdue(item) && "text-red-600")}>
                           Due {new Date(item.dueDate).toLocaleDateString()}
                         </p>
                       </li>
@@ -192,22 +195,24 @@ export default function AdminDashboardPage() {
 
               <Panel title="Latest audit activity" linkTo="/admin/audit-logs" linkLabel="All logs" bodyClassName="p-0 py-0">
                 {recentAuditLogs.length === 0 ? (
-                  <p className="px-6 py-12 text-center text-sm text-muted">No audit logs yet.</p>
+                  <p className="px-6 py-12 text-center text-slate-500">
+                    No audit logs yet.
+                  </p>
                 ) : (
-                  <ul className="divide-y divide-line-soft">
+                  <ul className="divide-y divide-border divide-slate-200">
                     {recentAuditLogs.map((log) => (
                       <li key={log.id} className="flex items-center gap-4 px-6 py-4">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-cream-deep to-cream text-camel-dark">
-                          <ScrollText className="h-4 w-4" />
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-50 border border-slate-200">
+                          <ScrollText className="h-4 w-4 text-indigo-500" />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <p className="truncate text-sm font-bold text-ink">{log.action || "Activity"}</p>
-                          <p className="text-xs text-muted">
+                          <p className="truncate text-sm font-bold text-slate-900">{log.action || "Activity"}</p>
+                          <p className="text-xs text-slate-500">
                             {log.entityType} #{log.entityId}
                             {log.userId ? ` · User #${log.userId}` : " · System"}
                           </p>
                         </div>
-                        <p className="shrink-0 text-xs text-muted">{formatDateTime(log.createdAt)}</p>
+                        <p className="shrink-0 text-xs text-slate-500">{formatDateTime(log.createdAt)}</p>
                       </li>
                     ))}
                   </ul>
@@ -219,20 +224,20 @@ export default function AdminDashboardPage() {
               <Panel title="Overdue items" linkTo="/admin/returns" linkLabel="Returns" bodyClassName="p-0 py-0">
                 {overdueLoans.length === 0 ? (
                   <div className="px-6 py-10 text-center">
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-600">
-                      <CheckCircle2 className="h-6 w-6" />
+                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-slate-50 border border-slate-200">
+                      <CheckCircle2 className="h-6 w-6 text-green-500" />
                     </div>
-                    <p className="mt-3 text-sm font-bold text-ink">No overdue items.</p>
+                    <p className="mt-3 text-sm font-bold text-slate-900">No overdue items.</p>
                   </div>
                 ) : (
-                  <ul className="divide-y divide-line-soft">
+                  <ul className="divide-y divide-border divide-slate-200">
                     {overdueLoans.slice(0, 4).map(({ item, book, copy }) => (
-                      <li key={item.id} className="flex items-center justify-between gap-3 px-6 py-4">
+                      <li key={item.id} className="flex items-center gap-4 px-6 py-4">
                         <div className="min-w-0">
-                          <p className="truncate text-sm font-bold text-ink">
+                          <p className="truncate text-sm font-bold text-slate-900">
                             {book?.title ?? `Book #${item.bookCopyId}`}
                           </p>
-                          <p className="text-xs text-muted">Copy {copy?.barcode ?? item.bookCopyId}</p>
+                          <p className="text-xs text-slate-500">Copy {copy?.barcode ?? item.bookCopyId}</p>
                         </div>
                         <Badge variant="destructive">Overdue</Badge>
                       </li>
@@ -243,16 +248,20 @@ export default function AdminDashboardPage() {
 
               <Panel title="Unpaid fines" linkTo="/admin/fines" linkLabel="Fines" bodyClassName="p-0 py-0">
                 {unpaidFines.length === 0 ? (
-                  <p className="px-6 py-10 text-center text-sm text-muted">No unpaid fines.</p>
+                  <p className="px-6 py-10 text-center text-slate-500">
+                    No unpaid fines.
+                  </p>
                 ) : (
-                  <ul className="divide-y divide-line-soft">
+                  <ul className="divide-y divide-border divide-slate-200">
                     {unpaidFines.slice(0, 4).map((fine) => (
                       <li key={fine.id} className="flex items-center justify-between gap-3 px-6 py-4">
                         <div className="min-w-0">
-                          <p className="truncate text-sm font-bold text-ink">{fine.type} fine</p>
-                          <p className="text-xs text-muted">User #{fine.userId}</p>
+                          <p className="truncate text-sm font-bold text-slate-900">{fine.type} fine</p>
+                          <p className="text-xs text-slate-500">User #{fine.userId}</p>
                         </div>
-                        <p className="shrink-0 text-sm font-extrabold text-red-600">{formatNPR(fine.amount)}</p>
+                        <p className={cn("shrink-0 text-sm font-extrabold", "text-red-600")}>
+                          {formatNPR(fine.amount)}
+                        </p>
                       </li>
                     ))}
                   </ul>
