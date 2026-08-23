@@ -126,8 +126,8 @@ export default function UsersPage() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-cream p-6 lg:p-8">
-      <div className="absolute -right-32 -top-32 h-72 w-72 rounded-full bg-camel/20 blur-3xl" />
+    <div className="bg-slate-50 min-h-screen p-6 lg:p-8">
+      <div className="absolute -right-32 -top-32 h-48 w-48 rounded-full bg-slate-50/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl animate-in fade-in duration-500">
         <PageHeader
@@ -179,7 +179,7 @@ export default function UsersPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="border-b border-line-soft bg-cream/50 text-xs uppercase tracking-[0.12em] text-camel-dark">
+                  <tr className="border-b border-line-soft bg-slate-50/50 text-xs uppercase tracking-[0.12em] text-slate-500">
                     <th className="px-6 py-3 font-semibold">User</th>
                     <th className="px-6 py-3 font-semibold">Membership</th>
                     <th className="px-6 py-3 font-semibold">Role</th>
@@ -190,10 +190,10 @@ export default function UsersPage() {
                 </thead>
                 <tbody className="divide-y divide-line-soft">
                   {filteredUsers.map((user) => (
-                    <tr key={user.id} className="transition-colors hover:bg-cream/40">
+                    <tr key={user.id} className="transition-colors hover:bg-slate-50/40">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-camel text-xs font-bold text-ink">
+                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-50 text-slate-600">
                             {user.firstName?.charAt(0).toUpperCase() ?? "?"}
                           </div>
                           <div className="min-w-0">
