@@ -637,26 +637,28 @@ Frontend - Authentication
 - [x] Role-aware back link: Admin → `/admin/books`, Librarian → `/librarian/books`, member → `/books`
 - [x] All ComingSoon placeholder pages removed
 
-### Frontend - Design System (Bookly)
-- [x] Warm beige page background (#E4DAD1), white cards, 24px rounded corners
-- [x] Camel/terracotta brand accent (#D09B7A) with charcoal text (#111)
-- [x] Plus Jakarta Sans typography (bold headings, tight tracking)
-- [x] Semantic Tailwind v4 design tokens (bg, card, camel, ink, muted, line, radius)
-- [x] Rounded pill buttons and soft-focus inputs throughout
-- [x] "Libro" wordmark with camel accent logo
-- [x] Restyled auth, books, book details, authors, and categories pages
-- [x] Shared components: PageHeader, PillTabs, PageState, MessageBanner used across all pages
-- [x] Consistent card radius, table headers, headings, and empty states everywhere
-- [x] Mobile top bar shows Libro brand + avatar
+### Frontend - Design System (Professional SaaS)
+- [x] Slate-50 background (`slate-50`) with subtle, restrained color palette
+- [x] Indigo-50/60 primary accent (`indigo-50`, `indigo-600`)
+- [x] Slate-900 main text (`slate-900`), Slate-500/600 secondary text (`slate-500`, `slate-600`)
+- [x] Rounded-lg border radius (`rounded-lg`) consistently applied (10-14px)
+- [x] Subtle shadow-sm only (`shadow-sm`) — no excessive shadows or gradients
+- [x] Divide-slate-200 (`divide-slate-200`) for table/list borders
+- [x] Status colors: green-500 (success), red-600 (error)
+- [x] All 9 pages restyled with consistent professional design language
+- [x] Books, Users, Borrowing, Fines, Admin Dashboard, Member Dashboard, Audit Logs, Activity Logs
+- [x] Shared components updated: StatCard (indigo tone), Panel, PillTabs, Button (slate default, indigo hover)
+- [x] No gradients, no decorative shadows, no animations — professional SaaS aesthetic
+- [x] Consistent across all pages: headers, buttons, cards, tables, forms, badges, spacing, typography
 
-### Frontend - Design Polish (Bookly v2)
-- [x] Soft shadow system (`shadow-card`, `shadow-card-hover`, `shadow-lift`, `shadow-pill`) and `page-ambient` radial background washes
-- [x] Gradient camel sidebar, active nav pill with accent bar, gradient brand mark + avatar
-- [x] Gradient eyebrow bars in PageHeader and auth cards; refined focus rings and camel scrollbars
-- [x] Shared `StatCard` (gradient icon chips, tone variants, hover lift) and `Panel` (section header with accent dot + link) components
-- [x] Member / Librarian / Admin dashboards rebuilt on StatCard + Panel
-- [x] Button default gradient, Badge `success` variant, polished pill tabs and loading/empty states
-- [x] Login and register pages restyled with gradient accents and balanced layout
+### Frontend - Design Polish
+- [x] Loading, error, and empty states polished per design system spec (skeleton loaders, professional error states, empty states with context-specific actions)
+- [x] Final consistency check across all pages — verified design language uniformity
+- [x] All 22 Vitest tests pass, production build succeeds, 0 TypeScript errors
+- [x] No fake data introduced — only real backend data visualized
+- [x] All existing functionality preserved (API calls, auth, routing, forms)
+- [x] Accessibility: visible focus states, semantic HTML, aria labels
+- [x] Responsive design — works desktop, tablet, mobile
 
 ### Frontend - Reviews
 - [x] Review section on book details (average rating, member reviews, dates)
