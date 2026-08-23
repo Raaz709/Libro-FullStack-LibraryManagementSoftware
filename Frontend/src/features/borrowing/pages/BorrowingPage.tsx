@@ -98,8 +98,8 @@ export default function BorrowingPage() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-cream p-6 lg:p-8">
-      <div className="absolute -right-32 -top-32 h-72 w-72 rounded-full bg-camel/20 blur-3xl" />
+    <div className="bg-slate-50 min-h-screen p-6 lg:p-8">
+      <div className="absolute -right-32 -top-32 h-48 w-48 rounded-full bg-slate-50/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-6xl animate-in fade-in duration-500">
         <PageHeader
@@ -139,7 +139,7 @@ export default function BorrowingPage() {
             </p>
           ) : filteredRows.length === 0 ? (
             <div className="px-6 py-16 text-center">
-              <p className="text-lg font-bold text-ink">No borrow records found.</p>
+              <p className="text-lg font-bold text-slate-900">No borrow records found.</p>
               <p className="mt-1 text-sm text-muted">
                 {search || statusFilter !== "all" ? "Try adjusting filters." : "Issue the first book to get started."}
               </p>
@@ -148,7 +148,7 @@ export default function BorrowingPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="border-b border-line-soft bg-cream/50 text-xs uppercase tracking-[0.12em] text-camel-dark">
+                  <tr className="border-b border-line-soft bg-slate-50/50 text-xs uppercase tracking-[0.12em] text-slate-500">
                     <th className="px-6 py-3 font-semibold">Book</th>
                     <th className="px-6 py-3 font-semibold">Borrower</th>
                     <th className="px-6 py-3 font-semibold">Copy</th>
@@ -160,14 +160,14 @@ export default function BorrowingPage() {
                 </thead>
                 <tbody className="divide-y divide-line-soft">
                   {filteredRows.map(({ item, user, book, copy }) => (
-                    <tr key={item.id} className="transition-colors hover:bg-cream/40">
-                      <td className="max-w-[220px] truncate px-6 py-4 font-semibold text-ink">
+                    <tr key={item.id} className="transition-colors hover:bg-slate-50/40">
+                      <td className="max-w-[220px] truncate px-6 py-4 font-semibold text-slate-900">
                         {book?.title ?? `Book #${copy?.bookId ?? item.bookCopyId}`}
                       </td>
                       <td className="px-6 py-4 text-muted">
                         {user ? `${user.firstName} ${user.lastName}` : `User #${item.borrowTransactionId}`}
                       </td>
-                      <td className="px-6 py-4 font-mono text-xs text-ink">{copy?.barcode ?? `#${item.bookCopyId}`}</td>
+                      <td className="px-6 py-4 font-mono text-xs text-slate-500">{copy?.barcode ?? `#${item.bookCopyId}`}</td>
                       <td className="px-6 py-4 text-muted">{formatDate(item.borrowedAt)}</td>
                       <td className={`px-6 py-4 font-medium ${isOverdue(item) ? "text-red-600" : "text-muted"}`}>
                         {formatDate(item.dueDate)}
