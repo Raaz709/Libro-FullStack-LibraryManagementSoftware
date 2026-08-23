@@ -12,6 +12,7 @@ import {
   isLoanOverdue,
 } from "@/features/dashboard/hooks/useMemberDashboard";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 import { StatCard } from "@/components/ui/stat-card";
 import { Panel } from "@/components/ui/panel";
 import { LoadingState } from "@/components/ui/page-state";
@@ -53,7 +54,7 @@ export default function MemberDashboardPage() {
       value: currentLoans.length,
       to: "/my-borrowing",
       icon: ArrowLeftRight,
-      tone: "camel" as const,
+      tone: "indigo" as const,
     },
     {
       label: "Unpaid fines",
@@ -67,41 +68,45 @@ export default function MemberDashboardPage() {
       value: favoritesCount,
       to: "/favorites",
       icon: Heart,
-      tone: "ink" as const,
+      tone: "indigo" as const,
     },
     {
       label: "Unread notifications",
       value: unreadCount,
       to: "/notifications",
       icon: Bell,
-      tone: "camel" as const,
+      tone: "indigo" as const,
     },
   ];
 
   return (
-    <div className="page-ambient min-h-screen p-6 lg:p-8">
+    <div className="bg-slate-50 min-h-screen p-6 lg:p-8">
       <div className="relative mx-auto max-w-6xl animate-in fade-in duration-500">
         {/* Greeting */}
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <div className="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-camel to-camel-dark text-xl font-extrabold text-ink shadow-pill ring-1 ring-black/5">
+            <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-slate-50 text-slate-600">
               {avatarInitial}
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-camel-dark">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
                 Welcome back
               </p>
-              <h1 className="text-3xl font-extrabold tracking-tight text-ink">{displayName}</h1>
+              <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">
+                {displayName}
+              </h1>
             </div>
           </div>
-          <p className="rounded-full border border-line bg-card/80 px-4 py-1.5 text-xs font-semibold text-camel-dark shadow-sm">
-            {new Date().toLocaleDateString(undefined, {
-              weekday: "long",
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </p>
+          <div className="rounded-lg border border-slate-200 p-2 shadow-sm hover:bg-slate-50 transition-colors">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+              {new Date().toLocaleDateString(undefined, {
+                weekday: "long",
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </p>
+          </div>
         </div>
 
         {isLoading ? (
@@ -124,39 +129,40 @@ export default function MemberDashboardPage() {
               <Panel title="Your current loans" linkTo="/my-borrowing" bodyClassName="p-0 py-0">
                 {sortedLoans.length === 0 ? (
                   <div className="px-6 py-12 text-center">
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-camel/30 to-camel/10 text-camel">
-                      <BookOpen className="h-6 w-6" />
+                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-slate-50 border border-slate-200">
+                      <BookOpen className="h-6 w-6 text-indigo-500" />
                     </div>
-                    <p className="mt-3 text-sm font-bold text-ink">Nothing borrowed right now.</p>
-                    <p className="mt-1 text-xs text-muted">Explore the collection and start reading.</p>
+                    <p className="mt-3 text-sm font-bold text-slate-900">Nothing borrowed right now.</p>
+                    <p className="mt-1 text-sm text-slate-500">
+                      Explore the collection and start reading.
+                    </p>
                     <Link to="/books">
-                      <span className="mt-4 inline-block rounded-full bg-ink px-4 py-2 text-xs font-semibold text-card shadow-sm transition-all hover:-translate-y-0.5 hover:bg-camel-dark">
+                      <span className="inline-block rounded-lg px-4 py-2 text-xs font-semibold text-slate-400 hover:text-slate-900 transition-colors">
                         Browse books
                       </span>
                     </Link>
                   </div>
                 ) : (
-                  <ul className="divide-y divide-line-soft">
+                  <ul className="divide-y divide-border divide-slate-200">
                     {sortedLoans.map(({ item, book, copy }) => (
                       <li key={item.id} className="flex items-center gap-4 px-6 py-4">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-camel/30 to-camel/10 text-camel-dark">
-                          <BookOpen className="h-4 w-4" />
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-50 border border-slate-200">
+                          <BookOpen className="h-4 w-4 text-indigo-500" />
                         </div>
                         <div className="min-w-0 flex-1">
                           <Link
                             to={`/books/${copy?.bookId ?? ""}`}
-                            className="block truncate text-sm font-bold text-ink transition-colors hover:text-camel-dark"
-                          >
+                            className="block truncate text-sm font-bold text-slate-900 transition-colors hover:text-indigo-600">
                             {book?.title ?? `Book #${copy?.bookId ?? item.bookCopyId}`}
                           </Link>
-                          <p className="text-xs text-muted">Copy {copy?.barcode ?? item.bookCopyId}</p>
+                          <p className="text-xs text-slate-500">Copy {copy?.barcode ?? item.bookCopyId}</p>
                         </div>
                         <div className="text-right">
-                          <p className={`text-xs font-semibold ${isLoanOverdue(item) ? "text-red-600" : "text-muted"}`}>
+                          <p className={cn("text-xs font-semibold", isLoanOverdue(item) && "text-red-600")}>
                             Due {formatDate(item.dueDate)}
                           </p>
                           {isLoanOverdue(item) && (
-                            <Badge className="mt-1" variant="destructive">Overdue</Badge>
+                            <Badge variant="destructive">Overdue</Badge>
                           )}
                         </div>
                       </li>
@@ -169,21 +175,23 @@ export default function MemberDashboardPage() {
               <Panel title="Unpaid fines" linkTo="/my-fines" bodyClassName="p-0 py-0">
                 {unpaidFines.length === 0 ? (
                   <div className="px-6 py-12 text-center">
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-600">
-                      <CircleDollarSign className="h-6 w-6" />
+                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-slate-50 border border-slate-200">
+                      <CircleDollarSign className="h-6 w-6 text-red-500" />
                     </div>
-                    <p className="mt-3 text-sm font-bold text-ink">No outstanding fines.</p>
-                    <p className="mt-1 text-xs text-muted">You're in the clear.</p>
+                    <p className="mt-3 text-sm font-bold text-slate-900">No outstanding fines.</p>
+                    <p className="mt-1 text-sm text-slate-500">You're in the clear.</p>
                   </div>
                 ) : (
-                  <ul className="divide-y divide-line-soft">
+                  <ul className="divide-y divide-border divide-slate-200">
                     {unpaidFines.slice(0, 4).map((fine) => (
                       <li key={fine.id} className="flex items-center justify-between gap-3 px-6 py-4">
                         <div className="min-w-0">
-                          <p className="truncate text-sm font-bold text-ink">{fine.type} fine</p>
-                          <p className="truncate text-xs text-muted">{fine.reason ?? "Library fine"}</p>
+                          <p className="truncate text-sm font-bold text-slate-900">{fine.type} fine</p>
+                          <p className="truncate text-xs text-slate-500">{fine.reason ?? "Library fine"}</p>
                         </div>
-                        <p className="shrink-0 text-sm font-extrabold text-red-600">{formatNPR(fine.amount)}</p>
+                        <p className={cn("shrink-0 text-sm font-extrabold", "text-red-600")}>
+                          {formatNPR(fine.amount)}
+                        </p>
                       </li>
                     ))}
                   </ul>
