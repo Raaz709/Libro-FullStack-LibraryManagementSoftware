@@ -54,7 +54,7 @@ export default function MemberDashboardPage() {
       value: currentLoans.length,
       to: "/my-borrowing",
       icon: ArrowLeftRight,
-      tone: "indigo" as const,
+      tone: "orange" as const,
     },
     {
       label: "Unpaid fines",

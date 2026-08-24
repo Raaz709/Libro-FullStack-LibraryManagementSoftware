@@ -86,7 +86,7 @@ export default function AdminDashboardPage() {
       value: users.length,
       to: "/admin/users",
       icon: Users,
-      tone: "indigo" as const,
+      tone: "orange" as const,
     },
     {
       label: "Total books",
