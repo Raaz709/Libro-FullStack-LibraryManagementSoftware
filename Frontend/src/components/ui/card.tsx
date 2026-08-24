@@ -12,7 +12,7 @@ function Card({
       data-slot="card"
       data-size={size}
       className={cn(
-        "group/card flex flex-col gap-(--card-spacing) overflow-hidden rounded-[24px] border border-[#EEEEEA] bg-white py-(--card-spacing) text-sm text-[#202020] shadow-[0_4px_25px_rgba(0,0,0,0.06)] transition-all duration-200 hover:border-[#FF7138]/40 hover:shadow-[0_8px_30px_rgba(255,113,56,0.1)] [--card-spacing:--spacing(6)] has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(4)] *:[img:first-child]:rounded-t-[24px] *:[img:last-child]:rounded-b-[24px]",
+        "group/card flex flex-col gap-(--card-spacing) overflow-hidden rounded-[24px] border border-[#FF7138]/30 bg-white py-(--card-spacing) text-sm text-[#202020] shadow-[0_4px_25px_rgba(0,0,0,0.06)] transition-all duration-200 hover:border-[#FF7138] hover:shadow-[0_8px_30px_rgba(255,113,56,0.15)] [--card-spacing:--spacing(6)] has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(4)] *:[img:first-child]:rounded-t-[24px] *:[img:last-child]:rounded-b-[24px]",
         className
       )}
       {...props}
@@ -25,7 +25,7 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-header"
       className={cn(
-        "group/card-header @container/card-header grid auto-rows-min items-start gap-1 px-(--card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto] [.border-b]:border-[#EEEEEA] [.border-b]:pb-(--card-spacing)",
+        "group/card-header @container/card-header grid auto-rows-min items-start gap-1 px-(--card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto] [.border-b]:border-[#FF7138]/20 [.border-b]:pb-(--card-spacing)",
         className
       )}
       {...props}
@@ -90,7 +90,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-footer"
       className={cn(
-        "flex items-center px-(--card-spacing) [.border-t]:border-[#EEEEEA] [.border-t]:pt-(--card-spacing)",
+        "flex items-center px-(--card-spacing) [.border-t]:border-[#FF7138]/20 [.border-t]:pt-(--card-spacing)",
         className
       )}
       {...props}
