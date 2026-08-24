@@ -92,8 +92,8 @@ export default function AuditLogsPage() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen p-6 lg:p-8">
-      <div className="absolute -right-32 -top-32 h-48 w-48 rounded-full bg-slate-50/20 blur-3xl" />
+    <div className="bg-cream min-h-screen p-6 lg:p-8">
+      <div className="absolute -right-32 -top-32 h-48 w-48 rounded-full bg-cream/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl animate-in fade-in duration-500">
         <PageHeader
@@ -134,10 +134,10 @@ export default function AuditLogsPage() {
             </p>
           ) : filteredLogs.length === 0 ? (
             <div className="px-6 py-16 text-center">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-slate-50">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-cream">
                 <ScrollText className="h-7 w-7 text-camel" />
               </div>
-              <p className="mt-4 text-lg font-bold text-slate-900">No audit logs found.</p>
+              <p className="mt-4 text-lg font-bold text-ink">No audit logs found.</p>
               <p className="mt-1 text-sm text-muted">
                 {search || actionFilter ? "Try adjusting filters." : "No recorded changes yet."}
               </p>
@@ -146,7 +146,7 @@ export default function AuditLogsPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="border-b border-line-soft bg-slate-50/50 text-xs uppercase tracking-[0.12em] text-slate-500">
+                  <tr className="border-b border-line-soft bg-cream/50 text-xs uppercase tracking-[0.12em] text-muted">
                     <th className="px-6 py-3 font-semibold">When</th>
                     <th className="px-6 py-3 font-semibold">User</th>
                     <th className="px-6 py-3 font-semibold">Action</th>
@@ -157,13 +157,13 @@ export default function AuditLogsPage() {
                 </thead>
                 <tbody className="divide-y divide-line-soft">
                   {filteredLogs.map((log) => (
-                    <tr key={log.id} className="transition-colors hover:bg-slate-50/40">
+                    <tr key={log.id} className="transition-colors hover:bg-cream/40">
                       <td className="whitespace-nowrap px-6 py-4 text-muted">{formatDateTime(log.createdAt)}</td>
                       <td className="px-6 py-4 text-muted">{log.userId ? `#${log.userId}` : "System"}</td>
                       <td className="px-6 py-4">
                         <Badge variant="outline">{log.action || "—"}</Badge>
                       </td>
-                      <td className="px-6 py-4 text-slate-500">
+                      <td className="px-6 py-4 text-muted">
                         <span className="font-semibold capitalize">{log.entityType}</span>
                         <span className="ml-1.5 font-mono text-xs text-muted">#{log.entityId}</span>
                       </td>
@@ -201,26 +201,26 @@ export default function AuditLogsPage() {
           <div className="grid gap-3">
             <div className="grid gap-1.5">
               <p className="text-xs font-semibold uppercase tracking-[0.12em] text-camel-dark">User</p>
-              <p className="text-sm text-slate-500">{viewing?.userId ? `User #${viewing.userId}` : "System"}</p>
+              <p className="text-sm text-muted">{viewing?.userId ? `User #${viewing.userId}` : "System"}</p>
             </div>
             <div className="grid gap-1.5">
               <p className="text-xs font-semibold uppercase tracking-[0.12em] text-camel-dark">IP address</p>
-              <p className="text-sm text-slate-500">{viewing?.ipAddress ?? "—"}</p>
+              <p className="text-sm text-muted">{viewing?.ipAddress ?? "—"}</p>
             </div>
             <div className="grid gap-1.5">
               <p className="text-xs font-semibold uppercase tracking-[0.12em] text-camel-dark">User agent</p>
-              <p className="break-words text-sm text-slate-500">{viewing?.userAgent ?? "—"}</p>
+              <p className="break-words text-sm text-muted">{viewing?.userAgent ?? "—"}</p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="grid gap-1.5">
                 <p className="text-xs font-semibold uppercase tracking-[0.12em] text-camel-dark">Old values</p>
-                <pre className="max-h-56 overflow-auto rounded-soft bg-slate-50 p-3 text-xs leading-5 text-slate-500">
+                <pre className="max-h-56 overflow-auto rounded-soft bg-cream p-3 text-xs leading-5 text-muted">
                   {prettyJson(viewing?.oldValues)}
                 </pre>
               </div>
               <div className="grid gap-1.5">
                 <p className="text-xs font-semibold uppercase tracking-[0.12em] text-camel-dark">New values</p>
-                <pre className="max-h-56 overflow-auto rounded-soft bg-slate-50 p-3 text-xs leading-5 text-slate-500">
+                <pre className="max-h-56 overflow-auto rounded-soft bg-cream p-3 text-xs leading-5 text-muted">
                   {prettyJson(viewing?.newValues)}
                 </pre>
               </div>

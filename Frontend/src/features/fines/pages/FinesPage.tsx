@@ -146,8 +146,8 @@ export default function FinesPage() {
   const formatAmount = (amount: number) => formatNPR(amount);
 
   return (
-    <div className="bg-slate-50 min-h-screen p-6 lg:p-8">
-      <div className="absolute -right-32 -top-32 h-48 w-48 rounded-full bg-slate-50/20 blur-3xl" />
+    <div className="bg-cream min-h-screen p-6 lg:p-8">
+      <div className="absolute -right-32 -top-32 h-48 w-48 rounded-full bg-cream/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-6xl animate-in fade-in duration-500">
         <PageHeader
@@ -168,17 +168,17 @@ export default function FinesPage() {
         <MessageBanner message={message} />
 
         <div className="mb-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="rounded-lg border border-slate-200 bg-white p-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Outstanding</p>
+          <div className="rounded-lg border border-line bg-white p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted">Outstanding</p>
             <p className="mt-1 text-2xl font-extrabold text-red-600">{formatAmount(totals.unpaid)}</p>
           </div>
-          <div className="rounded-lg border border-slate-200 bg-white p-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Total billed</p>
-            <p className="mt-1 text-2xl font-extrabold text-slate-900">{formatAmount(totals.total)}</p>
+          <div className="rounded-lg border border-line bg-white p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted">Total billed</p>
+            <p className="mt-1 text-2xl font-extrabold text-ink">{formatAmount(totals.total)}</p>
           </div>
-          <div className="rounded-lg border border-slate-200 bg-white p-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Records</p>
-            <p className="mt-1 text-2xl font-extrabold text-slate-900">{fines.length}</p>
+          <div className="rounded-lg border border-line bg-white p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted">Records</p>
+            <p className="mt-1 text-2xl font-extrabold text-ink">{fines.length}</p>
           </div>
         </div>
 

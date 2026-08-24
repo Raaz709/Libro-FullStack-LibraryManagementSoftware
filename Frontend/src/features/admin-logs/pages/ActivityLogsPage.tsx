@@ -75,8 +75,8 @@ export default function ActivityLogsPage() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen overflow-hidden p-6 lg:p-8">
-      <div className="absolute -right-32 -top-32 h-48 w-48 rounded-full bg-slate-50/20 blur-3xl" />
+    <div className="bg-cream min-h-screen overflow-hidden p-6 lg:p-8">
+      <div className="absolute -right-32 -top-32 h-48 w-48 rounded-full bg-cream/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-6xl animate-in fade-in duration-500">
         <PageHeader
@@ -104,10 +104,10 @@ export default function ActivityLogsPage() {
             </p>
           ) : filteredLogs.length === 0 ? (
             <div className="px-6 py-16 text-center">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-slate-50">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-cream">
                 <FileText className="h-7 w-7 text-camel" />
               </div>
-              <p className="mt-4 text-lg font-bold text-slate-900">No activity logs found.</p>
+              <p className="mt-4 text-lg font-bold text-ink">No activity logs found.</p>
               <p className="mt-1 text-sm text-muted">
                 {search ? "Try adjusting your search." : "No recorded activity yet."}
               </p>
@@ -116,13 +116,13 @@ export default function ActivityLogsPage() {
             <ul className="divide-y divide-line-soft">
               {filteredLogs.map((log) => (
                 <li key={log.id} className="flex items-start gap-4 px-6 py-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-50">
-                    <p className="h-4 w-4 text-slate-500" />
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cream">
+                    <p className="h-4 w-4 text-muted" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div className="flex flex-wrap items-center gap-2">
-                        <p className="text-sm font-bold text-slate-500">{log.action ?? "Activity"}</p>
+                        <p className="text-sm font-bold text-muted">{log.action ?? "Activity"}</p>
                         {log.userId && (
                           <Badge variant="secondary">User #{log.userId}</Badge>
                         )}
@@ -139,7 +139,7 @@ export default function ActivityLogsPage() {
                       <button
                         type="button"
                         onClick={() => setViewing(log)}
-                        className="text-xs font-semibold text-slate-500 transition-colors hover:text-slate-500"
+                        className="text-xs font-semibold text-muted transition-colors hover:text-muted"
                       >
                         View details →
                       </button>
@@ -169,27 +169,27 @@ export default function ActivityLogsPage() {
           </DialogHeader>
           <div className="grid gap-3">
             <div className="grid gap-1.5">
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Action</p>
-              <p className="text-sm font-bold text-slate-500">{viewing?.action ?? "—"}</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted">Action</p>
+              <p className="text-sm font-bold text-muted">{viewing?.action ?? "—"}</p>
             </div>
             <div className="grid gap-1.5">
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">User</p>
-              <p className="text-sm text-slate-500">{viewing?.userId ? `User #${viewing.userId}` : "System"}</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted">User</p>
+              <p className="text-sm text-muted">{viewing?.userId ? `User #${viewing.userId}` : "System"}</p>
             </div>
             <div className="grid gap-1.5">
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Details</p>
-              <pre className="max-h-64 overflow-auto whitespace-pre-wrap rounded-soft bg-slate-50 p-3 text-sm leading-6 text-slate-500">
+              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted">Details</p>
+              <pre className="max-h-64 overflow-auto whitespace-pre-wrap rounded-soft bg-cream p-3 text-sm leading-6 text-muted">
                 {viewing?.details ?? "—"}
               </pre>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="grid gap-1.5">
-                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">IP address</p>
-                <p className="text-sm text-slate-500">{viewing?.ipAddress ?? "—"}</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted">IP address</p>
+                <p className="text-sm text-muted">{viewing?.ipAddress ?? "—"}</p>
               </div>
               <div className="grid gap-1.5">
-                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">User agent</p>
-                <p className="break-words text-sm text-slate-500">{viewing?.userAgent ?? "—"}</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted">User agent</p>
+                <p className="break-words text-sm text-muted">{viewing?.userAgent ?? "—"}</p>
               </div>
             </div>
           </div>

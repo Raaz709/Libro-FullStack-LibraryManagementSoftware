@@ -7,7 +7,7 @@ type Tone = "camel" | "red" | "green" | "ink" | "indigo";
 
 const TONE_CLASSES: Record<Tone, string> = {
   camel: "bg-gradient-to-br from-camel/30 to-camel/10 text-camel-dark ring-camel/20",
-  indigo: "bg-indigo-50 text-indigo-600 ring-indigo-200/60",
+  indigo: "bg-camel/15 text-camel-dark ring-indigo-200/60",
   red: "bg-gradient-to-br from-red-100 to-red-50 text-red-600 ring-red-200/60",
   green: "bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-700 ring-emerald-200/60",
   ink: "bg-gradient-to-br from-cream-deep to-cream text-camel-dark ring-line",
