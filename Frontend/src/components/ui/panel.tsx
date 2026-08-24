@@ -18,14 +18,14 @@ export function Panel({
   bodyClassName?: string;
 }) {
   return (
-    <section className={cn("overflow-hidden rounded-card border border-line bg-card shadow-card", className)}>
-      <div className="flex items-center justify-between gap-3 border-b border-line-soft bg-gradient-to-r from-cream/60 to-transparent px-6 py-4">
-        <h2 className="flex items-center gap-2.5 text-base font-bold tracking-tight text-ink">
-          <span className="h-2 w-2 rounded-full bg-gradient-to-br from-camel to-camel-dark" />
+    <section className={cn("overflow-hidden rounded-[24px] border border-[#EEEEEA] bg-white shadow-[0_4px_25px_rgba(0,0,0,0.06)] transition-all duration-200 hover:border-[#FF7138]/40", className)}>
+      <div className="flex items-center justify-between gap-3 border-b border-[#EEEEEA] bg-[#F6F6F2]/60 px-6 py-4">
+        <h2 className="flex items-center gap-2.5 text-base font-bold tracking-tight text-[#202020]">
+          <span className="h-2 w-2 rounded-full bg-[#FF7138]" />
           {title}
         </h2>
         {linkTo && (
-          <Link to={linkTo} className="text-xs font-semibold text-camel-dark transition-colors hover:text-ink">
+          <Link to={linkTo} className="text-xs font-semibold text-[#FF7138] transition-colors hover:text-[#202020]">
             {linkLabel} →
           </Link>
         )}
