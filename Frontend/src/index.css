@@ -1,32 +1,34 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: "Inter", "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  /* Bookly palette */
-  --color-cream: #e4dad1;
-  --color-cream-deep: #d8cbbb;
-  --color-card: #ffffff;
-  --color-camel: #d09b7a;
-  --color-camel-dark: #c49272;
-  --color-camel-soft: #f3e7dc;
-  --color-ink: #111111;
-  --color-muted: #666666;
-  --color-line: #e2d6cb;
-  --color-line-soft: #efe7df;
+  /* Premium Library SaaS Palette */
+  --color-peach-bg: #FDE9E1;
+  --color-card: #FFFFFF;
+  --color-orange: #FF7138;
+  --color-orange-hover: #E05D26;
+  --color-orange-light: #FFE1D2;
+  --color-orange-soft: #FFF3EE;
+  
+  --color-ink: #202020;
+  --color-muted: #5F5F5F;
+  --color-muted-subtle: #8C8C8C;
+  --color-line: #EEEEEA;
+  --color-line-soft: #F6F6F2;
 
-  /* Compatibility tokens used by existing markup */
-  --color-muted-foreground: #666666;
+  /* Compatibility tokens */
+  --color-muted-foreground: #5F5F5F;
   --color-destructive: #dc2626;
 
-  --radius-card: 1.5rem;
-  --radius-soft: 1rem;
+  --radius-card: 2rem;
+  --radius-soft: 1.25rem;
 
   /* Soft shadow system */
-  --shadow-card: 0 14px 45px -18px rgb(17 17 17 / 0.18);
-  --shadow-card-hover: 0 18px 50px -18px rgb(17 17 17 / 0.22);
-  --shadow-lift: 0 22px 55px -22px rgb(154 119 60 / 0.4);
-  --shadow-pill: 0 6px 18px -8px rgb(17 17 17 / 0.22);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 8px 30px rgba(255, 113, 56, 0.12);
+  --shadow-container: 0 10px 40px rgba(0, 0, 0, 0.06);
+  --shadow-pill: 0 4px 14px rgba(255, 113, 56, 0.3);
 }
 
 @layer base {
@@ -37,30 +39,30 @@
   }
 
   body {
-    background-color: var(--color-cream);
+    background-color: var(--color-peach-bg);
     color: var(--color-ink);
     font-family: var(--font-sans);
+    min-height: 100vh;
   }
 
   ::selection {
-    background-color: var(--color-camel);
-    color: var(--color-ink);
+    background-color: var(--color-orange);
+    color: #FFFFFF;
   }
 
-  /* Subtle, theme-matched scrollbars */
   * {
     scrollbar-width: thin;
-    scrollbar-color: var(--color-camel) transparent;
+    scrollbar-color: var(--color-orange) transparent;
   }
 
   *::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
 
   *::-webkit-scrollbar-thumb {
     border-radius: 999px;
-    background-color: color-mix(in srgb, var(--color-camel) 55%, transparent);
+    background-color: rgba(255, 113, 56, 0.3);
   }
 
   *::-webkit-scrollbar-track {
@@ -68,30 +70,14 @@
   }
 
   :focus-visible {
-    outline: none;
+    outline: 2px solid var(--color-orange);
+    outline-offset: 2px;
   }
 }
 
 @layer utilities {
-  /* Ambient page background: soft radial washes over the cream base */
   .page-ambient {
-    background-color: var(--color-cream);
-    background-image:
-      radial-gradient(58rem 36rem at 112% -12%, rgb(208 155 122 / 0.16), transparent 62%),
-      radial-gradient(46rem 30rem at -14% 112%, rgb(17 17 17 / 0.07), transparent 60%);
-    background-attachment: fixed;
-  }
-
-  /* Cautiously refined focus ring for form controls */
-  .focus-ring {
-    transition:
-      border-color 200ms ease,
-      box-shadow 200ms ease,
-      background-color 200ms ease;
-  }
-
-  /* Gradient wash for icon chips and accents */
-  .icon-chip {
-    background-image: linear-gradient(145deg, color-mix(in srgb, var(--color-camel) 22%, transparent), color-mix(in srgb, var(--color-camel) 8%, transparent));
+    background-color: var(--color-peach-bg);
+    min-height: 100vh;
   }
 }
