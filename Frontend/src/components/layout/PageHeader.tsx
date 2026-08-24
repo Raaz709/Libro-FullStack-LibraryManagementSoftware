@@ -15,19 +15,18 @@ export function PageHeader({
   className?: string;
 }) {
   return (
-    <div className={cn("mb-8 flex flex-wrap items-end justify-between gap-4", className)}>
+    <div className={cn("mb-8 pb-6 border-b border-[#FF7138]/20 flex flex-wrap items-end justify-between gap-4", className)}>
       <div className="max-w-3xl">
-        <div className="mb-2.5 flex items-center gap-3">
-          <span className="h-[3px] w-9 rounded-full bg-gradient-to-r from-camel to-camel-dark" />
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-camel-dark">
+        <div className="mb-3">
+          <span className="inline-flex items-center rounded-full bg-[#FFF3EE] border border-[#FFE1D2] px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#FF7138]">
             {eyebrow}
-          </p>
+          </span>
         </div>
-        <h1 className="text-[1.75rem] font-extrabold leading-tight tracking-tight text-ink sm:text-3xl">
+        <h1 className="text-2xl font-extrabold leading-tight tracking-tight text-[#202020] sm:text-3xl">
           {title}
         </h1>
         {description && (
-          <p className="mt-1.5 text-sm leading-relaxed text-muted">{description}</p>
+          <p className="mt-2 text-sm leading-relaxed text-[#5F5F5F]">{description}</p>
         )}
       </div>
       {children && <div className="flex flex-wrap items-center gap-3">{children}</div>}
