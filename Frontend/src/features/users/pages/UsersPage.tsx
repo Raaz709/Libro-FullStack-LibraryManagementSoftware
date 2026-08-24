@@ -126,96 +126,96 @@ export default function UsersPage() {
   };
 
   return (
-    <div className="bg-cream min-h-screen p-6 lg:p-8">
-      <div className="absolute -right-32 -top-32 h-48 w-48 rounded-full bg-cream/20 blur-3xl" />
-
-      <div className="relative mx-auto max-w-7xl animate-in fade-in duration-500">
+    <div className="min-h-screen bg-white">
+      <div className="relative mx-auto max-w-7xl">
         <PageHeader
           eyebrow="Admin"
           title="Users"
           description="Manage member and staff accounts."
         >
-          <Input
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-            placeholder="Search name, email, or membership..."
-            aria-label="Search users"
-            className="h-9 w-64 text-xs"
-          />
-          <Select value={roleFilter} onChange={(event) => setRoleFilter(event.target.value)} aria-label="Filter by role">
-            <option value="">All roles</option>
-            {ROLE_IDS.map((id) => (
-              <option key={id} value={id}>
-                {ROLE_MAP[id]}
-              </option>
-            ))}
-          </Select>
-          <Select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} aria-label="Filter by status">
-            <option value="">All statuses</option>
-            {STATUSES.map((status) => (
-              <option key={status} value={status}>
-                {status}
-              </option>
-            ))}
-          </Select>
-          <Button onClick={openCreate}>+ New User</Button>
+          <div className="flex flex-wrap items-center gap-3">
+            <Input
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              placeholder="Search name, email, or membership..."
+              aria-label="Search users"
+              className="h-10 w-64 text-sm"
+            />
+            <Select value={roleFilter} onChange={(event) => setRoleFilter(event.target.value)} aria-label="Filter by role" className="w-40">
+              <option value="">All roles</option>
+              {ROLE_IDS.map((id) => (
+                <option key={id} value={id}>
+                  {ROLE_MAP[id]}
+                </option>
+              ))}
+            </Select>
+            <Select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} aria-label="Filter by status" className="w-40">
+              <option value="">All statuses</option>
+              {STATUSES.map((status) => (
+                <option key={status} value={status}>
+                  {status}
+                </option>
+              ))}
+            </Select>
+            <Button onClick={openCreate}>+ New User</Button>
+          </div>
         </PageHeader>
 
         <MessageBanner message={message} />
 
-        <section className="overflow-hidden rounded-card border border-line bg-card shadow-sm">
+        <section className="overflow-hidden rounded-[24px] border border-[#FF7138]/40 bg-white shadow-[0_4px_25px_rgba(0,0,0,0.06)]">
           {isLoading ? (
-            <p className="px-6 py-16 text-center text-sm text-muted">Loading users...</p>
+            <p className="px-6 py-16 text-center text-sm text-[#5F5F5F]">Loading users...</p>
           ) : isError ? (
             <p className="px-6 py-16 text-center text-sm text-red-600">
               Failed to load users: {(error as Error).message}
             </p>
           ) : filteredUsers.length === 0 ? (
             <div className="px-6 py-16 text-center">
-              <p className="text-lg font-bold text-ink">No users found.</p>
-              <p className="mt-1 text-sm text-muted">Try adjusting filters.</p>
+              <p className="text-lg font-bold text-[#202020]">No users found.</p>
+              <p className="mt-1 text-sm text-[#5F5F5F]">Try adjusting filters.</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="border-b border-line-soft bg-cream/50 text-xs uppercase tracking-[0.12em] text-muted">
-                    <th className="px-6 py-3 font-semibold">User</th>
-                    <th className="px-6 py-3 font-semibold">Membership</th>
-                    <th className="px-6 py-3 font-semibold">Role</th>
-                    <th className="px-6 py-3 font-semibold">Status</th>
-                    <th className="px-6 py-3 font-semibold">Joined</th>
-                    <th className="px-6 py-3 text-right font-semibold">Actions</th>
+                  <tr className="border-b border-[#FF7138]/30 bg-[#F6F6F2] text-xs uppercase tracking-wider text-[#5F5F5F]">
+                    <th className="px-6 py-4 font-bold">User</th>
+                    <th className="px-6 py-4 font-bold">Membership</th>
+                    <th className="px-6 py-4 font-bold">Role</th>
+                    <th className="px-6 py-4 font-bold">Status</th>
+                    <th className="px-6 py-4 font-bold">Joined</th>
+                    <th className="px-6 py-4 text-right font-bold">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-line-soft">
+                <tbody className="divide-y divide-[#FF7138]/20">
                   {filteredUsers.map((user) => (
-                    <tr key={user.id} className="transition-colors hover:bg-cream/40">
+                    <tr key={user.id} className="transition-colors hover:bg-[#FFF3EE]/50">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-cream text-slate-600">
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FFE1D2] text-[#FF7138] font-bold">
                             {user.firstName?.charAt(0).toUpperCase() ?? "?"}
                           </div>
                           <div className="min-w-0">
-                            <p className="truncate font-bold text-ink">
+                            <p className="truncate font-bold text-[#202020]">
                               {user.firstName} {user.lastName}
                             </p>
-                            <p className="truncate text-xs text-muted">{user.email}</p>
+                            <p className="truncate text-xs text-[#5F5F5F]">{user.email}</p>
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 font-mono text-xs text-ink">{user.membershipNumber || "—"}</td>
+                      <td className="px-6 py-4 font-mono text-xs text-[#202020]">{user.membershipNumber || "—"}</td>
                       <td className="px-6 py-4">
                         <Badge variant={roleBadgeVariant[user.roleId] ?? "secondary"}>
                           {ROLE_MAP[user.roleId] ?? `Role ${user.roleId}`}
                         </Badge>
                       </td>
                       <td className="px-6 py-4">
-                        <Badge variant={user.status === "Active" ? "secondary" : "destructive"}>
+                        <Badge variant={user.status === "Active" ? "success" : "destructive"}>
                           {user.status}
                         </Badge>
                       </td>
-                      <td className="px-6 py-4 text-muted">{formatDate(user.createdAt)}</td>
+                      <td className="px-6 py-4 text-[#5F5F5F]">{formatDate(user.createdAt)}</td>
                       <td className="px-6 py-4">
                         <div className="flex items-center justify-end gap-2">
                           <Button variant="outline" size="xs" onClick={() => openEdit(user)}>
@@ -224,7 +224,7 @@ export default function UsersPage() {
                           <Button
                             variant="outline"
                             size="xs"
-                            className="text-red-600 hover:text-red-600"
+                            className="text-red-600 hover:text-red-700"
                             onClick={() => setDeleting(user)}
                           >
                             Delete
