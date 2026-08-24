@@ -17,24 +17,9 @@ The database is MySQL 8.x and is fully reproducible from the SQL files in `Datab
 
 1. Create the schema and seed data:
 
-   ```bash
-   mysql -u root -p < Database/schema.sql
-   mysql -u root -p library_management < Database/seed.sql
-   ```
-
 2. Configure the connection string (user secrets or an environment variable):
 
-   ```bash
-   cd Backend
-   dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=localhost;Port=3306;Database=library_management;User ID=root;Password=YOUR_PASSWORD;"
-   ```
-
 3. Configure a strong JWT signing key (required, at least 32 bytes):
-
-   ```bash
-   cd Backend
-   dotnet user-secrets set "Jwt:Key" "<a-64-byte-random-base64-string>"
-   ```
 
 Demo accounts seeded by `seed.sql` (change passwords before real use):
 
@@ -45,41 +30,6 @@ Demo accounts seeded by `seed.sql` (change passwords before real use):
 | Student   | student@libro.test  | `Student@123` |
 | Faculty   | faculty@libro.test  | `Faculty@123` |
 
-## Run Locally
-
-Start the API and the frontend in separate terminals after completing the database and JWT setup above:
-
-```bash
-cd Backend
-dotnet run --launch-profile http
-```
-
-```bash
-cd Frontend
-npm install
-npm run dev
-```
-
-The frontend is available at `http://localhost:5173` and the API at `http://localhost:5118/api`.
-For local Vite development, set `VITE_API_BASE_URL=http://localhost:5118/api` in `Frontend/.env`.
-
-Login and registration display the API's response where available. If the API cannot be reached, the forms explain that the library server needs to be started or its address checked.
-
-## Running Tests
-
-Backend xUnit tests cover authentication, JWT, payments, borrow notifications, and the new reservation flow:
-
-```bash
-cd Backend
-dotnet test
-```
-
-Frontend tests (Vitest + React Testing Library) cover currency/utility helpers, JWT decoding, auth form validation, and the reviews component:
-
-```bash
-cd Frontend
-npm test
-```
 
 ## Reviews
 
