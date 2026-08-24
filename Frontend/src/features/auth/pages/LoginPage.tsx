@@ -7,6 +7,7 @@ import { authApi } from "@/api/auth.api";
 import { useAuthStore } from "@/store/authStore";
 import { roleHomePath } from "@/components/layout/navConfig";
 import { loginSchema, type LoginFormValues } from "@/lib/validation/authSchemas";
+import { getApiErrorMessage } from "@/lib/apiError";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -40,8 +41,8 @@ export default function LoginPage() {
       });
       navigate(roleHomePath(useAuthStore.getState().user?.role), { replace: true });
     },
-    onError: () => {
-      setServerError("Invalid email or password.");
+    onError: (error) => {
+      setServerError(getApiErrorMessage(error, "Invalid email or password."));
     },
   });
 

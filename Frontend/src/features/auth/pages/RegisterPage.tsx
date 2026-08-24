@@ -8,6 +8,7 @@ import {
   registerSchema,
   type RegisterFormValues,
 } from "@/lib/validation/authSchemas";
+import { getApiErrorMessage } from "@/lib/apiError";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -42,11 +43,7 @@ export default function RegisterPage() {
       navigate("/login", { state: { registered: true } });
     },
     onError: (error: unknown) => {
-      const err = error as { response?: { data?: { message?: string } } };
-      const message =
-        err?.response?.data?.message ?? "Registration failed. Please try again.";
-
-      setServerError(message);
+      setServerError(getApiErrorMessage(error, "Registration failed. Please try again."));
     },
   });
 

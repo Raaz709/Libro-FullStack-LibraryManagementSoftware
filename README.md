@@ -45,6 +45,26 @@ Demo accounts seeded by `seed.sql` (change passwords before real use):
 | Student   | student@libro.test  | `Student@123` |
 | Faculty   | faculty@libro.test  | `Faculty@123` |
 
+## Run Locally
+
+Start the API and the frontend in separate terminals after completing the database and JWT setup above:
+
+```bash
+cd Backend
+dotnet run --launch-profile http
+```
+
+```bash
+cd Frontend
+npm install
+npm run dev
+```
+
+The frontend is available at `http://localhost:5173` and the API at `http://localhost:5118/api`.
+For local Vite development, set `VITE_API_BASE_URL=http://localhost:5118/api` in `Frontend/.env`.
+
+Login and registration display the API's response where available. If the API cannot be reached, the forms explain that the library server needs to be started or its address checked.
+
 ## Running Tests
 
 Backend xUnit tests cover authentication, JWT, payments, borrow notifications, and the new reservation flow:
@@ -355,6 +375,8 @@ Exceeding a limit returns `429 Too Many Requests` with a JSON body and a `Retry-
 - [x] Get payments by Fine ID
 - [x] Process a new payment
 - [x] Delete a payment record
+
+> **Payment processing note:** the payment screens record fine payments in the application database. Stripe Checkout, Payment Intents, and card collection are not integrated yet; selecting `Card` does not create a Stripe transaction.
 
 ### Favorites
 - [x] Get user favorite books

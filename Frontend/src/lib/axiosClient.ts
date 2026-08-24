@@ -31,8 +31,9 @@ axiosClient.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    // Do not intercept failing refresh calls
-    if (originalRequest.url?.includes("/auth/refresh")) {
+    // Authentication endpoints must report their own failures. Retrying a failed
+    // login/register via refresh both hides the real error and can loop requests.
+    if (originalRequest.url?.includes("/auth/")) {
       return Promise.reject(error);
     }
 
