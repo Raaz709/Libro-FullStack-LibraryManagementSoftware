@@ -19,7 +19,7 @@ services:
 
   backend:
     build:
-      context: ./Backend
+      context: .
       dockerfile: Dockerfile
     restart: unless-stopped
     environment:
