@@ -7,8 +7,9 @@ using Library_Management.Services;
 using Library_Management.Services.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi;
+using Pomelo.EntityFrameworkCore.MySql;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.RateLimiting;
@@ -18,7 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
-// Database
+// Database & Repositories / Services
 builder.Services.AddScoped<IDbConnectionFactory, DbConnectionFactory>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
@@ -76,17 +77,14 @@ builder.Services.AddHostedService<OverdueNotificationService>();
 
 // JWT Authentication
 var jwtKey = builder.Configuration["Jwt:Key"];
-
 if (string.IsNullOrWhiteSpace(jwtKey) || Encoding.UTF8.GetByteCount(jwtKey) < 32)
 {
     throw new InvalidOperationException(
-        "JWT key must be configured and at least 32 bytes. " +
-        "Set it via user secrets or an environment variable (e.g. dotnet user-secrets set \"Jwt:Key\" \"<64-byte-base64>\").");
+        "JWT key must be configured in appsettings.json and be at least 32 bytes (32 characters).");
 }
 
 var jwtIssuer = builder.Configuration["Jwt:Issuer"]
     ?? throw new InvalidOperationException("JWT issuer is not configured.");
-
 var jwtAudience = builder.Configuration["Jwt:Audience"]
     ?? throw new InvalidOperationException("JWT audience is not configured.");
 
@@ -99,12 +97,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-
             ValidIssuer = jwtIssuer,
             ValidAudience = jwtAudience,
-
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(jwtKey))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
         };
         options.Events = new JwtBearerEvents
         {
@@ -116,12 +111,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             }
         };
     });
-    // CORS
+
+// Database context (EF Core with MySQL)
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        serverVersion: new MySqlServerVersion(new Version(8, 4, 0))));
+
+// CORS Setup
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5174", "http://localhost:5173")
+        policy.WithOrigins(
+                "https://libro-ruddy.vercel.app",
+                "http://localhost:5174",
+                "http://localhost:5173"
+              )
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
@@ -150,7 +156,6 @@ builder.Services.AddRateLimiter(options =>
         }, cancellationToken);
     };
 
-    // Every endpoint: fixed window per IP (or per authenticated user).
     options.AddPolicy("global", httpContext =>
         RateLimitPartition.GetFixedWindowLimiter(
             PartitionKey(httpContext),
@@ -161,7 +166,6 @@ builder.Services.AddRateLimiter(options =>
                 QueueLimit = 0
             }));
 
-    // Auth endpoints: strict per-IP window to slow down brute force.
     options.AddPolicy("auth", httpContext =>
         RateLimitPartition.GetFixedWindowLimiter(
             httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
@@ -184,42 +188,28 @@ static string PartitionKey(HttpContext httpContext)
     return httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
 }
 
-// Swagger
-builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddSwaggerGen(options =>
-{
-    options.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
-    {
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT",
-        Description = "JWT Authorization header using the Bearer scheme."
-    });
-
-    options.AddSecurityRequirement(document =>
-        new OpenApiSecurityRequirement
-        {
-            [new OpenApiSecuritySchemeReference("bearer", document)] = []
-        });
-});
 var app = builder.Build();
+
+// Apply pending migrations on startup
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        context.Database.Migrate(); // creates/updates schema as needed
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Migration error: " + ex);
+    }
+}
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
 app.UseHttpsRedirection();
-
 app.UseCors("AllowFrontend");
-
 app.UseRateLimiter();
-
 app.UseAuthentication();
 app.UseAuthorization();
 

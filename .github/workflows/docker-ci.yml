@@ -1,0 +1,54 @@
+name: Docker CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-push:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore Backend/Library_Management.csproj
+
+      - name: Build
+        run: dotnet build Backend/Library_Management.csproj -c Release --no-restore
+
+      - name: Test (if any)
+        run: dotnet test Backend/Library_Management.csproj -c Release --no-restore --verbositynormal
+
+      - name: Log in to Docker Hub
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+
+      - name: Build and push Docker image
+        id: docker_build
+        run: |
+          IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}-backend:${{ github.sha }}
+          docker build -t "${IMAGE_NAME}" -f Backend/Dockerfile ./Backend
+          docker push "${IMAGE_NAME}"
+          echo "image=${IMAGE_NAME}" >> $GITHUB_OUTPUT
+
+      - name: Deploy with Docker Compose
+        if: github.ref == 'refs/heads/main'
+        env:
+          DOCKER_IMAGE: ${{ steps.docker_build.outputs.image }}
+        run: |
+          # Pull the new image and restart services
+          docker compose -f docker-compose.yml pull backend
+          docker compose -f docker-compose.yml up -d backend
+          # Optionally run database migrations if needed
+          # e.g. docker exec <container> dotnet script or mysql commands
