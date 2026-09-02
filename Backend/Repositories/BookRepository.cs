@@ -31,7 +31,7 @@ public class BookRepository : IBookRepository
                 CoverImageUrl,
                 Status,
                 CreatedAt
-            FROM Books
+            FROM books
             ORDER BY Id DESC;
             """;
 
@@ -86,7 +86,7 @@ public class BookRepository : IBookRepository
         {
             conditions.Add(@"EXISTS (
                 SELECT 1 FROM bookcategories bc
-                WHERE bc.BookId = Books.Id AND bc.CategoryId = @CategoryId)");
+                WHERE bc.BookId = books.Id AND bc.CategoryId = @CategoryId)");
             parameters.Add("CategoryId", categoryId.Value);
         }
 
@@ -100,7 +100,7 @@ public class BookRepository : IBookRepository
             _ => "Id DESC"
         };
 
-        var countSql = $"SELECT COUNT(1) FROM Books{whereClause};";
+        var countSql = $"SELECT COUNT(1) FROM books{whereClause};";
 
         var itemsSql = $"""
             SELECT
@@ -117,7 +117,7 @@ public class BookRepository : IBookRepository
                 CoverImageUrl,
                 Status,
                 CreatedAt
-            FROM Books{whereClause}
+            FROM books{whereClause}
             ORDER BY {orderBy}
             LIMIT @Offset, @PageSize;
             """;
@@ -153,7 +153,7 @@ public class BookRepository : IBookRepository
                 CoverImageUrl,
                 Status,
                 CreatedAt
-            FROM Books
+            FROM books
             WHERE Id = @Id;
             """;
 
@@ -167,7 +167,7 @@ public class BookRepository : IBookRepository
     public async Task<int> CreateAsync(Book book)
     {
         const string sql = """
-            INSERT INTO Books
+            INSERT INTO books
             (
                 ISBN,
                 Title,
@@ -209,7 +209,7 @@ public class BookRepository : IBookRepository
     public async Task<bool> UpdateAsync(Book book)
     {
         const string sql = """
-            UPDATE Books
+            UPDATE books
             SET
                 ISBN = @ISBN,
                 Title = @Title,
@@ -235,7 +235,7 @@ public class BookRepository : IBookRepository
     public async Task<bool> DeleteAsync(int id)
     {
         const string sql = """
-            DELETE FROM Books
+            DELETE FROM books
             WHERE Id = @Id;
             """;
 
