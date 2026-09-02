@@ -75,6 +75,18 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 // Background services
 builder.Services.AddHostedService<OverdueNotificationService>();
 
+//CORS configuration to allow all origins
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // JWT Authentication
 var jwtKey = builder.Configuration["Jwt:Key"];
 if (string.IsNullOrWhiteSpace(jwtKey) || Encoding.UTF8.GetByteCount(jwtKey) < 32)
@@ -208,8 +220,8 @@ using (var scope = app.Services.CreateScope())
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
-app.UseCors("AllowFrontend");
 app.UseRateLimiter();
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 
