@@ -17,7 +17,7 @@ public class RefreshTokenRepository : IRefreshTokenRepository
     public async Task<int> CreateAsync(RefreshToken refreshToken)
     {
         const string sql = @"
-            INSERT INTO RefreshTokens (
+            INSERT INTO refreshtokens (
                 UserId,
                 TokenHash,
                 ExpiresAt,
@@ -50,7 +50,7 @@ public class RefreshTokenRepository : IRefreshTokenRepository
                 ReplacedByTokenId,
                 CreatedByIp,
                 RevokedByIp
-            FROM RefreshTokens
+            FROM refreshtokens
             WHERE TokenHash = @TokenHash;";
 
         using var connection = _connectionFactory.CreateConnection();
@@ -60,7 +60,7 @@ public class RefreshTokenRepository : IRefreshTokenRepository
     public async Task<bool> RevokeAsync(int id, string? revokedByIp = null, int? replacedByTokenId = null)
     {
         const string sql = @"
-            UPDATE RefreshTokens
+            UPDATE refreshtokens
             SET RevokedAt = NOW(),
                 RevokedByIp = @RevokedByIp,
                 ReplacedByTokenId = @ReplacedByTokenId
@@ -79,7 +79,7 @@ public class RefreshTokenRepository : IRefreshTokenRepository
     public async Task<bool> RevokeAllForUserAsync(int userId, string? revokedByIp = null)
     {
         const string sql = @"
-            UPDATE RefreshTokens
+            UPDATE refreshtokens
             SET RevokedAt = NOW(),
                 RevokedByIp = @RevokedByIp
             WHERE UserId = @UserId AND RevokedAt IS NULL;";
